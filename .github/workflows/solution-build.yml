@@ -1,0 +1,46 @@
+name: Dataverse solution build
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: solution-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package:
+    name: Package managed and unmanaged solutions
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          dotnet-version: '10.0.x'
+      - name: Install pinned Power Platform CLI
+        run: dotnet tool install --global Microsoft.PowerApps.CLI.Tool --version 2.12.2
+      - name: Install locked JavaScript dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Build and verify both solution packages
+        shell: pwsh
+        run: ./scripts/build-solution.ps1
+      - name: Upload installable packages and source metadata
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: Kickstart365Kanban-1.8.0-dev-${{ github.sha }}
+          path: out/solutions/
+          if-no-files-found: error
+          retention-days: 30

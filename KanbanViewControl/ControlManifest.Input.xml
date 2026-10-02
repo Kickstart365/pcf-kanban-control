@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
   <control 
-    namespace="novalogica" 
+    namespace="kickstart365"
     constructor="KanbanViewControl" 
-    version="1.7.1"
-    display-name-key="Kanban View Control" 
+    version="1.8.0"
+    display-name-key="Kickstart365 Kanban"
     description-key="PowerApps Component Framework control (PCF) that allows users to see records in a kanban view format." 
     control-type="virtual"
   >
