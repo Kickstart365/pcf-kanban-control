@@ -19,6 +19,8 @@ locked npm dependencies, .NET 10 and PAC CLI 2.12.2. It builds production PCF
 resources and both managed/unmanaged solution ZIPs, then checks the packaged
 solution/control identities, version and bundle presence. The artifact also
 contains SHA-256 checksums and the solution project's source metadata.
+The solution project and publisher metadata are committed under
+`solutions/Kickstart365Kanban`, so subsequent builds use the same source.
 It does not authenticate to or deploy into any Dataverse environment.
 
 On a Windows machine with Visual Studio Build Tools/MSBuild:
