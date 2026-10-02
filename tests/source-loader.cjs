@@ -21,7 +21,7 @@ module.exports = function sourceLoader(stubs = {}, globals = {}, allowExternal =
       require(name) {
         if (Object.hasOwn(stubs, name)) return stubs[name];
         if (name.startsWith(".")) return load(path.resolve(path.dirname(file), name));
-        if (allowExternal) return require(name);
+        if (allowExternal) return require(name.replace(/^@fluentui\/react\/lib\//, "@fluentui/react/lib-commonjs/"));
         throw new Error(`Unexpected dependency: ${name}`);
       },
     }, { filename: file });
