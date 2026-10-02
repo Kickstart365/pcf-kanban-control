@@ -8,6 +8,7 @@ import { CardDetails, CardDetailsList } from "./CardDetails";
 import { useMemo, useCallback, useRef } from "react";
 import { BoardContext } from "../../context/board-context";
 import { useContext } from "react";
+import { cardDisplayText } from "../../lib/card-data";
 
 export type HighlightType = "left" | "right" | "cornerTopRight" | "cornerBottomRight" | "cornerTopLeft" | "cornerBottomLeft";
 
@@ -321,11 +322,12 @@ const Card = ({ item, draggable = true }: IProps) => {
   const cardDetails = useMemo(() => {
     return Object.entries(item)?.filter((i) => {
       if (i[0] === "title" || i[0] === "tag" || i[0] === "id" || i[0] === "column") return false;
+      if (i[0].endsWith("Raw") || i[0] === context.parameters.dataset.columns[0]?.name) return false;
       if (hideColumnFieldOnCard && columnFieldKey && i[0] === columnFieldKey) return false;
       if (setMatchesField(hiddenFieldsOnCardSet, i[0])) return false;
       return true;
     });
-  }, [item, hideColumnFieldOnCard, columnFieldKey, hiddenFieldsOnCardSet]);
+  }, [item, hideColumnFieldOnCard, columnFieldKey, hiddenFieldsOnCardSet, context.parameters.dataset.columns]);
 
   const isClickable = !draggable;
 
@@ -368,7 +370,7 @@ const Card = ({ item, draggable = true }: IProps) => {
       )}
       <CardHeader>
         <Text className="card-title" nowrap>
-          {item?.title?.value}
+          {cardDisplayText(item?.title)}
         </Text>
         {showOpenInNewTabButton && (
           <button

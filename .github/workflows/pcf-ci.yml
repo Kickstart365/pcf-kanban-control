@@ -29,8 +29,8 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci --no-audit --no-fund
-      - name: Lifecycle regression tests
-        run: node --test tests/kanban-lifecycle.test.cjs
+      - name: Kanban regression tests
+        run: node --test tests/*.test.cjs
       - name: Lint
         run: npm run lint
       - name: Production PCF build

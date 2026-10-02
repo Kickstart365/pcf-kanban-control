@@ -44,8 +44,8 @@ const Board = () => {
         columnName,
       };
 
-      await onDragEnd(result, record);
-      context.parameters.dataset.refresh();
+      const outcome = await onDragEnd(result, record);
+      if (outcome.shouldRefresh) context.parameters.dataset.refresh();
     } finally {
       setTimeout(() => {
         draggingRef.current = false;

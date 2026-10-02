@@ -416,22 +416,17 @@ export function orderStages(entities: BusinessProcessFlowEntity[]): BusinessProc
         }
     }
 
-    const firstStage = Array.from(stageMap.values()).find(
-        entity => !nextStageIds.has(entity.Stage.StageId)
-    );
-
-    if (!firstStage) {
-        throw new Error("Could not find the first stage.");
-    }
-
     const orderedEntities: BusinessProcessFlowEntity[] = [];
-    let currentStage: BusinessProcessFlowEntity | undefined = firstStage;
-
-    while (currentStage) {
-        orderedEntities.push(currentStage);
-
-        const nextId: string | null | undefined = currentStage.Stage.NextStageId;
-        currentStage = nextId ? stageMap.get(nextId) : undefined;
+    const visited = new Set<string>();
+    const roots = entities.filter(entity => !nextStageIds.has(entity.Stage.StageId));
+    // Keep disconnected branches and protect against cycles in workflow uidata.
+    for (const start of [...roots, ...entities]) {
+        let current: BusinessProcessFlowEntity | undefined = start;
+        while (current && !visited.has(current.Stage.StageId)) {
+            visited.add(current.Stage.StageId);
+            orderedEntities.push(current);
+            current = current.Stage.NextStageId ? stageMap.get(current.Stage.NextStageId) : undefined;
+        }
     }
 
     return orderedEntities;
