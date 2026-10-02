@@ -137,9 +137,10 @@ export const useDataverse = (context: ComponentFramework.Context<IInputs>, onCon
         if (!logicalName || records.length === 0)
             return [];
 
-        const process = logicalName.includes("_") ? `_bpf_${entityName}id_value` : `${entityName}id_value`;
-
+        // Built-in BPFs use opportunityid; custom BPFs use bpf_opportunityid.
+        // In() takes the attribute name, while $select uses the _name_value lookup.
         const property = logicalName.includes("_") ? `bpf_${entityName}id` : `${entityName}id`;
+        const process = `_${property}_value`;
 
         const chunks = chunkArray(records, BPF_STAGE_QUERY_CHUNK_SIZE);
         const results: ComponentFramework.WebApi.Entity[] = [];

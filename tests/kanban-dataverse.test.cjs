@@ -58,3 +58,15 @@ test("large BPF stage requests are chunked and each record remains represented",
   assert.equal(rows.length, 251);
   assert.equal(rows[250].id, "id250");
 });
+
+test("built-in Opportunity Sales Process uses the correct lookup query and record ID", async () => {
+  const h = hook(async (name, query) => {
+    assert.equal(name, "opportunitysalesprocess");
+    assert.ok(query.includes("$select=_activestageid_value,_processid_value,_opportunityid_value"));
+    assert.ok(query.includes("PropertyName='opportunityid'"));
+    return { entities: [{ _opportunityid_value: "one", activestageid: { stagename: "Develop" } }] };
+  });
+  const records = await h.getRecordCurrentStage("opportunity", "opportunitysalesprocess", ["one"]);
+  assert.equal(records[0].id, "one");
+  assert.equal(records[0].stageName, "Develop");
+});
