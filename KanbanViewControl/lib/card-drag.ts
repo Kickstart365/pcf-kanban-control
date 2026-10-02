@@ -1,12 +1,13 @@
 import { DropResult, DraggableStateSnapshot, DraggableStyle } from "@hello-pangea/dnd";
 import { ColumnItem, CardItem } from "../interfaces";
 
-export const moveCard = async (columns: ColumnItem[], sourceCard: CardItem | undefined, result: DropResult) => {
+export const moveCard = (columns: ColumnItem[], sourceCard: CardItem | undefined, result: DropResult) => {
   let copy = [...columns];
 
   const itemId = result.draggableId;
   const sourceColumn = columns.find(c => c.id == result.source.droppableId);
   const destinationColumn = columns.find(c => c.id == result.destination?.droppableId);
+  if (!result.destination || !sourceColumn || !destinationColumn) return undefined;
   const sourceColumnCardIndex = sourceColumn?.cards?.findIndex(i => i.id === itemId);
 
   if (sourceColumnCardIndex !== undefined && sourceColumnCardIndex !== -1 && sourceCard) {

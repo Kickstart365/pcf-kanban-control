@@ -62,3 +62,14 @@ test("host can remove the control after updateView, including repeated cleanup",
     assert.doesNotThrow(() => control.destroy());
     assert.doesNotThrow(() => control.destroy());
 });
+
+test("host dataset updates invalidate cards even when record IDs stay unchanged", () => {
+    const control = new KanbanViewControl();
+    const ctx = context();
+    ctx.updatedProperties = [];
+    assert.equal(control.updateView(ctx).props.datasetRevision, 1);
+    ctx.updatedProperties = ["layout"];
+    assert.equal(control.updateView(ctx).props.datasetRevision, 1);
+    ctx.updatedProperties = ["dataset"];
+    assert.equal(control.updateView(ctx).props.datasetRevision, 2);
+});

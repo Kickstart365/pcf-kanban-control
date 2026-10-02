@@ -30,6 +30,8 @@ export const useDnD = (columns: ColumnItem[]) => {
     setColumns,
     openFormWithLoading,
     cardMoveValidationFunctionName,
+    movePendingRef,
+    setIsMovePending,
   } = useContext(BoardContext);
   const strings = getStrings(locale);
   const { updateRecord } = useDataverse(context);
@@ -102,33 +104,47 @@ export const useDnD = (columns: ColumnItem[]) => {
     }
   };
 
-  const onDragEnd = async (result: DropResult, record: any) => {
-    if (result.destination == null) {
-      return;
-    }
-
-    if(activeView?.type === "BPF"){
-      try {
-        await openFormWithLoading(record.entityName, record.id)
-      } catch (e: any) {
-        toast.error(e.message);
-      } finally {
-        context.parameters.dataset.refresh();
-      }
-      return;
-    }
-
-    let movedCards: ColumnItem[] | undefined
-
+  const onDragEnd = async (result: DropResult, record: any): Promise<{ shouldRefresh: boolean }> => {
+    const unchanged = { shouldRefresh: false };
+    if (!result.destination || movePendingRef.current) return unchanged;
     const itemId = result.draggableId;
     const sourceColumn = columns.find(c => c.id == result.source.droppableId);
     const destinationColumn = columns.find(c => c.id == result.destination?.droppableId);
     const sourceCard = sourceColumn?.cards?.find(i => i.id === itemId);
+    if (!sourceColumn || !destinationColumn || !sourceCard) return unchanged;
+    if (sourceColumn.id === destinationColumn.id) {
+      const reordered = moveCard(columns, sourceCard, result);
+      if (reordered) setColumns(reordered);
+      return unchanged;
+    }
 
-    if (sourceColumn?.id !== destinationColumn?.id) {
+    movePendingRef.current = true;
+    setIsMovePending(true);
+    let movedCards: ColumnItem[] | undefined;
+    const rollback = () => {
+      // A filter or host refresh may have replaced this snapshot while saving.
+      setColumns(current => current === movedCards ? columns : current);
+    };
+    try {
+      if (activeView?.type === "BPF") {
+        // Native form owns BPF validation and transitions; no direct stage update.
+        await openFormWithLoading(record.entityName, record.id);
+        return { shouldRefresh: true };
+      }
+
       const updateFieldName = Object.keys(record.update ?? {})[0];
+      if (!updateFieldName) return unchanged;
       const newValue = updateFieldName ? record.update[updateFieldName] : undefined;
-
+      const updatedCard: CardItem = { ...sourceCard, column: destinationColumn.id };
+      const field = sourceCard[updateFieldName];
+      if (field && typeof field === "object" && "value" in field) {
+        updatedCard[updateFieldName] = { ...field as CardInfo, value: destinationColumn.title ?? "" };
+      }
+      updatedCard[`${updateFieldName}Raw`] = newValue;
+      movedCards = moveCard(columns, updatedCard, result);
+      if (!movedCards) return unchanged;
+      // Complete the visual drop before waiting for a validator or Dataverse.
+      setColumns(movedCards);
       const validation = await runCardMoveValidator({
         recordId: record.id,
         entityName: record.entityName,
@@ -143,45 +159,26 @@ export const useDnD = (columns: ColumnItem[]) => {
       });
 
       if (!validation.allow) {
+        rollback();
         if (validation.message) {
           toast.error(validation.message);
         }
-        return;
+        return unchanged;
       }
-    }
-
-    // Do not save when the card was only moved within the same column
-    if (sourceColumn?.id === destinationColumn?.id) {
-      movedCards = await moveCard(columns, sourceCard, result);
-      setColumns(movedCards ?? []);
-      return movedCards;
-    }
-
-    movedCards = await moveCard(columns, sourceCard, result);
-    setColumns(movedCards ?? [])
-
-    const columnName = record.columnName ?? strings.toastUnallocated;
-    const response = await toast.promise(
-      updateRecord(record),
-      {
+      await toast.promise(updateRecord(record), {
         loading: strings.toastSaving,
-        success: strings.toastSuccessMoved(columnName),
+        success: strings.toastSuccessMoved(record.columnName ?? strings.toastUnallocated),
         error: (e) => e.message,
-      }
-    );
-    
-    if(!response) {
-      const oldValue = sourceColumn?.title;
-      (sourceCard![Object.keys(record.update)[0]] as CardInfo).value = oldValue as string
-      movedCards = await moveCard(columns, sourceCard, result)
-    } else {
-      const updatedValue = destinationColumn?.title;
-      (sourceCard![Object.keys(record.update)[0]] as CardInfo).value = updatedValue as string
-      movedCards = await moveCard(columns, sourceCard, result)
+      });
+      return { shouldRefresh: true };
+    } catch (e) {
+      rollback();
+      if (activeView?.type === "BPF") toast.error(e instanceof Error ? e.message : String(e));
+      return unchanged;
+    } finally {
+      movePendingRef.current = false;
+      setIsMovePending(false);
     }
-
-    setColumns(movedCards ?? [])
-    return movedCards
   };
 
   return { 

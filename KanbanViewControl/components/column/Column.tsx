@@ -22,7 +22,7 @@ function parseInitialCardsVisible(raw: unknown): number {
 }
 
 const Column = ({ column, widthPx }: { column: ColumnItem; widthPx?: number }) => {
-  const { context, draggingRef, openFormWithLoading } = useContext(BoardContext);
+  const { context, draggingRef, openFormWithLoading, isMovePending } = useContext(BoardContext);
   const allowCardMove = ((context.parameters as unknown) as { allowCardMove?: { raw?: boolean } }).allowCardMove?.raw !== false;
   const hasCards = !isNullOrEmpty(column.cards) && column.cards!.length > 0;
   const columnStyle = widthPx != null ? { width: widthPx, minWidth: widthPx, maxWidth: widthPx } : undefined;
@@ -106,6 +106,7 @@ const Column = ({ column, widthPx }: { column: ColumnItem; widthPx?: number }) =
                   key={item.id}
                   draggableId={item.id.toString()}
                   index={index}
+                  isDragDisabled={isMovePending}
                 >
                   {(provided, snapshot) => (
                     <div
@@ -117,7 +118,7 @@ const Column = ({ column, widthPx }: { column: ColumnItem; widthPx?: number }) =
                       role="button"
                       tabIndex={0}
                       onKeyDown={(e) => {
-                        if ((e.key === "Enter" || e.key === " ") && !draggingRef.current) {
+                        if (e.key === "Enter" && !draggingRef.current) {
                           e.preventDefault();
                           openFormWithLoading(
                             context.parameters.dataset.getTargetEntityType(),
