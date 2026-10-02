@@ -135,7 +135,7 @@ export const useDnD = (columns: ColumnItem[]) => {
       const updateFieldName = Object.keys(record.update ?? {})[0];
       if (!updateFieldName) return unchanged;
       const newValue = updateFieldName ? record.update[updateFieldName] : undefined;
-      const updatedCard = { ...sourceCard, column: destinationColumn.id };
+      const updatedCard: CardItem = { ...sourceCard, column: destinationColumn.id };
       const field = sourceCard[updateFieldName];
       if (field && typeof field === "object" && "value" in field) {
         updatedCard[updateFieldName] = { ...field as CardInfo, value: destinationColumn.title ?? "" };
