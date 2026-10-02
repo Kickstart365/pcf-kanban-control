@@ -15,7 +15,7 @@ import { getClientUrl, loadWebResourceScript } from "./lib/load-validation-scrip
 import { Spinner, SpinnerSize } from "@fluentui/react";
 import { IDropdownOption } from "@fluentui/react/lib/Dropdown";
 import { CardInfo } from "./interfaces";
-import { buildCards, cardDisplayText, matchesCardSearch } from "./lib/card-data";
+import { buildCards, cardDisplayText, matchesCardSearch, matchesTextFilter } from "./lib/card-data";
 
 const QUICK_FILTER_ALL_KEY = "__all__";
 const QUICK_FILTER_EMPTY_KEY = "__empty__";
@@ -206,6 +206,9 @@ const App = ({ context, notificationPosition, datasetRevision }: IProps) => {
   const draggingRef = useRef(false);
   const movePendingRef = useRef(false);
   const [isMovePending, setIsMovePending] = useState(false);
+  const compactCardsRaw = (context.parameters as { compactCards?: { raw?: boolean } }).compactCards?.raw;
+  const [compactMode, setCompactMode] = useState(compactCardsRaw === true);
+  useEffect(() => { setCompactMode(compactCardsRaw === true); }, [compactCardsRaw]);
   const metadataRequestRef = useRef(0);
   const openingRef = useRef(false);
 
@@ -259,6 +262,11 @@ const App = ({ context, notificationPosition, datasetRevision }: IProps) => {
     () => parseQuickFilterFieldsRaw(quickFilterFieldsParam, reportConfigError, clearConfigError, "quickFilterFields"),
     [quickFilterFieldsParam, reportConfigError, clearConfigError]
   );
+  const compactCardFieldsRaw = (context.parameters as { compactCardFields?: { raw?: string } }).compactCardFields?.raw;
+  const compactCardFields = useMemo(() => Array.from(new Set(parseQuickFilterFieldsRaw(
+    compactCardFieldsRaw ?? "parentaccountid,estimatedvalue,estimatedclosedate,ownerid",
+    reportConfigError, clearConfigError, "compactCardFields"
+  ))), [compactCardFieldsRaw, reportConfigError, clearConfigError]);
 
   const quickFilterFieldsInPopupParam = (context.parameters as { quickFilterFieldsInPopup?: { raw?: string } }).quickFilterFieldsInPopup?.raw;
   const quickFilterFieldsInPopupSet = useMemo((): Set<string> => {
@@ -621,22 +629,7 @@ const App = ({ context, notificationPosition, datasetRevision }: IProps) => {
           continue;
         }
         const cardVal = getQuickFilterComparableValue(card[cfg.key]);
-        if (cfg.isMultiselect) {
-          const arr = Array.isArray(selected) ? selected : null;
-          if (!arr || arr.length === 0) continue;
-          if (arr.includes(QUICK_FILTER_EMPTY_KEY)) {
-            if (cardVal !== "") return false;
-          } else if (!arr.includes(cardVal)) {
-            return false;
-          }
-        } else {
-          if (selected == null || selected === "") continue;
-          if (selected === QUICK_FILTER_EMPTY_KEY) {
-            if (cardVal !== "") return false;
-          } else if (cardVal !== selected) {
-            return false;
-          }
-        }
+        if (!matchesTextFilter(cardVal, selected)) return false;
       }
       return true;
     });
@@ -765,6 +758,9 @@ const App = ({ context, notificationPosition, datasetRevision }: IProps) => {
         movePendingRef,
         isMovePending,
         setIsMovePending,
+        compactMode,
+        setCompactMode,
+        compactCardFields,
         isOpeningEntity,
         openFormWithLoading,
         openEntityInNewTab,

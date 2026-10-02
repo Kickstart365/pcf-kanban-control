@@ -8,6 +8,7 @@ import { Lookup } from "../lookup/Lookup";
 import { BoardContext } from "../../context/board-context";
 import { useContext } from "react";
 import { MultiType } from "../../interfaces/card.type";
+import { cardDisplayText } from "../../lib/card-data";
 
 interface HtmlSanitizeParams {
   allowedHtmlTagsOnCard?: { raw?: string };
@@ -62,7 +63,7 @@ const CardDetails = ({ id, fieldName, info, displayLabelOverride, renderAsHtml =
       case "number":
         return isNullOrEmpty(value) ? context.formatting.formatCurrency(0) : context.formatting.formatCurrency(value)
       default: 
-        return isNullOrEmpty(value) || value == "Unallocated" ? "-" : value;
+        return isNullOrEmpty(value) || value == "Unallocated" ? "-" : cardDisplayText(value);
     }
   }
 

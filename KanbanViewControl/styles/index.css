@@ -206,6 +206,30 @@
   background-color: #eaeaea;
 }
 
+.board-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 8px 16px; }
+.card-density-buttons { display: flex; gap: 2px; padding: 3px; border: 1px solid #d8e1eb; border-radius: 8px; background: #f4f7fb; margin-left: auto; }
+.card-density-buttons button { border: 0; background: transparent; color: #374151; border-radius: 5px; padding: 6px 12px; cursor: pointer; font: inherit; font-size: 12px; }
+.card-density-buttons button[aria-pressed="true"] { background: #fff; color: #174b7e; font-weight: 600; box-shadow: 0 1px 4px #00000014; }
+.card-density-buttons button:focus-visible, .card-details-toggle:focus-visible { outline: 2px solid #0078d4; outline-offset: 2px; }
+.column-header-container { border-bottom: 2px solid #d8e1eb; padding-bottom: 12px; }
+.column-stage-title { min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
+.column-totals { display: flex; flex-direction: column; gap: 8px; }
+.column-total { display: flex; flex-direction: column; gap: 2px; }
+.column-total-label { color: #687789; }
+.column-total-value { color: #174b7e; font-weight: 600; font-variant-numeric: tabular-nums; }
+.column-counter { border-radius: 6px; color: #41566c; background: #e4edf6; }
+.card-container--compact { padding: 9px 12px; gap: 6px; border: 1px solid #e4eaf0; box-shadow: 0 1px 3px #0000000a; }
+.card-container--compact .card-title { font-size: 14px; font-weight: 600; }
+.card-container--compact .card-info-container { gap: 6px 12px; }
+.card-container--compact .card-info-value { font-size: 13px; }
+.card-container--compact .card-info-label { font-size: 11px; }
+.card-details-toggle { align-self: flex-start; border: 0; background: transparent; color: #175f9c; cursor: pointer; padding: 3px 0; font: inherit; font-size: 12px; }
+.close-date-badge { align-self: flex-start; font-size: 11px; line-height: 1.5; border-radius: 5px; padding: 2px 7px; color: #41566c; background: #edf2f7; }
+.close-date-badge--overdue { color: #8d2828; background: #fdecec; }
+.close-date-badge--today { color: #76510b; background: #fff0cf; }
+.close-date-badge--soon { color: #205f93; background: #e7f1fb; }
+@media (prefers-contrast: more) { .card-container--compact { border-color: currentColor; } }
+
 .card-header-container {
   display: flex;
   flex-direction: row;

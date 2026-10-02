@@ -10,6 +10,21 @@
   >
     <data-set name="dataset" display-name-key="Dataset" />
 
+    <property name="compactCards" display-name-key="Start with compact cards" of-type="TwoOptions" usage="input" required="false"
+      description-key="Start in compact mode. Users can switch to expanded cards with the toolbar." />
+    <property name="compactCardFields" display-name-key="Compact card fields" of-type="SingleLine.TextArea" usage="input" required="false"
+      description-key="JSON array or comma-separated field names in display order. Default: parentaccountid,estimatedvalue,estimatedclosedate,ownerid. Hidden fields remain hidden." />
+    <property name="showCloseDateBadges" display-name-key="Show close date badges" of-type="TwoOptions" usage="input" required="false"
+      description-key="Show overdue, today and upcoming close dates. Include statecode to suppress badges for inactive records." />
+    <property name="closeDateField" display-name-key="Close date field" of-type="SingleLine.Text" usage="input" required="false"
+      description-key="Date field used by close date badges. Default: estimatedclosedate." />
+    <property name="closeDateWarningDays" display-name-key="Close date warning days" of-type="Whole.None" usage="input" required="false"
+      description-key="Days before the close date to show an upcoming badge. Default: 7." />
+    <property name="columnTotalField" display-name-key="Column total field" of-type="SingleLine.Text" usage="input" required="false"
+      description-key="Numeric field to total in column headers. Default: estimatedvalue. Money totals require transactioncurrencyid and are separated by currency." />
+    <property name="columnSecondaryTotalField" display-name-key="Secondary column total field" of-type="SingleLine.Text" usage="input" required="false"
+      description-key="Optional second numeric field to total, such as weighted revenue or a base-currency value." />
+
     <property 
       name="defaultView" 
       display-name-key="Default View By" 

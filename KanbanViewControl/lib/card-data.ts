@@ -22,6 +22,13 @@ export function matchesCardSearch(card: CardItem, keyword: string): boolean {
     .join(" ").toLocaleLowerCase().includes(query);
 }
 
+/** Empty and named selections are alternatives within a text/lookup filter. */
+export function matchesTextFilter(value: string, selected: string | string[] | null | undefined): boolean {
+  if (selected == null || selected === "" || (Array.isArray(selected) && !selected.length)) return true;
+  const alternatives = Array.isArray(selected) ? selected : [selected];
+  return alternatives.some(option => value === (option === "__empty__" ? "" : option));
+}
+
 /** Transform a dataset once per host data revision, rather than once per filter. */
 export function buildCards(dataset: ComponentFramework.PropertyTypes.DataSet, view: ViewItem): CardItem[] {
   const stageById = new Map<string, string>();

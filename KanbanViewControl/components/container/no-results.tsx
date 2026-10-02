@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { useContext } from 'react';
+import { BoardContext } from '../../context/board-context';
+import { getStrings } from '../../lib/strings';
 
 const style: React.CSSProperties = {
   display: 'flex',
@@ -14,9 +17,10 @@ const style: React.CSSProperties = {
 }
 
 const NoResults = () => {
+  const { locale } = useContext(BoardContext);
   return ( 
     <div style={style}>
-      <p>No results found</p>
+      <p>{getStrings(locale).emptyColumnLabel}</p>
     </div>
   );
 }

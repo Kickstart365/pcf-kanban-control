@@ -55,6 +55,9 @@ interface IBoardContext {
   movePendingRef: React.MutableRefObject<boolean>,
   isMovePending: boolean,
   setIsMovePending: React.Dispatch<React.SetStateAction<boolean>>,
+  compactMode: boolean,
+  setCompactMode: React.Dispatch<React.SetStateAction<boolean>>,
+  compactCardFields: string[],
   /** true while an entity form is being opened (popup); blocks further clicks and shows loading */
   isOpeningEntity: boolean,
   /** Opens entity form with loading state; prevents multiple opens */

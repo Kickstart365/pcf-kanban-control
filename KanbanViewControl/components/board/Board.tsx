@@ -9,10 +9,12 @@ import {
 import { BoardContext } from "../../context/board-context";
 import { useDnD } from "../../hooks/useDnD";
 import { pluralizedLogicalNames } from "../../lib/utils";
+import { getStrings } from "../../lib/strings";
 
 const Board = () => {
-  const { context, columns, selectedEntity, activeView, draggingRef } =
+  const { context, columns, selectedEntity, activeView, draggingRef, locale, compactMode, setCompactMode } =
     useContext(BoardContext);
+  const strings = getStrings(locale);
   const { onDragEnd } = useDnD(columns);
 
   const allowCardMove = useMemo(() => {
@@ -27,16 +29,17 @@ const Board = () => {
   const handleCardDrag = async (result: DropResult, _: ResponderProvided) => {
     try {
       const field = activeView?.uniqueName;
-      const columnName = activeView?.columns?.find(
+      const destinationColumn = activeView?.columns?.find(
         (column) => column.id == result.destination?.droppableId
-      )?.title;
+      );
+      const columnName = destinationColumn?.title;
       const logicalName = pluralizedLogicalNames(selectedEntity as string);
       const record = {
         update: {
           [field as string]:
             result.destination?.droppableId == "unallocated"
               ? null
-              : result.destination?.droppableId,
+              : destinationColumn?.id,
         },
         logicalName: logicalName,
         entityName: selectedEntity,
@@ -117,7 +120,13 @@ const Board = () => {
   return (
     <div className="main-container">
       <QuickFilters />
-      {!hideViews && <CommandBar />}
+      <div className="board-toolbar">
+        {!hideViews && <CommandBar />}
+        <div className="card-density-buttons" role="group" aria-label={strings.cardDensityLabel}>
+          <button type="button" aria-pressed={compactMode} onClick={() => setCompactMode(true)}>{strings.compactCardsLabel}</button>
+          <button type="button" aria-pressed={!compactMode} onClick={() => setCompactMode(false)}>{strings.expandedCardsLabel}</button>
+        </div>
+      </div>
       <div className="kanban-container">
         <div
           className={`columns-wrapper${expandBoardToFullWidth ? " columns-wrapper--full-width" : ""}`}
@@ -136,7 +145,7 @@ const Board = () => {
           {visibleColumns.length === 0 && (
             <div className="no-columns">
               <div className="no-data-content">
-                <span className="no-data-text">No records found</span>
+                <span className="no-data-text">{strings.noRecordsLabel}</span>
               </div>
             </div>
           )}
