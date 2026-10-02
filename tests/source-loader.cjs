@@ -4,7 +4,7 @@ const vm = require("node:vm");
 const ts = require("typescript");
 
 // Run actual TypeScript logic without mounting Fluent UI or a Dataverse host.
-module.exports = function sourceLoader(stubs = {}, globals = {}) {
+module.exports = function sourceLoader(stubs = {}, globals = {}, allowExternal = false) {
   const cache = new Map();
   function load(file) {
     file = path.resolve(__dirname, "../KanbanViewControl", file);
@@ -21,6 +21,7 @@ module.exports = function sourceLoader(stubs = {}, globals = {}) {
       require(name) {
         if (Object.hasOwn(stubs, name)) return stubs[name];
         if (name.startsWith(".")) return load(path.resolve(path.dirname(file), name));
+        if (allowExternal) return require(name);
         throw new Error(`Unexpected dependency: ${name}`);
       },
     }, { filename: file });

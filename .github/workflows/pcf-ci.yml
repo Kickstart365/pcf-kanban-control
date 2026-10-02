@@ -35,11 +35,26 @@ jobs:
         run: npm run lint
       - name: Production PCF build
         run: npm run build -- --buildMode production
+      - name: Render card and header preview
+        run: node tests/render-preview.cjs
+      - name: Install pinned browser for visual inspection
+        run: npx --yes --package=playwright@1.56.1 playwright install chromium --with-deps
+      - name: Capture compact and expanded layouts
+        run: |
+          npx --yes --package=playwright@1.56.1 playwright screenshot --browser=chromium --viewport-size=1440,900 --full-page file://$PWD/out/preview/compact.html out/preview/compact.png
+          npx --yes --package=playwright@1.56.1 playwright screenshot --browser=chromium --viewport-size=1440,900 --full-page file://$PWD/out/preview/expanded.html out/preview/expanded.png
       - name: Upload compiled control (not a Dataverse solution)
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: pcf-control-${{ github.sha }}
           path: out/controls/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload component previews
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: kanban-preview-${{ github.sha }}
+          path: out/preview/
           if-no-files-found: error
           retention-days: 14
 

@@ -57,6 +57,22 @@ export interface Strings {
   // Loading
   loadingLabel: string;
   openingRecordLabel: string;
+  cardDensityLabel: string;
+  compactCardsLabel: string;
+  expandedCardsLabel: string;
+  showDetailsLabel: string;
+  collapseDetailsLabel: string;
+  openNewTabLabel: string;
+  noRecordsLabel: string;
+  emptyColumnLabel: string;
+  viewByLabel: string;
+  closeDateOverdue: string;
+  closeDateToday: string;
+  closeDateSoon: string;
+  closeDateLater: string;
+  recordCountLabel: (count: number) => string;
+  columnTotalsLabel: string;
+  totalNeedsCurrencyLabel: string;
 }
 
 const en: Strings = {
@@ -108,6 +124,22 @@ const en: Strings = {
 
   loadingLabel: "Loading...",
   openingRecordLabel: "Opening record...",
+  cardDensityLabel: "Card layout",
+  compactCardsLabel: "Compact",
+  expandedCardsLabel: "Expanded",
+  showDetailsLabel: "Show details",
+  collapseDetailsLabel: "Hide details",
+  openNewTabLabel: "Open in new tab",
+  noRecordsLabel: "No records found",
+  emptyColumnLabel: "No records in this stage",
+  viewByLabel: "View by",
+  closeDateOverdue: "Overdue",
+  closeDateToday: "Due today",
+  closeDateSoon: "Due soon",
+  closeDateLater: "Expected close",
+  recordCountLabel: count => `${count} records`,
+  columnTotalsLabel: "Totals for visible records",
+  totalNeedsCurrencyLabel: "Add transaction currency to the view",
 };
 
 const de: Strings = {
@@ -159,6 +191,48 @@ const de: Strings = {
 
   loadingLabel: "Laden...",
   openingRecordLabel: "Datensatz wird geöffnet...",
+  cardDensityLabel: "Kartenansicht",
+  compactCardsLabel: "Kompakt",
+  expandedCardsLabel: "Ausführlich",
+  showDetailsLabel: "Details anzeigen",
+  collapseDetailsLabel: "Details ausblenden",
+  openNewTabLabel: "In neuem Tab öffnen",
+  noRecordsLabel: "Keine Datensätze gefunden",
+  emptyColumnLabel: "Keine Datensätze in dieser Phase",
+  viewByLabel: "Gruppieren nach",
+  closeDateOverdue: "Überfällig",
+  closeDateToday: "Heute fällig",
+  closeDateSoon: "Bald fällig",
+  closeDateLater: "Erwarteter Abschluss",
+  recordCountLabel: count => `${count} Datensätze`,
+  columnTotalsLabel: "Summen der sichtbaren Datensätze",
+  totalNeedsCurrencyLabel: "Transaktionswährung zur Ansicht hinzufügen",
+};
+
+const nl: Strings = {
+  dateFilterAll: "(Alles)", dateFilterToday: "Vandaag", dateFilterLast7: "Laatste 7 dagen",
+  dateFilterLast30: "Laatste 30 dagen", dateFilterCurrentMonth: "Deze maand", dateFilterCurrentYear: "Dit jaar",
+  dateFilterCurrentWeek: "Deze week", dateFilterNextWeek: "Volgende week", dateFilterNextMonth: "Volgende maand",
+  dateFilterCustomRange: "Eigen periode", dateFilterFrom: "Van", dateFilterTo: "Tot",
+  dateFilterStartAria: "Kies begindatum", dateFilterEndAria: "Kies einddatum",
+  numberFilterAll: "(Alles)", numberFilterGreaterThan: "Groter dan", numberFilterLessThan: "Kleiner dan",
+  numberFilterGreaterOrEqual: "Groter dan of gelijk aan", numberFilterLessOrEqual: "Kleiner dan of gelijk aan",
+  numberFilterBetween: "Tussen", numberFilterValuePlaceholder: "Waarde", numberFilterValueAriaLabel: "Getalswaarde",
+  numberFilterMinPlaceholder: "Min", numberFilterMinAriaLabel: "Minimumwaarde", numberFilterMaxPlaceholder: "Max",
+  numberFilterMaxAriaLabel: "Maximumwaarde", quickFilterAll: "(Alles)", quickFiltersMoreFilters: "Meer filters",
+  quickFiltersMoreFiltersOpen: "Meer filters openen", quickFiltersSearchPlaceholder: "Zoeken in alle velden…",
+  quickFiltersSearchAriaLabel: "Zoeken in alle kaartvelden", quickFiltersAriaLabel: "Filters en zoeken",
+  sortByLabel: "Sorteren op", sortNone: "(Geen)", sortAscending: "Oplopend", sortDescending: "Aflopend",
+  filterPresetLabel: "Filterpreset", filterPresetNone: "(Geen preset)", toastSaving: "Opslaan…",
+  toastSuccessMoved: column => `Verplaatst naar ${column}`, toastUnallocated: "Niet toegewezen",
+  toastValidationFunctionNotFound: "De validatiefunctie voor verplaatsen is niet beschikbaar. Controleer de webresource en functienaam.",
+  loadingLabel: "Laden…", openingRecordLabel: "Record openen…", cardDensityLabel: "Kaartweergave",
+  compactCardsLabel: "Compact", expandedCardsLabel: "Uitgebreid", showDetailsLabel: "Details tonen",
+  collapseDetailsLabel: "Details verbergen", openNewTabLabel: "Openen in nieuw tabblad", noRecordsLabel: "Geen records gevonden",
+  emptyColumnLabel: "Geen records in deze fase", viewByLabel: "Groeperen op", closeDateOverdue: "Datum verstreken",
+  closeDateToday: "Sluit vandaag", closeDateSoon: "Sluit binnenkort", closeDateLater: "Verwachte sluiting",
+  recordCountLabel: count => `${count} ${count === 1 ? "record" : "records"}`,
+  columnTotalsLabel: "Totalen van zichtbare records", totalNeedsCurrencyLabel: "Voeg transactievaluta toe aan de view",
 };
 
 const stringsByLocale: Record<string, Strings> = {
@@ -167,6 +241,8 @@ const stringsByLocale: Record<string, Strings> = {
   "en-GB": en,
   de,
   "de-DE": de,
+  nl,
+  "nl-NL": nl,
 };
 
 /**

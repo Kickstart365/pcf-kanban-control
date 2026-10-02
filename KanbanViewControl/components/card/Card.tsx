@@ -5,10 +5,12 @@ import CardHeader from "./CardHeader";
 import CardBody from "./CardBody";
 import { CardInfo, CardItem } from "../../interfaces";
 import { CardDetails, CardDetailsList } from "./CardDetails";
-import { useMemo, useCallback, useRef } from "react";
+import { useMemo, useCallback, useRef, useState } from "react";
 import { BoardContext } from "../../context/board-context";
 import { useContext } from "react";
 import { cardDisplayText } from "../../lib/card-data";
+import { getDueStatus } from "../../lib/opportunity-display";
+import { getStrings } from "../../lib/strings";
 
 export type HighlightType = "left" | "right" | "cornerTopRight" | "cornerBottomRight" | "cornerTopLeft" | "cornerBottomLeft";
 
@@ -67,7 +69,9 @@ function hasValue(value: unknown): boolean {
 const CLICK_MOVE_THRESHOLD_PX = 5;
 
 const Card = ({ item, draggable = true }: IProps) => {
-  const { context, activeView, openFormWithLoading, openEntityInNewTab, showOpenInNewTabButton, reportConfigError, clearConfigError } = useContext(BoardContext);
+  const { context, activeView, openFormWithLoading, openEntityInNewTab, showOpenInNewTabButton, reportConfigError, clearConfigError, locale, compactMode, compactCardFields } = useContext(BoardContext);
+  const strings = getStrings(locale);
+  const [isExpanded, setIsExpanded] = useState(false);
   const mouseDownPosRef = useRef<{ x: number; y: number } | null>(null);
 
   const onCardClick = useCallback(() => {
@@ -330,6 +334,20 @@ const Card = ({ item, draggable = true }: IProps) => {
   }, [item, hideColumnFieldOnCard, columnFieldKey, hiddenFieldsOnCardSet, context.parameters.dataset.columns]);
 
   const isClickable = !draggable;
+  const displayedDetails = compactMode && !isExpanded
+    ? compactCardFields.flatMap(field => cardDetails.filter(([key]) => key === field))
+    : cardDetails;
+  const hasHiddenDetails = cardDetails.length > displayedDetails.length;
+  const displayParams = context.parameters as unknown as Record<string, { raw?: unknown }>;
+  const closeDateField = String(displayParams.closeDateField?.raw || "estimatedclosedate");
+  const warningDaysRaw = Number(displayParams.closeDateWarningDays?.raw ?? 7);
+  const warningDays = Number.isFinite(warningDaysRaw) && warningDaysRaw >= 0 ? warningDaysRaw : 7;
+  const state = (item as unknown as Record<string, unknown>).statecodeRaw;
+  const dueStatus = displayParams.showCloseDateBadges?.raw === true && !hiddenFieldsOnCardSet.has(closeDateField) && (state == null || state === 0)
+    ? getDueStatus((item as unknown as Record<string, unknown>)[`${closeDateField}Raw`], warningDays) : null;
+  const dateText = cardDisplayText(item[closeDateField]);
+  const dueLabel = dueStatus === "overdue" ? strings.closeDateOverdue : dueStatus === "today" ? strings.closeDateToday
+    : dueStatus === "soon" ? strings.closeDateSoon : strings.closeDateLater;
 
   const hasAnyHighlight = highlights.left ?? highlights.right ?? highlights.cornerTopRight ?? highlights.cornerBottomRight ?? highlights.cornerTopLeft ?? highlights.cornerBottomLeft;
   const highlightClass =
@@ -352,7 +370,7 @@ const Card = ({ item, draggable = true }: IProps) => {
 
   return (
     <div
-      className={`card-container${draggable ? "" : " no-drag"}${highlightClass}`}
+      className={`card-container${compactMode && !isExpanded ? " card-container--compact" : ""}${draggable ? "" : " no-drag"}${highlightClass}`}
       role={isClickable ? "button" : undefined}
       tabIndex={isClickable ? 0 : undefined}
       onMouseDown={isClickable ? onMouseDown : undefined}
@@ -381,8 +399,8 @@ const Card = ({ item, draggable = true }: IProps) => {
               e.preventDefault();
               openEntityInNewTab(context.parameters.dataset.getTargetEntityType(), item.id.toString());
             }}
-            aria-label="In neuem Tab öffnen"
-            title="In neuem Tab öffnen"
+            aria-label={strings.openNewTabLabel}
+            title={strings.openNewTabLabel}
           >
             <OpenRegular />
           </button>
@@ -390,7 +408,7 @@ const Card = ({ item, draggable = true }: IProps) => {
       </CardHeader>
       <CardBody>
         <CardDetailsList>
-          {cardDetails?.map((info) => {
+          {displayedDetails?.map((info) => {
             const fieldKey = info[0] as string;
             return (
               <CardDetails
@@ -411,6 +429,16 @@ const Card = ({ item, draggable = true }: IProps) => {
           })}
         </CardDetailsList>
       </CardBody>
+      {dueStatus && <div className={`close-date-badge close-date-badge--${dueStatus}`} title={`${dueLabel}: ${dateText}`}>
+        {dueLabel}{dateText ? ` · ${dateText}` : ""}
+      </div>}
+      {compactMode && (hasHiddenDetails || isExpanded) && (
+        <button type="button" className="card-details-toggle" aria-expanded={isExpanded}
+          onKeyDown={e => e.stopPropagation()}
+          onClick={e => { e.stopPropagation(); setIsExpanded(value => !value); }}>
+          {isExpanded ? strings.collapseDetailsLabel : strings.showDetailsLabel}
+        </button>
+      )}
     </div>
   );
 }
