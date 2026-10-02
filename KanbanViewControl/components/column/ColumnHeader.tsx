@@ -20,7 +20,8 @@ const ColumnHeader = ({ column }: IProps) => {
   const allowCreateNew = (context.parameters as { allowCreateNew?: { raw?: boolean } }).allowCreateNew?.raw !== false;
 
   const onAddNewRecord = async (column: string) => {
-    await createNewRecord(activeView?.key as string, column);
+    if (activeView?.type === "BPF") await createNewRecord();
+    else await createNewRecord(activeView?.uniqueName as string, column);
     context.parameters.dataset.refresh();
   };
 

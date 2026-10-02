@@ -82,3 +82,26 @@ test("BPF drop uses native form, requests one host refresh, and never updates a 
   assert.equal(h.saves(), 0);
   assert.equal(h.current(), h.original);
 });
+
+test("Board sends numeric choice IDs to Dataverse, rather than droppable strings", async () => {
+  let saved;
+  let refreshed = 0;
+  const board = {
+    context: { parameters: { dataset: { refresh: () => refreshed++ } } },
+    columns: [], selectedEntity: "opportunity", locale: "en", draggingRef: { current: false },
+    activeView: { uniqueName: "statuscode", columns: [{ id: 2, title: "Qualified" }] },
+  };
+  const dragContext = function DragDropContext() {};
+  const load = sourceLoader({
+    react: { useContext: () => board, useMemo: fn => fn(), createElement: (type, props, ...children) => ({ type, props: { ...props, children } }) },
+    "..": { CommandBar: "command", Column: "column", QuickFilters: "filters" },
+    "../../context/board-context": {},
+    "../../hooks/useDnD": { useDnD: () => ({ onDragEnd: async (result, record) => { saved = record; return { shouldRefresh: true }; } }) },
+    "@hello-pangea/dnd": { DragDropContext: dragContext },
+  }, { setTimeout: fn => fn() });
+  const tree = load("components/board/Board").default();
+  const find = node => node && (node.type === dragContext ? node : node.props?.children?.flatMap(child => Array.isArray(child) ? child : [child]).map(find).find(Boolean));
+  await find(tree).props.onDragEnd({ draggableId: "one", destination: { droppableId: "2" } });
+  assert.equal(saved.update.statuscode, 2);
+  assert.equal(refreshed, 1);
+});

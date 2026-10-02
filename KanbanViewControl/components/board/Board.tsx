@@ -29,16 +29,17 @@ const Board = () => {
   const handleCardDrag = async (result: DropResult, _: ResponderProvided) => {
     try {
       const field = activeView?.uniqueName;
-      const columnName = activeView?.columns?.find(
+      const destinationColumn = activeView?.columns?.find(
         (column) => column.id == result.destination?.droppableId
-      )?.title;
+      );
+      const columnName = destinationColumn?.title;
       const logicalName = pluralizedLogicalNames(selectedEntity as string);
       const record = {
         update: {
           [field as string]:
             result.destination?.droppableId == "unallocated"
               ? null
-              : result.destination?.droppableId,
+              : destinationColumn?.id,
         },
         logicalName: logicalName,
         entityName: selectedEntity,

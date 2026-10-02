@@ -1,7 +1,7 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
 const load = require("./source-loader.cjs")();
-const { buildCards, cardDisplayText, matchesCardSearch } = load("lib/card-data");
+const { buildCards, cardDisplayText, matchesCardSearch, matchesTextFilter } = load("lib/card-data");
 const { orderStages } = load("lib/utils");
 
 test("lookup titles and multiple lookup values render names, not objects", () => {
@@ -34,6 +34,13 @@ test("search excludes raw dates, IDs and column identifiers", () => {
   assert.equal(matchesCardSearch(card, "Contoso"), true);
   assert.equal(matchesCardSearch(card, "GMT"), false);
   assert.equal(matchesCardSearch(card, "hidden-guid"), false);
+});
+
+test("a text filter can select empty and named values together", () => {
+  assert.equal(matchesTextFilter("Ada", ["Ada", "__empty__"]), true);
+  assert.equal(matchesTextFilter("", ["Ada", "__empty__"]), true);
+  assert.equal(matchesTextFilter("Ben", ["Ada", "__empty__"]), false);
+  assert.equal(matchesTextFilter("Ben", []), true);
 });
 
 test("BPF ordering handles empty data, branches and cycles without dropping stages", () => {
