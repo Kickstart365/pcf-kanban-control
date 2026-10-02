@@ -3,10 +3,6 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import App from "./App";
 
 export class KanbanViewControl implements ComponentFramework.ReactControl<IInputs, IOutputs> {
-    private control: ComponentFramework.ReactControl<IInputs, IOutputs>;
-
-    constructor() { }
-
     public init(
         context: ComponentFramework.Context<IInputs>,
         notifyOutputChanged: () => void,
@@ -28,6 +24,7 @@ export class KanbanViewControl implements ComponentFramework.ReactControl<IInput
     }
 
     public destroy(): void {
-        this.control.destroy()
+        // The PCF host owns the React tree returned by updateView.
+        // This entry point has no component-owned resources to release.
     }
 }

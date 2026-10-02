@@ -1,0 +1,66 @@
+name: PCF CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pcf-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Lifecycle regression tests
+        run: node --test tests/kanban-lifecycle.test.cjs
+      - name: Lint
+        run: npm run lint
+      - name: Production PCF build
+        run: npm run build -- --buildMode production
+      - name: Upload compiled control (not a Dataverse solution)
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: pcf-control-${{ github.sha }}
+          path: out/controls/
+          if-no-files-found: error
+          retention-days: 14
+
+  upstream-baseline:
+    name: Original upstream build (informational)
+    # Only the initial hardening PR needs this comparison. Its result does
+    # not replace the required build of the proposed code above.
+    if: github.event_name == 'pull_request' && github.head_ref == 'fix/react-control-destroy'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: e21c83ecb6151a160d8fbdb898f50f9912c2397e
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install original locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Build original upstream code
+        run: npm run build -- --buildMode production
