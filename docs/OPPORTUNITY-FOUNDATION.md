@@ -23,6 +23,8 @@ merged: activity/SharePoint actions, preset defaults and additional UI are defer
   unchanged. Searching/filtering reuses the transformed data, excludes raw
   metadata from full-text search, and sorts date/number fields on raw values.
 - Lookup titles display names. Raw metadata is excluded from card details.
+- Built-in Opportunity BPF queries use `opportunityid` in In() and
+  `_opportunityid_value` in $select; custom BPFs retain `bpf_opportunityid`.
 - BPF ordering preserves disconnected paths and avoids loops. Stages missing
   from workflow UI data are appended rather than sorting at index -1.
   `businessProcessFlowStepOrder` remains the explicit override for branches.
@@ -34,6 +36,10 @@ not replace keyboard, drag/drop or BPF testing in a model-driven DEV app.
 
 Microsoft host refresh contract:
 https://learn.microsoft.com/en-us/power-apps/developer/component-framework/reference/updatedproperties
+
+BPF lookup references:
+https://learn.microsoft.com/en-us/dynamics365/developer/reference/entities/opportunitysalesprocess
+https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/web-api-navigation-properties
 
 ## DEV checks
 

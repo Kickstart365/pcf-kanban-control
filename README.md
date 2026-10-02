@@ -1,5 +1,14 @@
 # Kanban View Control
 
+This is the **Kickstart365** fork of NovaLogica's MIT-licensed Kanban control.
+The 1.8.0 DEV pilot adds compact Opportunity cards, configurable stage totals,
+close-date badges, Dutch UI and loading/drag-drop fixes. Start with the
+[DEV installation guide](docs/DEV-INSTALLATION.md) and
+[Opportunity settings](docs/OPPORTUNITY-CONFIGURATION.md).
+
+The fork uses the separate `kickstart365.KanbanViewControl` identity.
+BPF drag/drop opens the native form for a stage transition.
+
 | ![Kanban Control](https://github.com/novalogica/pcf-kanban-control/blob/main/KanbanViewControl/screenshots/kanban-case-example.png) |
 |:--:|
 | *Figure 1: Kanban view displaying cases by priority.* |

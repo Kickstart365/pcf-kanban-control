@@ -12,6 +12,8 @@
 # msbuild output directories
 /bin
 /obj
+**/bin/
+**/obj/
 
 # MSBuild Binary and Structured Log
 *.binlog
