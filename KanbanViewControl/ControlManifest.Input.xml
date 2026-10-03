@@ -3,17 +3,34 @@
   <control 
     namespace="kickstart365"
     constructor="KanbanViewControl" 
-    version="1.8.0"
+    version="1.9.0"
     display-name-key="Kickstart365 Kanban"
     description-key="PowerApps Component Framework control (PCF) that allows users to see records in a kanban view format." 
     control-type="virtual"
   >
     <data-set name="dataset" display-name-key="Dataset" />
 
+    <property name="recordOpenMode" display-name-key="Open records in" of-type="Enum" usage="input" required="false" default-value="sidePane"
+      description-key="Use a native app side pane in web browsers, or a centered dialog. Falls back to a dialog when side panes are unavailable.">
+      <value name="sidePane" display-name-key="Side pane" description-key="Open alongside the board">sidePane</value>
+      <value name="dialog" display-name-key="Dialog" description-key="Open in a centered dialog">dialog</value>
+    </property>
+    <property name="sidePaneWidth" display-name-key="Side pane width" of-type="Whole.None" usage="input" required="false"
+      description-key="Width in pixels, 300 to 1200. Default: 600." />
+    <property name="columnColors" display-name-key="Column colors" of-type="SingleLine.TextArea" usage="input" required="false"
+      description-key="JSON array of id and six-digit hex color. Match stage ID, stage name or choice value. Example: [{&quot;id&quot;:&quot;Qualify&quot;,&quot;color&quot;:&quot;#0078D4&quot;}]." />
+    <property name="allowInlineEdit" display-name-key="Editing fields on cards" of-type="Enum" usage="input" required="false" default-value="enabled"
+      description-key="Enable explicit Save and Cancel on Opportunity cards. Dataverse permissions and server validation apply.">
+      <value name="enabled" display-name-key="Enabled" description-key="Show edit buttons on configured fields">enabled</value>
+      <value name="disabled" display-name-key="Disabled" description-key="Use the record form for editing">disabled</value>
+    </property>
+    <property name="inlineEditFields" display-name-key="Editable card fields" of-type="SingleLine.TextArea" usage="input" required="false"
+      description-key="JSON array or comma-separated logical names. Default: estimatedvalue,closeprobability,estimatedclosedate. Supports writable text, numbers, money and DateOnly fields. Fields must be included in the view and shown on cards." />
+
     <property name="compactCards" display-name-key="Start with compact cards" of-type="TwoOptions" usage="input" required="false"
       description-key="Start in compact mode. Users can switch to expanded cards with the toolbar." />
     <property name="compactCardFields" display-name-key="Compact card fields" of-type="SingleLine.TextArea" usage="input" required="false"
-      description-key="JSON array or comma-separated field names in display order. Default: parentaccountid,estimatedvalue,estimatedclosedate,ownerid. Hidden fields remain hidden." />
+      description-key="JSON array or comma-separated field names in display order. Default: parentaccountid,estimatedvalue,closeprobability,estimatedclosedate,ownerid. Hidden fields remain hidden." />
     <property name="showCloseDateBadges" display-name-key="Show close date badges" of-type="TwoOptions" usage="input" required="false"
       description-key="Show overdue, today and upcoming close dates. Include statecode to suppress badges for inactive records." />
     <property name="closeDateField" display-name-key="Close date field" of-type="SingleLine.Text" usage="input" required="false"

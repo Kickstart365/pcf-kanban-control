@@ -2,6 +2,7 @@ import { createContext } from "react";
 import { ColumnItem, ViewEntity, ViewItem } from "../interfaces";
 import { IInputs } from "../generated/ManifestTypes";
 import { IDropdownOption } from "@fluentui/react/lib/Dropdown";
+import { InlineDefinition } from "../lib/inline-edit";
 
 export interface ConfigError {
   property: string;
@@ -58,6 +59,11 @@ interface IBoardContext {
   compactMode: boolean,
   setCompactMode: React.Dispatch<React.SetStateAction<boolean>>,
   compactCardFields: string[],
+  inlineEditableFields: string[],
+  inlineEditKey: string | null,
+  beginInlineEdit: (key: string) => boolean,
+  finishInlineEdit: (key: string) => void,
+  getInlineDefinition: (field: string) => Promise<InlineDefinition>,
   /** true while an entity form is being opened (popup); blocks further clicks and shows loading */
   isOpeningEntity: boolean,
   /** Opens entity form with loading state; prevents multiple opens */

@@ -1,8 +1,10 @@
 # Kanban View Control
 
 This is the **Kickstart365** fork of NovaLogica's MIT-licensed Kanban control.
-The 1.8.0 DEV pilot adds compact Opportunity cards, configurable stage totals,
-close-date badges, Dutch UI and loading/drag-drop fixes. Start with the
+The 1.9.0 DEV pilot adds native record side panes, configurable column colors
+and inline editing of selected Opportunity fields, alongside compact cards,
+currency-aware stage totals and Dutch UI.
+See [the 1.9 interaction settings](docs/INTERACTION-SETTINGS.md). Start with the
 [DEV installation guide](docs/DEV-INSTALLATION.md) and
 [Opportunity settings](docs/OPPORTUNITY-CONFIGURATION.md).
 

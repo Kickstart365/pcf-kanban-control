@@ -1,10 +1,15 @@
-# Kickstart365 Kanban 1.8.0 DEV pilot
+# Kickstart365 Kanban 1.9.0 DEV pilot
+
+For side panes, column colors and editable fields, see
+[Interaction settings](INTERACTION-SETTINGS.md). Upgrade the existing
+`Kickstart365Kanban` installation using the matching managed/unmanaged package;
+the control identity is unchanged from 1.8.
 
 ## Identity
 
 - Control namespace: `kickstart365`; constructor: `KanbanViewControl`.
-- Control version: `1.8.0`; display name: **Kickstart365 Kanban**.
-- Solution: `Kickstart365Kanban`, version `1.8.0.0`.
+- Control version: `1.9.0`; display name: **Kickstart365 Kanban**.
+- Solution: `Kickstart365Kanban`, version `1.9.0.0`.
 - Publisher: `kickstart365`; customization prefix: `k365`.
 
 This is a separate control identity, so it can be tested alongside the original
