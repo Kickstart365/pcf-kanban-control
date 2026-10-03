@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useEffect } from "react";
 import { CommandBar, Column, QuickFilters } from "..";
 import {
   DragDropContext,
@@ -10,11 +10,21 @@ import { BoardContext } from "../../context/board-context";
 import { useDnD } from "../../hooks/useDnD";
 import { pluralizedLogicalNames } from "../../lib/utils";
 import { getStrings } from "../../lib/strings";
+import { parseColumnColors } from "../../lib/column-colors";
 
 const Board = () => {
-  const { context, columns, selectedEntity, activeView, draggingRef, locale, compactMode, setCompactMode } =
+  const { context, columns, selectedEntity, activeView, draggingRef, locale, compactMode, setCompactMode, inlineEditKey, reportConfigError, clearConfigError } =
     useContext(BoardContext);
   const strings = getStrings(locale);
+  const colorRaw = (context.parameters as { columnColors?: { raw?: string } }).columnColors?.raw;
+  const parsedColors = useMemo(() => {
+    try { return { colors: parseColumnColors(colorRaw), error: "" }; }
+    catch (reason) { return { colors: [], error: reason instanceof Error ? reason.message : String(reason) }; }
+  }, [colorRaw]);
+  useEffect(() => {
+    if (parsedColors.error) reportConfigError("columnColors", parsedColors.error);
+    else clearConfigError("columnColors");
+  }, [parsedColors, reportConfigError, clearConfigError]);
   const { onDragEnd } = useDnD(columns);
 
   const allowCardMove = useMemo(() => {
@@ -114,18 +124,22 @@ const Board = () => {
       key={column.id}
       column={column}
       widthPx={columnWidthsMap.get(column.id.toString())}
+      color={parsedColors.colors.find(entry => entry.id === String(column.key))?.color
+        ?? parsedColors.colors.find(entry => entry.id === String(column.id) || entry.id === column.title)?.color}
     />
   ));
 
   return (
     <div className="main-container">
-      <QuickFilters />
+      <fieldset className="board-filter-fieldset" disabled={!!inlineEditKey}><QuickFilters /></fieldset>
       <div className="board-toolbar">
-        {!hideViews && <CommandBar />}
+        {!hideViews && <fieldset className="board-filter-fieldset" disabled={!!inlineEditKey}><CommandBar /></fieldset>}
         <div className="card-density-buttons" role="group" aria-label={strings.cardDensityLabel}>
-          <button type="button" aria-pressed={compactMode} onClick={() => setCompactMode(true)}>{strings.compactCardsLabel}</button>
-          <button type="button" aria-pressed={!compactMode} onClick={() => setCompactMode(false)}>{strings.expandedCardsLabel}</button>
+          <button type="button" disabled={!!inlineEditKey} aria-pressed={compactMode} onClick={() => setCompactMode(true)}>{strings.compactCardsLabel}</button>
+          <button type="button" disabled={!!inlineEditKey} aria-pressed={!compactMode} onClick={() => setCompactMode(false)}>{strings.expandedCardsLabel}</button>
         </div>
+        <button type="button" className="board-refresh-button" disabled={!!inlineEditKey || context.parameters.dataset.loading}
+          onClick={() => context.parameters.dataset.refresh()}>{strings.refreshLabel}</button>
       </div>
       <div className="kanban-container">
         <div

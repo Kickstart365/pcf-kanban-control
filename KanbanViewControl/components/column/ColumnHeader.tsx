@@ -13,7 +13,7 @@ interface IProps {
 }
 
 const ColumnHeader = ({ column }: IProps) => {
-  const { context, activeView, locale } = useContext(BoardContext);
+  const { context, activeView, locale, inlineEditKey } = useContext(BoardContext);
   const strings = getStrings(locale);
   const { createNewRecord } = useNavigation(context);
 
@@ -56,7 +56,7 @@ const ColumnHeader = ({ column }: IProps) => {
         <Text variant="large" className="column-stage-title" title={column.title}>{column.id === "unallocated" ? strings.toastUnallocated : column.title}</Text>
         <div className="column-actions">
           <Text variant="small" className="column-counter" title={strings.recordCountLabel(count)} aria-label={strings.recordCountLabel(count)}>{count}</Text>
-          { allowCreateNew && (
+          { allowCreateNew && !inlineEditKey && (
             <IconButton iconName='Add' onClick={() => { onAddNewRecord(column.id as string); }} noBorder />
           ) }
         </div>

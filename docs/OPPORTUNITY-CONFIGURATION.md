@@ -1,74 +1,55 @@
-# Kickstart365 Opportunity Kanban: DEV configuration
+# Kickstart365 Opportunity Kanban: snel starten met 1.9
 
-## Opportunity view
+De volledige Nederlandstalige handleiding staat in
+[CONFIGURATION.md](CONFIGURATION.md), met alle **46 instellingen**, hun
+standaardwaarden, voorbeelden en oplossingen voor veelvoorkomende problemen.
 
-Start with an Opportunity view that contains these columns, in this order:
+## Inrichten
 
-1. `name` (the first column supplies the card title).
-2. `parentaccountid`, `estimatedvalue`, `estimatedclosedate`, `ownerid`.
-3. `transactioncurrencyid` and `statecode` (loaded, hidden on cards).
-4. Optional `sparked_estimatedweightedrevenue`, if this custom field exists.
+1. Importeer **Kickstart365Kanban 1.9.0.0** in de gewenste omgeving.
+   Zie [installatie en upgrades](DEV-INSTALLATION.md); houd bij een bestaande
+   installatie hetzelfde managed/unmanaged-pakkettype aan.
+2. Maak/open een Opportunity-weergave met `name` als eerste kolom. Voeg
+   `parentaccountid`, `estimatedvalue`, `closeprobability`, `estimatedclosedate`,
+   `ownerid`, `transactioncurrencyid` en `statecode` toe. Gebruik je eigen
+   bedrijfslookup, bijvoorbeeld `bcbi_companyid`, als die in jouw omgeving
+   `parentaccountid` vervangt.
+3. Voeg **Kickstart365 Kanban** toe en voer
+   [het aanbevolen startprofiel](CONFIGURATION.md#opportunity-aanbevolen-inrichting)
+   in. Kies bij `defaultView` de exacte zichtbare naam van het gewenste BPF.
+   Voeg desgewenst [kolomkleuren](CONFIGURATION.md#kolomkleuren) en
+   [filterpresets](CONFIGURATION.md#filters-en-presets) toe.
+4. Sla op, publiceer en open de weergave in de app. Kies waar nodig
+   **Show as / Weergeven als → Kickstart365 Kanban**.
 
-Use the native Business Process Flow name as `defaultView`. Stage names form
-the board columns. BPF dragging opens the native Opportunity form for the
-stage change; the control does not bypass BPF requirements or branch rules.
+Elke instelling krijgt zijn eigen waarde; het startprofiel is geen bestand
+dat je in één keer kunt importeren. Alleen velden die in de weergave zijn
+opgenomen kunnen op kaarten worden gebruikt. Money-totalen vereisen
+`transactioncurrencyid`; dit veld en `statecode` kun je op de kaart verbergen.
 
-## Recommended pilot settings
+Voor een tweede totaal kun je een bestaand numeriek veld gebruiken, zoals
+`sparked_estimatedweightedrevenue`. Het component maakt dit veld niet aan en
+berekent geen gewogen omzet. Houd door een cloudflow beheerde waarden buiten
+de inline edit-lijst en vernieuw het bord nadat de flow is uitgevoerd.
 
-| Property | Value |
-| --- | --- |
-| `compactCards` | `true` |
-| `compactCardFields` | `["parentaccountid","estimatedvalue","estimatedclosedate","ownerid"]` |
-| `hiddenFieldsOnCard` | `["transactioncurrencyid","statecode"]` |
-| `hideColumnFieldOnCard` | `true` |
-| `showCloseDateBadges` | `true` |
-| `closeDateField` | `estimatedclosedate` |
-| `closeDateWarningDays` | `7` |
-| `columnTotalField` | `estimatedvalue` |
-| `columnSecondaryTotalField` | `sparked_estimatedweightedrevenue` if available |
-| `hideEmptyColumns` | `false` |
-| `minColumnWidth` | `320` |
-| `quickFilterFields` | `["ownerid","parentaccountid","estimatedclosedate","estimatedvalue"]` |
-| `sortFields` | `["estimatedvalue","estimatedclosedate","name"]` |
-| `defaultSort` | `{"field":"estimatedclosedate","direction":"asc"}` |
+Het solution-pakket bevat alleen de control. De klantweergave, Opportunity-tabel,
+BPF, custom velden en model-driven app worden niet meegeleverd.
 
-Existing `filterPresets` support saved configurations, for example:
+## Controleren in de app
 
-```json
-[
-  {"id":"mine","label":"Mijn opportunities","filters":{"ownerid":"{{currentUser}}"}},
-  {"id":"this-month","label":"Sluit deze maand","filters":{"estimatedclosedate":"currentMonth"}}
-]
-```
+- Wissel Compact/Uitgebreid en klap Details op één kaart open. Verborgen velden
+  blijven verborgen; titel, potlood en sleepgreep hebben elk hun eigen actie.
+- Vergelijk kolomaantallen en totalen met dezelfde gefilterde weergave. Test
+  nulbedragen, lege fases, meerdere valuta en meerdere datasetpagina's.
+- Controleer datumlabels voor vandaag, verlopen datums en gesloten records.
+- Open een record in het zijpaneel, sla een wijziging op en controleer de
+  vernieuwde kaart. Gebruik Verversen na een BPF- of cloudflowwijziging.
+- Bewerk een toegestaan veld, annuleer een concept en controleer een afgewezen
+  save. Test ook een gesloten record en een gebruiker zonder schrijfrechten.
+- Sleep tussen BPF-kolommen: wijzig de fase in het geopende native formulier.
+  De control schrijft geen BPF-fase rechtstreeks.
+- Test zoeken, presets, datum-/getalfilters, sortering en toetsenbordbediening.
 
-Users can switch between Compact and Expanded in the toolbar. In compact
-mode, Details shows the remaining fields for that card. Configured hidden
-fields remain hidden. Card totals/counts reflect the active view and filters,
-including all loaded pages; progressive rendering does not change totals.
-
-Transaction money totals are grouped by `transactioncurrencyid` and shown
-with the currency name. If currency data is missing, the header requests it
-rather than inventing a currency. Empty columns display zero. For one combined
-multi-currency pipeline total, configure `estimatedvalue_base` and include
-that field in the view; the numeric total is in the organization's base currency.
-Secondary totals follow the same currency rules. Base totals have no assumed
-currency symbol. For numeric, non-money fields no currency is required.
-
-Close-date badges use local calendar dates: overdue, today, within the warning
-period, or later. Include `statecode` to suppress them for won/lost opportunities.
-They are also suppressed if the date field is in `hiddenFieldsOnCard`.
-Dutch UI follows app language 1043; English and German remain supported.
-
-## Runtime verification
-
-- Switch compact/expanded and expand one card; its details button must not
-  open the record or start a drag. Check keyboard operation and narrow columns.
-- Compare header totals/counts to the same filtered Dataverse view. Include
-  an empty stage, zero amounts, multiple currencies and multiple pages.
-- Check badges around midnight and won/lost records.
-- Verify BPF order, conditional branches, native-form transitions and refresh.
-- Validate denied saves, lookup-first titles, text/date/number filters and
-  amount changes on records whose IDs remain the same.
-
-The managed/unmanaged ZIPs built by the solution workflow contain only the
-control, not the customer view, Opportunity table, BPF, custom fields or app.
+Zie [de volledige 1.9-pilotchecks](INTERACTION-SETTINGS.md#pilot-checks-after-importing-1900),
+[de technische basis](OPPORTUNITY-FOUNDATION.md) en
+[problemen oplossen](CONFIGURATION.md#problemen-oplossen).

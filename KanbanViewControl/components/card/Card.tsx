@@ -5,12 +5,14 @@ import CardHeader from "./CardHeader";
 import CardBody from "./CardBody";
 import { CardInfo, CardItem } from "../../interfaces";
 import { CardDetails, CardDetailsList } from "./CardDetails";
-import { useMemo, useCallback, useRef, useState } from "react";
+import { useMemo, useCallback, useState } from "react";
 import { BoardContext } from "../../context/board-context";
 import { useContext } from "react";
 import { cardDisplayText } from "../../lib/card-data";
 import { getDueStatus } from "../../lib/opportunity-display";
 import { getStrings } from "../../lib/strings";
+import { DraggableProvidedDragHandleProps } from "@hello-pangea/dnd";
+import InlineFieldEditor from "./InlineFieldEditor";
 
 export type HighlightType = "left" | "right" | "cornerTopRight" | "cornerBottomRight" | "cornerTopLeft" | "cornerBottomLeft";
 
@@ -29,6 +31,7 @@ export interface FieldWidthConfig {
 interface IProps {
   item: CardItem;
   draggable?: boolean;
+  dragHandleProps?: DraggableProvidedDragHandleProps | null;
 }
 
 /** Only true for boolean-like truthy values. False, 0, "false", "no" etc. do not count as true. */
@@ -65,50 +68,14 @@ function hasValue(value: unknown): boolean {
   return true;
 }
 
-/** Max mouse movement (px) below which an event still counts as a click. Above = text selection/drag, card does not open. */
-const CLICK_MOVE_THRESHOLD_PX = 5;
-
-const Card = ({ item, draggable = true }: IProps) => {
-  const { context, activeView, openFormWithLoading, openEntityInNewTab, showOpenInNewTabButton, reportConfigError, clearConfigError, locale, compactMode, compactCardFields } = useContext(BoardContext);
+const Card = ({ item, draggable = true, dragHandleProps }: IProps) => {
+  const { context, activeView, openFormWithLoading, openEntityInNewTab, showOpenInNewTabButton, reportConfigError, clearConfigError, locale, compactMode, compactCardFields, inlineEditableFields, inlineEditKey, draggingRef } = useContext(BoardContext);
   const strings = getStrings(locale);
   const [isExpanded, setIsExpanded] = useState(false);
-  const mouseDownPosRef = useRef<{ x: number; y: number } | null>(null);
-
   const onCardClick = useCallback(() => {
+    if (draggingRef?.current) return;
     openFormWithLoading(context.parameters.dataset.getTargetEntityType(), item.id.toString());
-  }, [context, item.id, openFormWithLoading]);
-
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
-    if (!draggable) {
-      mouseDownPosRef.current = { x: e.clientX, y: e.clientY };
-    }
-  }, [draggable]);
-
-  const onCardClickWithMoveCheck = useCallback(
-    (e: React.MouseEvent) => {
-      if (!draggable && mouseDownPosRef.current) {
-        const dx = e.clientX - mouseDownPosRef.current.x;
-        const dy = e.clientY - mouseDownPosRef.current.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        mouseDownPosRef.current = null;
-        if (distance > CLICK_MOVE_THRESHOLD_PX) {
-          return;
-        }
-      }
-      onCardClick();
-    },
-    [draggable, onCardClick]
-  );
-
-  const onKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        onCardClick();
-      }
-    },
-    [onCardClick]
-  );
+  }, [context, item.id, openFormWithLoading, draggingRef]);
 
   const hideColumnFieldOnCard = useMemo(() => {
     return context.parameters.hideColumnFieldOnCard?.raw === true;
@@ -333,7 +300,6 @@ const Card = ({ item, draggable = true }: IProps) => {
     });
   }, [item, hideColumnFieldOnCard, columnFieldKey, hiddenFieldsOnCardSet, context.parameters.dataset.columns]);
 
-  const isClickable = !draggable;
   const displayedDetails = compactMode && !isExpanded
     ? compactCardFields.flatMap(field => cardDetails.filter(([key]) => key === field))
     : cardDetails;
@@ -350,6 +316,9 @@ const Card = ({ item, draggable = true }: IProps) => {
     : dueStatus === "soon" ? strings.closeDateSoon : strings.closeDateLater;
 
   const hasAnyHighlight = highlights.left ?? highlights.right ?? highlights.cornerTopRight ?? highlights.cornerBottomRight ?? highlights.cornerTopLeft ?? highlights.cornerBottomLeft;
+  const titleField = context.parameters.dataset.columns[0]?.name;
+  const titleContent = <button type="button" className="card-title card-title-button" disabled={!!inlineEditKey} onClick={onCardClick}
+    title={cardDisplayText(item?.title)}>{cardDisplayText(item?.title)}</button>;
   const highlightClass =
     (highlights.left ? " card-container--highlight-left" : "") +
     (highlights.right ? " card-container--highlight-right" : "") +
@@ -371,11 +340,6 @@ const Card = ({ item, draggable = true }: IProps) => {
   return (
     <div
       className={`card-container${compactMode && !isExpanded ? " card-container--compact" : ""}${draggable ? "" : " no-drag"}${highlightClass}`}
-      role={isClickable ? "button" : undefined}
-      tabIndex={isClickable ? 0 : undefined}
-      onMouseDown={isClickable ? onMouseDown : undefined}
-      onClick={isClickable ? onCardClickWithMoveCheck : undefined}
-      onKeyDown={isClickable ? onKeyDown : undefined}
       style={highlightStyle}
     >
       {(highlights.cornerTopRight ?? highlights.cornerBottomRight ?? highlights.cornerTopLeft ?? highlights.cornerBottomLeft) && (
@@ -387,13 +351,19 @@ const Card = ({ item, draggable = true }: IProps) => {
         </>
       )}
       <CardHeader>
-        <Text className="card-title" nowrap>
-          {cardDisplayText(item?.title)}
-        </Text>
+        <div className="card-title-slot">
+          {titleField && inlineEditableFields?.includes(titleField) && (state == null || state === 0)
+            ? <InlineFieldEditor recordId={String(item.id)} field={titleField} label={item.title?.label || titleField}>{titleContent}</InlineFieldEditor>
+            : titleContent}
+        </div>
+        {draggable && <div className="card-drag-handle" {...dragHandleProps} aria-label={strings.dragCardLabel} title={strings.dragCardLabel}>
+          <svg viewBox="0 0 16 20" width="12" height="16" aria-hidden="true">{[5, 10, 15].map(y => <g key={y}><circle cx="5" cy={y} r="1.5" /><circle cx="11" cy={y} r="1.5" /></g>)}</svg>
+        </div>}
         {showOpenInNewTabButton && (
           <button
             type="button"
             className="card-open-new-tab-btn"
+            disabled={!!inlineEditKey}
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
@@ -424,6 +394,8 @@ const Card = ({ item, draggable = true }: IProps) => {
                 lookupPersonaIconOnly={setMatchesField(lookupFieldsPersonaIconOnlyOnCardSet, fieldKey)}
                 showEmailAndPhoneAsLinks={showEmailAndPhoneAsLinks}
                 textEllipsis={setMatchesField(ellipsisFieldsOnCardSet, fieldKey)}
+                editable={!!inlineEditableFields?.includes(fieldKey) && !setMatchesField(htmlFieldsOnCardSet, fieldKey)
+                  && (state == null || state === 0) && !(fieldKey === "estimatedvalue" && (item as unknown as Record<string, unknown>).isrevenuesystemcalculatedRaw === true)}
               />
             );
           })}

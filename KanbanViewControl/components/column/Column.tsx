@@ -13,6 +13,7 @@ import {
   LOAD_MORE_CARDS_COUNT,
   SCROLL_LOAD_THRESHOLD_PX,
 } from "../../lib/constants";
+import { getColumnColorStyle } from "../../lib/column-colors";
 
 function parseInitialCardsVisible(raw: unknown): number {
   if (raw == null || String(raw).trim() === "") return INITIAL_CARDS_VISIBLE;
@@ -21,11 +22,12 @@ function parseInitialCardsVisible(raw: unknown): number {
   return n;
 }
 
-const Column = ({ column, widthPx }: { column: ColumnItem; widthPx?: number }) => {
-  const { context, draggingRef, openFormWithLoading, isMovePending } = useContext(BoardContext);
+const Column = ({ column, widthPx, color }: { column: ColumnItem; widthPx?: number; color?: string }) => {
+  const { context, isMovePending, inlineEditKey } = useContext(BoardContext);
   const allowCardMove = ((context.parameters as unknown) as { allowCardMove?: { raw?: boolean } }).allowCardMove?.raw !== false;
   const hasCards = !isNullOrEmpty(column.cards) && column.cards!.length > 0;
-  const columnStyle = widthPx != null ? { width: widthPx, minWidth: widthPx, maxWidth: widthPx } : undefined;
+  const columnStyle = { ...(widthPx != null ? { width: widthPx, minWidth: widthPx, maxWidth: widthPx } : {}), ...getColumnColorStyle(color) } as React.CSSProperties;
+  const columnClass = `column-container${color ? " column-container--colored" : ""}`;
   const cards = column.cards ?? [];
   const totalCount = cards.length;
 
@@ -55,18 +57,9 @@ const Column = ({ column, widthPx }: { column: ColumnItem; widthPx?: number }) =
     []
   );
 
-  const handleCardWrapperClick = useCallback(
-    (itemId: string | number) => () => {
-      if (!draggingRef.current) {
-        openFormWithLoading(context.parameters.dataset.getTargetEntityType(), String(itemId));
-      }
-    },
-    [context.parameters.dataset, draggingRef, openFormWithLoading]
-  );
-
   if (!allowCardMove) {
     return (
-      <div className="column-container" style={columnStyle}>
+      <div className={columnClass} style={columnStyle}>
         <ColumnHeader column={column} />
         <div
           ref={setScrollRef}
@@ -86,7 +79,7 @@ const Column = ({ column, widthPx }: { column: ColumnItem; widthPx?: number }) =
   }
 
   return (
-    <div className="column-container" style={columnStyle}>
+    <div className={columnClass} style={columnStyle}>
       <ColumnHeader column={column} />
       <Droppable key={column.id.toString()} droppableId={column.id.toString()}>
         {(provided, snapshot) => (
@@ -106,28 +99,15 @@ const Column = ({ column, widthPx }: { column: ColumnItem; widthPx?: number }) =
                   key={item.id}
                   draggableId={item.id.toString()}
                   index={index}
-                  isDragDisabled={isMovePending}
+                  isDragDisabled={isMovePending || !!inlineEditKey}
                 >
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
-                      {...provided.dragHandleProps}
                       {...provided.draggableProps}
                       style={getItemStyle(snapshot, provided.draggableProps.style)}
-                      onClick={handleCardWrapperClick(item.id)}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && !draggingRef.current) {
-                          e.preventDefault();
-                          openFormWithLoading(
-                            context.parameters.dataset.getTargetEntityType(),
-                            String(item.id)
-                          );
-                        }
-                      }}
                     >
-                      <Card item={item} />
+                      <Card item={item} dragHandleProps={provided.dragHandleProps} />
                     </div>
                   )}
                 </Draggable>

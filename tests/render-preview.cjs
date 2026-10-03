@@ -7,12 +7,14 @@ const load = require("./source-loader.cjs")({}, {}, true);
 const { BoardContext } = load("context/board-context");
 const Card = load("components/card/Card").default;
 const ColumnHeader = load("components/column/ColumnHeader").default;
+const { getColumnColorStyle } = load("lib/column-colors");
 
 // Real card/header components, static demo data. No Dataverse or drag host.
 const columns = [
   { name: "name", displayName: "Opportunity", dataType: "SingleLine.Text" },
   { name: "parentaccountid", displayName: "Klant", dataType: "Lookup.Simple" },
   { name: "estimatedvalue", displayName: "Geschatte omzet", dataType: "Currency" },
+  { name: "closeprobability", displayName: "Kans (%)", dataType: "Whole.None" },
   { name: "estimatedclosedate", displayName: "Verwachte sluiting", dataType: "DateAndTime.DateOnly" },
   { name: "ownerid", displayName: "Eigenaar", dataType: "Lookup.Owner" },
   { name: "transactioncurrencyid", displayName: "Valuta", dataType: "Lookup.Simple" },
@@ -36,6 +38,7 @@ const card = (id, title, account, amount, days) => {
     id, title: info("Opportunity", title), column: "Kwalificeren",
     parentaccountid: info("Klant", { id: { guid: "account" }, etn: "account", name: account }),
     estimatedvalue: info("Geschatte omzet", `€ ${amount.toLocaleString("nl-NL")}`), estimatedvalueRaw: amount,
+    closeprobability: info("Kans (%)", "60"), closeprobabilityRaw: 60,
     estimatedclosedate: info("Verwachte sluiting", due.toLocaleDateString("nl-NL")), estimatedclosedateRaw: due,
     ownerid: info("Eigenaar", { id: { guid: "owner" }, etn: "systemuser", name: "Alex de Vries" }),
     transactioncurrencyid: info("Valuta", { id: { guid: "eur" }, etn: "transactioncurrency", name: "Euro" }),
@@ -51,12 +54,14 @@ const stageColumns = [
 const output = path.resolve(__dirname, "../out/preview"); mkdirSync(output, { recursive: true });
 for (const compactMode of [true, false]) {
   const board = { context, locale: "nl", activeView: { type: "BPF" }, compactMode,
-    compactCardFields: ["parentaccountid", "estimatedvalue", "estimatedclosedate", "ownerid"],
+    compactCardFields: ["parentaccountid", "estimatedvalue", "closeprobability", "estimatedclosedate", "ownerid"],
+    inlineEditableFields: ["estimatedvalue", "closeprobability", "estimatedclosedate"], inlineEditKey: null,
     reportConfigError: () => {}, clearConfigError: () => {}, openFormWithLoading: () => {}, showOpenInNewTabButton: false };
   const markup = renderToStaticMarkup(React.createElement(BoardContext.Provider, { value: board },
     React.createElement("div", { className: "kanban-container" },
       React.createElement("div", { className: "columns-wrapper" }, stageColumns.map(column =>
-        React.createElement("div", { key: column.id, className: "column-container", style: { width: 320, minWidth: 320 } },
+        React.createElement("div", { key: column.id, className: "column-container column-container--colored", style: { width: 320, minWidth: 320,
+          ...getColumnColorStyle(["#0078D4", "#009C91", "#8764B8", "#107C41"][stageColumns.indexOf(column)]) } },
           React.createElement(ColumnHeader, { column }),
           React.createElement("div", { className: "cards-wrapper" }, column.cards.map(item => React.createElement(Card, { key: item.id, item, draggable: false })))))))));
   assert.ok(markup.includes("50.500,00 Euro"));

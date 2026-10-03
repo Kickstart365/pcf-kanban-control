@@ -1,10 +1,17 @@
-# Kickstart365 Kanban 1.8.0 DEV pilot
+# Kickstart365 Kanban 1.9.0 DEV pilot
+
+For all settings and examples, see the complete
+[configuration manual](CONFIGURATION.md). For side panes, column colors,
+editable fields and pilot checks, see [Interaction settings](INTERACTION-SETTINGS.md).
+Upgrade the existing
+`Kickstart365Kanban` installation using the matching managed/unmanaged package;
+the control identity is unchanged from 1.8.
 
 ## Identity
 
 - Control namespace: `kickstart365`; constructor: `KanbanViewControl`.
-- Control version: `1.8.0`; display name: **Kickstart365 Kanban**.
-- Solution: `Kickstart365Kanban`, version `1.8.0.0`.
+- Control version: `1.9.0`; display name: **Kickstart365 Kanban**.
+- Solution: `Kickstart365Kanban`, version `1.9.0.0`.
 - Publisher: `kickstart365`; customization prefix: `k365`.
 
 This is a separate control identity, so it can be tested alongside the original
@@ -34,17 +41,22 @@ npm ci --no-audit --no-fund
 Microsoft packaging reference:
 https://learn.microsoft.com/en-us/power-apps/developer/component-framework/import-custom-controls
 
-## Install and configure in DEV
+## Install, upgrade and configure
 
 1. Download the artifact from a green workflow run for the reviewed commit.
-   Extract the artifact archive; the inner `_unmanaged.zip` is the DEV solution
-   to import, rather than the outer Actions artifact ZIP. Keep the managed ZIP
-   for testing the later release/import path.
-2. Select the intended DEV environment at https://make.powerapps.com, then
-   import the unmanaged solution through **Solutions → Import**.
+   Extract the artifact archive: import an inner solution ZIP, not the outer
+   Actions artifact ZIP. Use `_unmanaged.zip` for development/customization, or
+   `_managed.zip` to test the managed installation path.
+2. Select the intended environment at https://make.powerapps.com, then import
+   the chosen solution through **Solutions → Import**. If `Kickstart365Kanban`
+   is already installed, use the matching package type: managed for managed,
+   unmanaged for unmanaged. Keep the same solution identity and import the
+   newer version; do not uninstall the control to perform this upgrade.
 3. In the Opportunity view's control configuration, add **Kickstart365 Kanban**
    and follow [the configuration guide](OPPORTUNITY-CONFIGURATION.md).
-4. Save/publish the view/app and verify the runtime checks in that guide plus
+4. Save/publish the view/app. In the app, select the view and, where needed,
+   **Show as → Kickstart365 Kanban**; Microsoft Kanban is a separate control.
+   Verify the runtime checks in that guide plus
    [the technical checks](OPPORTUNITY-FOUNDATION.md).
 
 The package only contains the control. It creates no Opportunity view, BPF,

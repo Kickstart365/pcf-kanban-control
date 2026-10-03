@@ -9,6 +9,7 @@ import { BoardContext } from "../../context/board-context";
 import { useContext } from "react";
 import { MultiType } from "../../interfaces/card.type";
 import { cardDisplayText } from "../../lib/card-data";
+import InlineFieldEditor from "./InlineFieldEditor";
 
 interface HtmlSanitizeParams {
   allowedHtmlTagsOnCard?: { raw?: string };
@@ -37,6 +38,7 @@ interface ICardInfoProps {
   showEmailAndPhoneAsLinks?: boolean,
   /** When true, the field value uses text-overflow: ellipsis (single line); otherwise multi-line clamp. */
   textEllipsis?: boolean,
+  editable?: boolean,
 }
 
 const CARD_INFO_GAP_PX = 16;
@@ -47,7 +49,7 @@ function getColumnDataType(dataset: { columns?: { name: string; dataType?: strin
   return col?.dataType;
 }
 
-const CardDetails = ({ id, fieldName, info, displayLabelOverride, renderAsHtml = false, hideLabel = false, widthPercent, lookupAsPersona = false, lookupPersonaIconOnly = false, showEmailAndPhoneAsLinks = false, textEllipsis = false }: ICardInfoProps) => {
+const CardDetails = ({ id, fieldName, info, displayLabelOverride, renderAsHtml = false, hideLabel = false, widthPercent, lookupAsPersona = false, lookupPersonaIconOnly = false, showEmailAndPhoneAsLinks = false, textEllipsis = false, editable = false }: ICardInfoProps) => {
   const { context, openFormWithLoading } = useContext(BoardContext);
   const htmlHostRef = useRef<HTMLDivElement>(null);
   const columnDataType = getColumnDataType(context.parameters?.dataset as { columns?: { name: string; dataType?: string }[] }, fieldName);
@@ -62,7 +64,7 @@ const CardDetails = ({ id, fieldName, info, displayLabelOverride, renderAsHtml =
     switch(typeof value) {
       case "number":
         return isNullOrEmpty(value) ? context.formatting.formatCurrency(0) : context.formatting.formatCurrency(value)
-      default: 
+      default:
         return isNullOrEmpty(value) || value == "Unallocated" ? "-" : cardDisplayText(value);
     }
   }
@@ -115,11 +117,7 @@ const CardDetails = ({ id, fieldName, info, displayLabelOverride, renderAsHtml =
 
   const cardInfoClassName = "card-info" + (textEllipsis ? " card-info--ellipsis" : "");
 
-  return ( 
-    <div className={cardInfoClassName} style={flexStyle} data-field-logical-name={fieldName ?? undefined}>
-      {!hideLabel && (
-        <Text className="card-info-label" variant="small">{label}</Text>
-      )}
+  const content = (<>
       {
         isEntityReference(info.value) ? <Lookup info={info} onOpenLookup={onLookupClicked} displayAsPersona={lookupAsPersona} personaIconOnly={lookupPersonaIconOnly} />
           : renderAsHtml
@@ -163,6 +161,14 @@ const CardDetails = ({ id, fieldName, info, displayLabelOverride, renderAsHtml =
                   </Text>
                 )
       }
+  </>);
+
+  return (
+    <div className={cardInfoClassName} style={flexStyle} data-field-logical-name={fieldName ?? undefined}>
+      {!hideLabel && (
+        <Text className="card-info-label" variant="small">{label}</Text>
+      )}
+      {editable && fieldName ? <InlineFieldEditor recordId={String(id)} field={fieldName} label={label}>{content}</InlineFieldEditor> : content}
     </div>
   );
 }
@@ -172,7 +178,7 @@ interface IProps {
 }
 
 const CardDetailsList = ({ children }: IProps) => {
-  return ( 
+  return (
     <div className="card-info-container">
       {children}
     </div>

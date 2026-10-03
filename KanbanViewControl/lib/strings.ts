@@ -73,9 +73,29 @@ export interface Strings {
   recordCountLabel: (count: number) => string;
   columnTotalsLabel: string;
   totalNeedsCurrencyLabel: string;
+  recordDetailsLabel: string;
+  sidePaneFallbackLabel: string;
+  openRecordErrorLabel: string;
+  saveLabel: string;
+  cancelLabel: string;
+  editLabel: string;
+  dragCardLabel: string;
+  refreshLabel: string;
+  finishEditingLabel: string;
+  inlineSaveErrorLabel: string;
+  inlineErrors: Record<string, string>;
 }
 
 const en: Strings = {
+  recordDetailsLabel: "Record details", sidePaneFallbackLabel: "Side pane unavailable here; opened in a dialog.",
+  openRecordErrorLabel: "Could not open the record.", saveLabel: "Save", cancelLabel: "Cancel", editLabel: "Edit",
+  dragCardLabel: "Move card", refreshLabel: "Refresh", finishEditingLabel: "Save or cancel your edit first.",
+  inlineSaveErrorLabel: "Could not save this change.",
+  inlineErrors: { invalidNumber: "Enter a number without grouping separators.", invalidProbability: "Enter a whole number from 0 to 100.",
+    invalidDate: "Enter a valid date.", closed: "Only open Opportunities can be edited here.", calculated: "Revenue is calculated from products. Edit it in the record form.",
+    conflict: "This value changed while you were editing. Cancel and reopen the editor to load the current value.",
+    unsupported: "This field cannot be edited here. Use the record form.", required: "This field is required.",
+    tooLong: "The text exceeds this field's maximum length.", range: "The number is outside this field's allowed range." },
   dateFilterAll: "(All)",
   dateFilterToday: "Today",
   dateFilterLast7: "Last 7 days",
@@ -143,6 +163,14 @@ const en: Strings = {
 };
 
 const de: Strings = {
+  recordDetailsLabel: "Datensatzdetails", sidePaneFallbackLabel: "Seitenbereich nicht verfügbar; als Dialog geöffnet.",
+  openRecordErrorLabel: "Der Datensatz konnte nicht geöffnet werden.", saveLabel: "Speichern", cancelLabel: "Abbrechen", editLabel: "Bearbeiten",
+  dragCardLabel: "Karte verschieben", refreshLabel: "Aktualisieren", finishEditingLabel: "Zuerst speichern oder abbrechen.",
+  inlineSaveErrorLabel: "Die Änderung konnte nicht gespeichert werden.",
+  inlineErrors: { invalidNumber: "Eine Zahl ohne Tausendertrennzeichen eingeben.", invalidProbability: "Eine ganze Zahl von 0 bis 100 eingeben.",
+    invalidDate: "Ein gültiges Datum eingeben.", closed: "Hier können nur offene Verkaufschancen bearbeitet werden.", calculated: "Der Umsatz wird aus Produkten berechnet. Das Formular verwenden.",
+    conflict: "Der Wert wurde inzwischen geändert. Abbrechen und erneut öffnen.", unsupported: "Dieses Feld im Formular bearbeiten.",
+    required: "Dieses Feld ist erforderlich.", tooLong: "Der Text ist zu lang.", range: "Die Zahl liegt außerhalb des erlaubten Bereichs." },
   dateFilterAll: "(Alle)",
   dateFilterToday: "Heute",
   dateFilterLast7: "Letzte 7 Tage",
@@ -210,6 +238,15 @@ const de: Strings = {
 };
 
 const nl: Strings = {
+  recordDetailsLabel: "Recorddetails", sidePaneFallbackLabel: "Zijpaneel hier niet beschikbaar; geopend in een dialoog.",
+  openRecordErrorLabel: "Het record kon niet worden geopend.", saveLabel: "Opslaan", cancelLabel: "Annuleren", editLabel: "Aanpassen",
+  dragCardLabel: "Kaart verplaatsen", refreshLabel: "Verversen", finishEditingLabel: "Sla je wijziging eerst op of annuleer deze.",
+  inlineSaveErrorLabel: "De wijziging kon niet worden opgeslagen.",
+  inlineErrors: { invalidNumber: "Voer een getal in zonder duizendtalscheiding.", invalidProbability: "Voer een geheel getal van 0 tot 100 in.",
+    invalidDate: "Voer een geldige datum in.", closed: "Je kunt hier alleen open Opportunities aanpassen.", calculated: "Omzet wordt uit producten berekend. Pas deze aan in het formulier.",
+    conflict: "Deze waarde is ondertussen gewijzigd. Annuleer en open de bewerking opnieuw om de actuele waarde te laden.",
+    unsupported: "Dit veld kun je hier niet aanpassen. Gebruik het formulier.", required: "Dit veld is verplicht.",
+    tooLong: "De tekst is langer dan dit veld toestaat.", range: "Het getal valt buiten het toegestane bereik van dit veld." },
   dateFilterAll: "(Alles)", dateFilterToday: "Vandaag", dateFilterLast7: "Laatste 7 dagen",
   dateFilterLast30: "Laatste 30 dagen", dateFilterCurrentMonth: "Deze maand", dateFilterCurrentYear: "Dit jaar",
   dateFilterCurrentWeek: "Deze week", dateFilterNextWeek: "Volgende week", dateFilterNextMonth: "Volgende maand",

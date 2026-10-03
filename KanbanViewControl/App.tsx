@@ -5,7 +5,7 @@ import { useMemo, useState, useRef, useCallback, useEffect } from "react";
 import { BoardContext, ConfigError, QuickFilterFieldConfig, SortFieldConfig, SortDirection, FilterPresetConfig } from "./context/board-context";
 import { ColumnItem, ViewItem, ViewEntity } from "./interfaces";
 import Loading from "./components/container/loading";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useDataverse } from "./hooks/useDataverse";
 import { useNavigation } from "./hooks/useNavigation";
 import { getColumnValue, isBooleanColumnDataType, isDateColumnDataType, isNumberColumnDataType, toComparableDate, toComparableNumber, isDateInFilterRange, isNumberInFilterRange } from "./lib/utils";
@@ -16,6 +16,7 @@ import { Spinner, SpinnerSize } from "@fluentui/react";
 import { IDropdownOption } from "@fluentui/react/lib/Dropdown";
 import { CardInfo } from "./interfaces";
 import { buildCards, cardDisplayText, matchesCardSearch, matchesTextFilter } from "./lib/card-data";
+import { attributeMetadataType, InlineDefinition, InlineEditError, inlineDefinition, inlineKind, parseInlineFields } from "./lib/inline-edit";
 
 const QUICK_FILTER_ALL_KEY = "__all__";
 const QUICK_FILTER_EMPTY_KEY = "__empty__";
@@ -211,6 +212,15 @@ const App = ({ context, notificationPosition, datasetRevision }: IProps) => {
   useEffect(() => { setCompactMode(compactCardsRaw === true); }, [compactCardsRaw]);
   const metadataRequestRef = useRef(0);
   const openingRef = useRef(false);
+  const inlineEditRef = useRef<string | null>(null);
+  const [inlineEditKey, setInlineEditKey] = useState<string | null>(null);
+  const beginInlineEdit = useCallback((key: string) => {
+    if (inlineEditRef.current || movePendingRef.current || openingRef.current || draggingRef.current) return false;
+    inlineEditRef.current = key; setInlineEditKey(key); return true;
+  }, []);
+  const finishInlineEdit = useCallback((key: string) => {
+    if (inlineEditRef.current === key) { inlineEditRef.current = null; setInlineEditKey(null); }
+  }, []);
 
   const cardMoveValidationFunctionName = useMemo(() => {
     const raw = (context.parameters as { cardMoveValidationFunction?: { raw?: string } }).cardMoveValidationFunction?.raw;
@@ -253,9 +263,41 @@ const App = ({ context, notificationPosition, datasetRevision }: IProps) => {
     (context as { userSettings?: { languageId?: number } }).userSettings?.languageId
   );
   const { getOptionSets, getBusinessProcessFlows } = useDataverse(context, reportConfigError, clearConfigError);
-  const { openForm, openEntityInNewTab } = useNavigation(context);
+  const { openForm, openEntityInNewTab } = useNavigation(context, () => !!inlineEditRef.current || movePendingRef.current || draggingRef.current);
   const { dataset } = context.parameters;
   const showOpenInNewTabButton = (context.parameters as { showOpenInNewTabButton?: { raw?: boolean } }).showOpenInNewTabButton?.raw === true;
+  const inlineFieldsRaw = (context.parameters as { inlineEditFields?: { raw?: string } }).inlineEditFields?.raw;
+  const inlineMode = (context.parameters as { allowInlineEdit?: { raw?: string | boolean } }).allowInlineEdit?.raw;
+  const inlineEnabled = inlineMode !== false && inlineMode !== "disabled";
+  const inlineParsed = useMemo(() => {
+    try { return { fields: parseInlineFields(inlineFieldsRaw), error: "" }; }
+    catch (reason) { return { fields: [], error: reason instanceof Error ? reason.message : String(reason) }; }
+  }, [inlineFieldsRaw]);
+  useEffect(() => {
+    if (inlineParsed.error) reportConfigError("inlineEditFields", inlineParsed.error);
+    else clearConfigError("inlineEditFields");
+  }, [inlineParsed, reportConfigError, clearConfigError]);
+  const inlineEditableFields = inlineEnabled && dataset.getTargetEntityType() === "opportunity" && !context.mode.isControlDisabled
+    ? inlineParsed.fields.filter(field => inlineKind(dataset.columns.find(column => column.name === field)?.dataType)) : [];
+  const inlineMetadataCache = useMemo(() => new Map<string, Promise<InlineDefinition>>(), [dataset.getTargetEntityType(), inlineFieldsRaw]);
+  const getInlineDefinition = useCallback((field: string): Promise<InlineDefinition> => {
+    const column = dataset.columns.find(column => column.name === field);
+    const type = attributeMetadataType(column?.dataType ?? "");
+    if (!inlineParsed.fields.includes(field) || !type || !/^[a-z][a-z0-9_]*$/.test(field)) return Promise.reject(new InlineEditError("unsupported"));
+    const cacheKey = `${field}:${column?.dataType}`;
+    let result = inlineMetadataCache.get(cacheKey);
+    if (!result) {
+      result = fetch(`/api/data/v9.2/EntityDefinitions(LogicalName='opportunity')/Attributes(LogicalName='${field}')/Microsoft.Dynamics.CRM.${type}AttributeMetadata`,
+        { credentials: "same-origin", headers: { Accept: "application/json", "OData-Version": "4.0", "OData-MaxVersion": "4.0" } })
+        .then(async response => {
+          if (!response.ok) throw new InlineEditError("unsupported");
+          return inlineDefinition(field, column!.dataType, await response.json());
+        });
+      inlineMetadataCache.set(cacheKey, result);
+      void result.catch(() => { inlineMetadataCache.delete(cacheKey); });
+    }
+    return result;
+  }, [dataset.columns, inlineParsed.fields, inlineMetadataCache]);
 
   const quickFilterFieldsParam = (context.parameters as { quickFilterFields?: { raw?: string } }).quickFilterFields?.raw;
   const quickFilterFieldsParsed = useMemo(
@@ -264,7 +306,7 @@ const App = ({ context, notificationPosition, datasetRevision }: IProps) => {
   );
   const compactCardFieldsRaw = (context.parameters as { compactCardFields?: { raw?: string } }).compactCardFields?.raw;
   const compactCardFields = useMemo(() => Array.from(new Set(parseQuickFilterFieldsRaw(
-    compactCardFieldsRaw ?? "parentaccountid,estimatedvalue,estimatedclosedate,ownerid",
+    compactCardFieldsRaw ?? "parentaccountid,estimatedvalue,closeprobability,estimatedclosedate,ownerid",
     reportConfigError, clearConfigError, "compactCardFields"
   ))), [compactCardFieldsRaw, reportConfigError, clearConfigError]);
 
@@ -572,16 +614,19 @@ const App = ({ context, notificationPosition, datasetRevision }: IProps) => {
   }, [quickFiltersStorageKey, quickFilterValues, searchKeyword, sortByField, sortDirection, selectedFilterPresetId]);
 
   const openFormWithLoading = useCallback(async (entityName: string, id?: string) => {
+    if (inlineEditRef.current) { toast(getStrings(locale).finishEditingLabel); return; }
     if (openingRef.current) return;
     openingRef.current = true;
     setIsOpeningEntity(true);
     try {
       await openForm(entityName, id);
+    } catch (reason) {
+      toast.error(typeof reason === "object" && reason != null && "message" in reason ? String((reason as { message: unknown }).message) : getStrings(locale).openRecordErrorLabel);
     } finally {
       openingRef.current = false;
       setIsOpeningEntity(false);
     }
-  }, [openForm]);
+  }, [openForm, locale]);
 
   const allCards = useMemo(() => activeView ? buildCards(dataset, activeView) : [],
     [datasetRevision, activeView, dataset.columns]);
@@ -761,6 +806,11 @@ const App = ({ context, notificationPosition, datasetRevision }: IProps) => {
         compactMode,
         setCompactMode,
         compactCardFields,
+        inlineEditableFields,
+        inlineEditKey,
+        beginInlineEdit,
+        finishInlineEdit,
+        getInlineDefinition,
         isOpeningEntity,
         openFormWithLoading,
         openEntityInNewTab,

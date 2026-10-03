@@ -93,7 +93,7 @@ test("Board sends numeric choice IDs to Dataverse, rather than droppable strings
   };
   const dragContext = function DragDropContext() {};
   const load = sourceLoader({
-    react: { useContext: () => board, useMemo: fn => fn(), createElement: (type, props, ...children) => ({ type, props: { ...props, children } }) },
+    react: { useContext: () => board, useMemo: fn => fn(), useEffect: () => {}, createElement: (type, props, ...children) => ({ type, props: { ...props, children } }) },
     "..": { CommandBar: "command", Column: "column", QuickFilters: "filters" },
     "../../context/board-context": {},
     "../../hooks/useDnD": { useDnD: () => ({ onDragEnd: async (result, record) => { saved = record; return { shouldRefresh: true }; } }) },

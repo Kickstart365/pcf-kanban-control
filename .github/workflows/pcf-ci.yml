@@ -37,12 +37,17 @@ jobs:
         run: npm run build -- --buildMode production
       - name: Render card and header preview
         run: node tests/render-preview.cjs
+      - name: Build interactive component preview
+        run: node tests/build-interaction-preview.cjs
       - name: Install pinned browser for visual inspection
         run: npx --yes --package=playwright@1.56.1 playwright install chromium --with-deps
       - name: Capture compact and expanded layouts
         run: |
           npx --yes --package=playwright@1.56.1 playwright screenshot --browser=chromium --viewport-size=1440,900 --full-page file://$PWD/out/preview/compact.html out/preview/compact.png
           npx --yes --package=playwright@1.56.1 playwright screenshot --browser=chromium --viewport-size=1440,900 --full-page file://$PWD/out/preview/expanded.html out/preview/expanded.png
+      - name: Test browser interactions
+        run: |
+          PLAYWRIGHT_MODULE="$(find "$HOME/.npm/_npx" -path '*/node_modules/playwright/package.json' -print -quit | sed 's|/package.json$||')" node tests/browser-interactions.cjs
       - name: Upload compiled control (not a Dataverse solution)
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
