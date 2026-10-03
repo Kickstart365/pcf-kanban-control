@@ -1,5 +1,9 @@
 # Kickstart365 Kanban 1.9 interaction settings
 
+For the complete Dutch reference covering **all 46 configuration options**,
+defaults and Opportunity examples, see [CONFIGURATION.md](CONFIGURATION.md).
+This page focuses on the 1.9 interaction details and runtime pilot checks.
+
 ## Record side pane
 
 `recordOpenMode` defaults to `sidePane`; choose `dialog` to retain the centered
@@ -59,7 +63,7 @@ displaying a field does not enable editing. The title field can also be listed.
 Hidden fields remain hidden.
 
 Supported: plain text, multiline text, whole/decimal/floating-point numbers,
-money and dates with **DateOnly behavior**. Lookup, choice, Boolean, UserLocal
+money and dates with **DateOnly behavior**. Lookup, choice, Boolean, URL, UserLocal
 date/time, calculated, formula, rollup, secured and base-currency fields use the
 record form in this version. Attribute metadata is checked before editing;
 required fields, maximum text lengths and numeric ranges are validated.
