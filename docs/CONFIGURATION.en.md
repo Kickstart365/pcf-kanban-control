@@ -2,25 +2,25 @@
 
 **Language: English | [Nederlands](CONFIGURATION.md)**
 
-For **control 1.9.1 / solution 1.9.1.0**. This guide covers all **46 input
+For **control 1.10.0 / solution 1.10.0.0**. This guide covers all **47 input
 settings** in `ControlManifest.Input.xml`, checked against the implementation.
-`dataset` is the connected Dataverse view and is separate from those 46 options.
+`dataset` is the connected Dataverse view and is separate from those 47 options.
 All input settings are optional.
 
 ## Download the solutions
 
-These are the verified **1.9.1.0** packages from the successful build of
-[`main` at `759bdd6`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37283524363).
+These are the verified **1.10.0.0** packages from
+[the successful PR integration build at `3417806`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37289034913).
 Each link downloads an importable solution ZIP directly.
 
 | Package | Download | Use |
 | --- | --- | --- |
-| Managed | [Kickstart365Kanban_1_9_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.1.0/Kickstart365Kanban_1_9_1_0_managed.zip) | Installing or updating an existing managed installation. |
-| Unmanaged | [Kickstart365Kanban_1_9_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.1.0/Kickstart365Kanban_1_9_1_0_unmanaged.zip) | Development/customization or updating an existing unmanaged installation. |
+| Managed | [Kickstart365Kanban_1_10_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_managed.zip) | Installing or updating an existing managed installation. |
+| Unmanaged | [Kickstart365Kanban_1_10_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_unmanaged.zip) | Development/customization or updating an existing unmanaged installation. |
 
 Import the downloaded ZIP using **Solutions → Import** in Power Apps. For an
 existing installation, keep its managed/unmanaged package type. These direct
-downloads do not need to be extracted. [Checksums and build source](../downloads/1.9.1.0/README.md)
+downloads do not need to be extracted. [Checksums and build source](../downloads/1.10.0.0/README.md)
 are included with the downloads.
 
 ## Contents
@@ -28,6 +28,7 @@ are included with the downloads.
 - [Download the solutions](#download-the-solutions)
 - [Set up in Power Apps](#set-up-in-power-apps)
 - [Field names, JSON and defaults](#field-names-json-and-defaults)
+- [Config (JSON)](#config-json)
 - [All configuration options](#all-configuration-options)
 - [Opportunity: recommended setup](#opportunity-recommended-setup)
 - [Grouping and BPF stages](#grouping-and-bpf-stages)
@@ -102,7 +103,18 @@ fields or no inline editable fields. The maker may pass empty text as "not
 supplied"; prefer the relevant enable/disable option or `[]` when turning a
 feature off.
 
+## Config (JSON)
+
+From 1.10.0, combine all existing settings in one **Config (JSON)** value.
+Individual settings remain supported. Use **Export configuration** on the board
+to migrate the current configuration. See
+[JSON configuration, precedence, migration and schema](CONFIG-JSON.en.md).
+
 ## All configuration options
+
+| Property | Maker label | Type/default | Explanation |
+| --- | --- | --- | --- |
+| `config` | Config (JSON) | Multiple (JSON object); empty | Combines the other 46 options. Supplied valid values win per setting/field; omitted values use individual settings. See the [JSON guide](CONFIG-JSON.en.md). |
 
 ### Grouping and record actions — 10 options
 

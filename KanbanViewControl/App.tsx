@@ -125,6 +125,8 @@ function parseQuickFilterFieldsRaw(
 }
 
 interface IProps {
+  configurationIssues?: ConfigError[];
+  configurationExport?: { json: string; issues: ConfigError[] };
   context: ComponentFramework.Context<IInputs>;
   datasetRevision: number;
   notificationPosition:
@@ -136,7 +138,7 @@ interface IProps {
     | "bottom-right";
 }
 
-const App = ({ context, notificationPosition, datasetRevision }: IProps) => {
+const App = ({ context, notificationPosition, datasetRevision, configurationIssues = [], configurationExport }: IProps) => {
   // View ID for local storage scope: store quick filters per view separately
   const viewId = (context.parameters?.dataset as { getViewId?: () => string })?.getViewId?.() ?? "";
   const quickFiltersStorageKey =
@@ -816,6 +818,7 @@ const App = ({ context, notificationPosition, datasetRevision }: IProps) => {
         openEntityInNewTab,
         showOpenInNewTabButton,
         configErrors,
+        configurationExport,
         reportConfigError,
         clearConfigError,
         quickFilterFieldsConfig,
@@ -836,11 +839,11 @@ const App = ({ context, notificationPosition, datasetRevision }: IProps) => {
       }}
     >
       <div className="app-content-wrapper">
-        {configErrors.length > 0 && (
+        {(configErrors.length > 0 || configurationIssues.length > 0) && (
           <div className="config-errors-banner" role="alert">
-            <strong>Configuration errors:</strong>
+            <strong>{getStrings(locale).configurationErrorsLabel}:</strong>
             <ul>
-              {configErrors.map((err, i) => (
+              {[...configurationIssues, ...configErrors].map((err, i) => (
                 <li key={i}>
                   <strong>{err.property}</strong>: {err.message}
                 </li>

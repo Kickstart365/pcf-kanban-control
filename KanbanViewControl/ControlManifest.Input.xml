@@ -3,12 +3,14 @@
   <control 
     namespace="kickstart365"
     constructor="KanbanViewControl" 
-    version="1.9.1"
+    version="1.10.0"
     display-name-key="Kickstart365 Kanban"
     description-key="PowerApps Component Framework control (PCF) that allows users to see records in a kanban view format." 
     control-type="virtual"
   >
     <data-set name="dataset" display-name-key="Dataset" />
+    <property name="config" display-name-key="Config (JSON)" of-type="Multiple" usage="input" required="false"
+      description-key="One JSON object for all settings. JSON values override individual settings; omitted values keep them. Use Export configuration on the board to migrate. See the configuration guide and JSON schema." />
 
     <property name="recordOpenMode" display-name-key="Open records in" of-type="Enum" usage="input" required="false" default-value="sidePane"
       description-key="Use a native app side pane in web browsers, or a centered dialog. Falls back to a dialog when side panes are unavailable.">

@@ -74,6 +74,7 @@ interface IBoardContext {
   showOpenInNewTabButton: boolean,
   /** Reported JSON/configuration validation errors (property name + message) */
   configErrors: ConfigError[],
+  configurationExport?: { json: string; issues: ConfigError[] },
   /** Reports a configuration error (e.g. invalid JSON); stored only once per property/message */
   reportConfigError: (property: string, message: string) => void,
   /** Clears reported errors for a property (e.g. when parse succeeds after fix) */

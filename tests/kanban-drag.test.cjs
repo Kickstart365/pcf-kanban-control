@@ -98,6 +98,7 @@ test("Board sends numeric choice IDs to Dataverse, rather than droppable strings
     "../../context/board-context": {},
     "../../hooks/useDnD": { useDnD: () => ({ onDragEnd: async (result, record) => { saved = record; return { shouldRefresh: true }; } }) },
     "@hello-pangea/dnd": { DragDropContext: dragContext },
+    "./ConfigurationExport": { ConfigurationExport: "configuration-export" },
   }, { setTimeout: fn => fn() });
   const tree = load("components/board/Board").default();
   const find = node => node && (node.type === dragContext ? node : node.props?.children?.flatMap(child => Array.isArray(child) ? child : [child]).map(find).find(Boolean));

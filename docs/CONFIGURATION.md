@@ -2,32 +2,33 @@
 
 **Taal: Nederlands | [English](CONFIGURATION.en.md)**
 
-Voor **control 1.9.1 / solution 1.9.1.0**. Deze handleiding beschrijft alle
-**46 inputinstellingen** uit `ControlManifest.Input.xml`, gecontroleerd tegen
+Voor **control 1.10.0 / solution 1.10.0.0**. Deze handleiding beschrijft alle
+**47 inputinstellingen** uit `ControlManifest.Input.xml`, gecontroleerd tegen
 de implementatie. `dataset` is de gekoppelde Dataverse-weergave en staat los
-van die 46 opties. Alle inputinstellingen zijn optioneel.
+van die 47 opties. Alle inputinstellingen zijn optioneel.
 
 ## Solutions downloaden
 
-Dit zijn de gecontroleerde pakketten van **1.9.1.0** uit de geslaagde build
-van [`main` op `759bdd6`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37283524363).
+Dit zijn de gecontroleerde pakketten van **1.10.0.0** uit
+[de geslaagde PR-build op `3417806`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37289034913).
 Elke link downloadt rechtstreeks een importeerbare solution-ZIP.
 
 | Pakket | Download | Gebruik |
 | --- | --- | --- |
-| Managed | [Kickstart365Kanban_1_9_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.1.0/Kickstart365Kanban_1_9_1_0_managed.zip) | Installeren of bijwerken van een bestaande managed installatie. |
-| Unmanaged | [Kickstart365Kanban_1_9_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.1.0/Kickstart365Kanban_1_9_1_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een bestaande unmanaged installatie. |
+| Managed | [Kickstart365Kanban_1_10_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_managed.zip) | Installeren of bijwerken van een bestaande managed installatie. |
+| Unmanaged | [Kickstart365Kanban_1_10_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een bestaande unmanaged installatie. |
 
 Importeer de gedownloade ZIP via **Solutions → Import** in Power Apps. Houd
 bij een bestaande installatie hetzelfde managed/unmanaged-pakkettype aan.
 Deze directe downloads hoef je niet uit te pakken.
-[Checksums en buildherkomst](../downloads/1.9.1.0/README.md) staan bij de downloads.
+[Checksums en buildherkomst](../downloads/1.10.0.0/README.md) staan bij de downloads.
 
 ## Inhoud
 
 - [Solutions downloaden](#solutions-downloaden)
 - [Instellen in Power Apps](#instellen-in-power-apps)
 - [Veldnamen, JSON en standaardwaarden](#veldnamen-json-en-standaardwaarden)
+- [Config (JSON)](#config-json)
 - [Alle configuratieopties](#alle-configuratieopties)
 - [Opportunity: aanbevolen inrichting](#opportunity-aanbevolen-inrichting)
 - [Groeperen en BPF-fases](#groeperen-en-bpf-fases)
@@ -103,7 +104,18 @@ compacte detailvelden of geen inline bewerkbare velden te selecteren. Een lege
 tekst kan door de maker als "niet opgegeven" worden aangeleverd; gebruik voor
 uitschakelen liever de beschikbare aan/uit-optie of `[]`.
 
+## Config (JSON)
+
+Vanaf 1.10.0 kun je alle bestaande opties bundelen in één **Config (JSON)**-waarde.
+Bestaande losse instellingen blijven ondersteund. Gebruik de knop
+**Configuratie exporteren** op het board om je huidige inrichting over te nemen.
+Zie [JSON-configuratie, voorrang, migratie en schema](CONFIG-JSON.md).
+
 ## Alle configuratieopties
+
+| Property | Makerlabel | Type/default | Toelichting |
+| --- | --- | --- | --- |
+| `config` | Config (JSON) | Multiple (JSON-object); leeg | Bundelt de 46 overige opties. Geldige opgegeven waarden winnen per instelling/veld; ontbrekende waarden gebruiken de losse instellingen. Zie [JSON-guide](CONFIG-JSON.md). |
 
 ### Groepering en recordacties — 10 opties
 

@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "board": {
+    "totals": {
+      "field": "estimatedvalue"
+    },
+    "columnColors": [
+      {
+        "id": "Qualify",
+        "color": "#0078D4"
+      },
+      {
+        "id": "Develop",
+        "color": "#009C91"
+      }
+    ]
+  },
+  "card": {
+    "open": {
+      "mode": "sidePane",
+      "width": 600
+    },
+    "editing": {
+      "mode": "enabled",
+      "fields": [
+        "estimatedvalue",
+        "estimatedclosedate"
+      ]
+    },
+    "compact": {
+      "enabled": true,
+      "fields": [
+        "customerid",
+        "estimatedvalue",
+        "estimatedclosedate",
+        "ownerid"
+      ]
+    },
+    "closeDate": {
+      "show": true,
+      "field": "estimatedclosedate",
+      "warningDays": 7
+    },
+    "fields": {
+      "estimatedvalue": {
+        "displayName": "Estimated revenue",
+        "hideLabel": true
+      },
+      "ownerid": {
+        "persona": true
+      },
+      "description": {
+        "width": 100,
+        "ellipsis": true
+      }
+    }
+  },
+  "filters": {
+    "quickFilters": [
+      "estimatedvalue",
+      {
+        "field": "ownerid",
+        "inPopup": true
+      }
+    ]
+  },
+  "notifications": {
+    "position": "top-right"
+  },
+  "$schema": "https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/docs/kanban-config.schema.json"
+}

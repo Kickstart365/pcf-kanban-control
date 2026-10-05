@@ -1,0 +1,624 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/docs/kanban-config.schema.json",
+  "title": "Kickstart365 Kanban configuration v1",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "view": {
+      "type": "object",
+      "properties": {
+        "default": {
+          "type": "string",
+          "x-property": "defaultView"
+        },
+        "hide": {
+          "type": "boolean",
+          "x-property": "hideViewBy"
+        },
+        "bpf": {
+          "type": "object",
+          "properties": {
+            "exclude": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "x-property": "filteredBusinessProcessFlows"
+            },
+            "stageOrder": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "order": {
+                    "type": "number"
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "order"
+                ]
+              },
+              "x-property": "businessProcessFlowStepOrder"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "board": {
+      "type": "object",
+      "properties": {
+        "hideEmptyColumns": {
+          "type": "boolean",
+          "x-property": "hideEmptyColumns"
+        },
+        "fullWidth": {
+          "type": "boolean",
+          "x-property": "expandBoardToFullWidth"
+        },
+        "minColumnWidth": {
+          "type": "integer",
+          "minimum": 200,
+          "maximum": 1200,
+          "x-property": "minColumnWidth"
+        },
+        "maxColumnWidth": {
+          "type": "integer",
+          "minimum": 200,
+          "maximum": 2000,
+          "x-property": "maxColumnWidth"
+        },
+        "initialCardsVisible": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500,
+          "x-property": "initialCardsVisible"
+        },
+        "columnWidths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "\\S"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 200,
+                "maximum": 1200
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "width"
+            ]
+          },
+          "x-property": "columnWidths"
+        },
+        "columnColors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "\\S"
+              },
+              "color": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "color"
+            ]
+          },
+          "x-property": "columnColors"
+        },
+        "allowCreateNew": {
+          "type": "boolean",
+          "x-property": "allowCreateNew"
+        },
+        "allowCardMove": {
+          "type": "boolean",
+          "x-property": "allowCardMove"
+        },
+        "totals": {
+          "type": "object",
+          "properties": {
+            "field": {
+              "type": "string",
+              "x-property": "columnTotalField"
+            },
+            "secondaryField": {
+              "type": "string",
+              "x-property": "columnSecondaryTotalField"
+            }
+          },
+          "additionalProperties": false
+        },
+        "cardMoveValidation": {
+          "type": "object",
+          "properties": {
+            "function": {
+              "type": "string",
+              "x-property": "cardMoveValidationFunction"
+            },
+            "script": {
+              "type": "string",
+              "x-property": "cardMoveValidationScript"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "card": {
+      "type": "object",
+      "properties": {
+        "hideColumnField": {
+          "type": "boolean",
+          "x-property": "hideColumnFieldOnCard"
+        },
+        "showOpenInNewTab": {
+          "type": "boolean",
+          "x-property": "showOpenInNewTabButton"
+        },
+        "showEmailAndPhoneAsLinks": {
+          "type": "boolean",
+          "x-property": "showEmailAndPhoneAsLinks"
+        },
+        "open": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "sidePane",
+                "dialog"
+              ],
+              "x-property": "recordOpenMode"
+            },
+            "width": {
+              "type": "integer",
+              "minimum": 300,
+              "maximum": 1200,
+              "x-property": "sidePaneWidth"
+            }
+          },
+          "additionalProperties": false
+        },
+        "editing": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "enabled",
+                "disabled"
+              ],
+              "x-property": "allowInlineEdit"
+            },
+            "fields": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+              },
+              "x-property": "inlineEditFields"
+            }
+          },
+          "additionalProperties": false
+        },
+        "compact": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "x-property": "compactCards"
+            },
+            "fields": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+              },
+              "x-property": "compactCardFields"
+            }
+          },
+          "additionalProperties": false
+        },
+        "closeDate": {
+          "type": "object",
+          "properties": {
+            "show": {
+              "type": "boolean",
+              "x-property": "showCloseDateBadges"
+            },
+            "field": {
+              "type": "string",
+              "x-property": "closeDateField"
+            },
+            "warningDays": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647,
+              "x-property": "closeDateWarningDays"
+            }
+          },
+          "additionalProperties": false
+        },
+        "html": {
+          "type": "object",
+          "properties": {
+            "allowedTags": {
+              "type": "string",
+              "x-property": "allowedHtmlTagsOnCard"
+            },
+            "allowedAttributes": {
+              "type": "string",
+              "x-property": "allowedHtmlAttributesOnCard"
+            }
+          },
+          "additionalProperties": false
+        },
+        "fields": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "hidden": {
+                "type": "boolean"
+              },
+              "hideLabel": {
+                "type": "boolean"
+              },
+              "html": {
+                "type": "boolean"
+              },
+              "ellipsis": {
+                "type": "boolean"
+              },
+              "persona": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "const": "iconOnly"
+                  }
+                ]
+              },
+              "personaIconOnly": {
+                "type": "boolean"
+              },
+              "displayName": {
+                "type": "string"
+              },
+              "width": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 100
+              },
+              "highlight": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "color": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "left",
+                          "right",
+                          "cornerTopRight",
+                          "cornerBottomRight",
+                          "cornerTopLeft",
+                          "cornerBottomLeft"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false,
+                    "required": [
+                      "color"
+                    ]
+                  },
+                  {
+                    "const": null
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "hiddenFields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+          },
+          "x-property": "hiddenFieldsOnCard"
+        },
+        "htmlFields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+          },
+          "x-property": "htmlFieldsOnCard"
+        },
+        "hideLabels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+          },
+          "x-property": "hideLabelForFieldsOnCard"
+        },
+        "ellipsisFields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+          },
+          "x-property": "ellipsisFieldsOnCard"
+        },
+        "personaFields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+          },
+          "x-property": "lookupFieldsAsPersonaOnCard"
+        },
+        "personaIconOnlyFields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+          },
+          "x-property": "lookupFieldsPersonaIconOnlyOnCard"
+        },
+        "displayNames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "logicalName": {
+                "type": "string",
+                "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+              },
+              "displayName": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "logicalName",
+              "displayName"
+            ]
+          },
+          "x-property": "fieldDisplayNamesOnCard"
+        },
+        "fieldWidths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "logicalName": {
+                "type": "string",
+                "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+              },
+              "width": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 100
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "logicalName",
+              "width"
+            ]
+          },
+          "x-property": "fieldWidthsOnCard"
+        },
+        "highlights": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "logicalName": {
+                "type": "string",
+                "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+              },
+              "color": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "left",
+                  "right",
+                  "cornerTopRight",
+                  "cornerBottomRight",
+                  "cornerTopLeft",
+                  "cornerBottomLeft"
+                ]
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "logicalName",
+              "color"
+            ]
+          },
+          "x-property": "booleanFieldHighlights"
+        }
+      },
+      "additionalProperties": false
+    },
+    "filters": {
+      "type": "object",
+      "properties": {
+        "quickFilters": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "field": {
+                    "type": "string",
+                    "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+                  },
+                  "inPopup": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "field"
+                ]
+              }
+            ]
+          }
+        },
+        "sort": {
+          "type": "object",
+          "properties": {
+            "fields": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!(?:constructor|prototype)$)[a-zA-Z][a-zA-Z0-9_]*$"
+              },
+              "x-property": "sortFields"
+            },
+            "default": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "direction": {
+                  "type": "string",
+                  "enum": [
+                    "asc",
+                    "desc"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "x-property": "defaultSort"
+            }
+          },
+          "additionalProperties": false
+        },
+        "presets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "default": {
+                "type": "boolean"
+              },
+              "filters": {
+                "type": "object",
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "start": {
+                          "type": "string"
+                        },
+                        "end": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "filters"
+            ]
+          },
+          "x-property": "filterPresets"
+        }
+      },
+      "additionalProperties": false
+    },
+    "notifications": {
+      "type": "object",
+      "properties": {
+        "position": {
+          "type": "string",
+          "enum": [
+            "top-center",
+            "top-left",
+            "top-right",
+            "bottom-center",
+            "bottom-left",
+            "bottom-right"
+          ],
+          "x-property": "notificationPosition"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
