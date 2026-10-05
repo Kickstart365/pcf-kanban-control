@@ -59,6 +59,9 @@ Deze directe downloads hoef je niet uit te pakken.
    verschillen. Gebruik de Engelse labels in de tabellen hieronder.
 4. Voer tekst-/JSON-opties als vaste configuratiewaarde in. Gebruik bij
    TwoOptions de Ja/Nee-keuze en bij Enum de aangeboden keuzelijst.
+   Laat **Side pane width** en **Close date warning days** niet leeg: gebruik
+   respectievelijk `600` en `7`, of andere geldige gehele getallen. Vanaf
+   control 1.9.1 biedt het manifest deze standaardwaarden ook in de maker aan.
 5. Sla de configuratie en weergave op en publiceer de wijzigingen. Controleer
    dat de weergave in de model-driven app beschikbaar is; publiceer ook de app
    als je de appconfiguratie hebt gewijzigd.
@@ -730,6 +733,7 @@ geleverd; eigen labels/presetnamen uit de configuratie worden niet vertaald.
 | --- | --- |
 | Normale lijst of Microsoft Kanban | Controleer controltoewijzing, publicatie en **Show as → Kickstart365 Kanban**. Het managed pakket maakt geen view/appconfiguratie aan. |
 | Instelling lijkt geen effect te hebben | Open de opgeslagen configuratie opnieuw, controleer vaste waarde en gekoppelde view, publiceer en herlaad. Controleer ook een eventuele opgeslagen filter-/sorteervoorkeur. |
+| Save and publish geeft `400` / `0x80160028` en daarna Unsaved changes | Lees de Response van het mislukte `savedqueries`-verzoek. Bij `sidePaneWidth` of `closeDateWarningDays` en type `Whole.None`: vul **Side pane width** met `600` en **Close date warning days** met `7` (of geldige gehele getallen), sla de componentconfiguratie op en publiceer de view opnieuw. Heropen de view om de opgeslagen waarden te controleren. De runtime-default kan een door Dataverse afgekeurde configuratie niet herstellen. |
 | Verkeerd BPF als beginweergave | `defaultView` moet exact de zichtbare naam in **View By** zijn, niet "Kanban view" of de BPF-tabelnaam. |
 | Records bij Niet toegewezen | Controleer of ze een instantie/fase in het gekozen BPF hebben, of een aangeboden Choice-waarde. Zie de beperking voor `statuscode`. |
 | Een veld ontbreekt op de kaart | Voeg het aan de view toe; controleer `hiddenFieldsOnCard`, de actieve groepering en `compactCardFields`. Open eventueel Details. |

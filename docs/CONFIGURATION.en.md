@@ -58,6 +58,9 @@ are included with the downloads.
    English maker labels in the tables below.
 4. Enter text/JSON options as static configuration values. Use the Yes/No
    selection for TwoOptions and the provided list for Enum settings.
+   Keep **Side pane width** and **Close date warning days** filled in: use
+   `600` and `7` respectively, or other valid integers. From control 1.9.1,
+   the manifest also supplies these defaults in the maker.
 5. Save the configuration and view, and publish the changes. Ensure the view
    is available in the model-driven app; publish the app too if you changed
    its configuration.
@@ -721,6 +724,7 @@ custom labels/preset names in the configuration are not translated.
 | --- | --- |
 | Regular list or Microsoft Kanban | Check control assignment, publishing and **Show as → Kickstart365 Kanban**. The managed package does not create view/app configuration. |
 | A setting appears to do nothing | Reopen the saved configuration, check the static value and connected view, publish and reload. Also check saved filter/sort preferences. |
+| Save and publish returns `400` / `0x80160028`, followed by Unsaved changes | Read the Response of the failed `savedqueries` request. For `sidePaneWidth` or `closeDateWarningDays` with type `Whole.None`, enter `600` for **Side pane width** and `7` for **Close date warning days** (or valid integers), save the component configuration and publish the view again. Reopen the view to check the saved values. Runtime defaults cannot repair configuration rejected by Dataverse. |
 | Wrong BPF selected initially | `defaultView` must exactly match the display name in **View By**, not "Kanban view" or the BPF table name. |
 | Records under Unallocated | Check their instance/stage in the selected BPF or whether their Choice value is offered. See the `statuscode` limitation. |
 | Field missing from a card | Add it to the view; check `hiddenFieldsOnCard`, the active grouping and `compactCardFields`. Open Details if needed. |
