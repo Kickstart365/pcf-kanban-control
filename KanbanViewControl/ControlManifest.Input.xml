@@ -3,7 +3,7 @@
   <control 
     namespace="kickstart365"
     constructor="KanbanViewControl" 
-    version="1.9.0"
+    version="1.9.1"
     display-name-key="Kickstart365 Kanban"
     description-key="PowerApps Component Framework control (PCF) that allows users to see records in a kanban view format." 
     control-type="virtual"
@@ -15,7 +15,7 @@
       <value name="sidePane" display-name-key="Side pane" description-key="Open alongside the board">sidePane</value>
       <value name="dialog" display-name-key="Dialog" description-key="Open in a centered dialog">dialog</value>
     </property>
-    <property name="sidePaneWidth" display-name-key="Side pane width" of-type="Whole.None" usage="input" required="false"
+    <property name="sidePaneWidth" display-name-key="Side pane width" of-type="Whole.None" usage="input" required="false" default-value="600"
       description-key="Width in pixels, 300 to 1200. Default: 600." />
     <property name="columnColors" display-name-key="Column colors" of-type="SingleLine.TextArea" usage="input" required="false"
       description-key="JSON array of id and six-digit hex color. Match stage ID, stage name or choice value. Example: [{&quot;id&quot;:&quot;Qualify&quot;,&quot;color&quot;:&quot;#0078D4&quot;}]." />
@@ -35,7 +35,7 @@
       description-key="Show overdue, today and upcoming close dates. Include statecode to suppress badges for inactive records." />
     <property name="closeDateField" display-name-key="Close date field" of-type="SingleLine.Text" usage="input" required="false"
       description-key="Date field used by close date badges. Default: estimatedclosedate." />
-    <property name="closeDateWarningDays" display-name-key="Close date warning days" of-type="Whole.None" usage="input" required="false"
+    <property name="closeDateWarningDays" display-name-key="Close date warning days" of-type="Whole.None" usage="input" required="false" default-value="7"
       description-key="Days before the close date to show an upcoming badge. Default: 7." />
     <property name="columnTotalField" display-name-key="Column total field" of-type="SingleLine.Text" usage="input" required="false"
       description-key="Numeric field to total in column headers. Default: estimatedvalue. Money totals require transactioncurrencyid and are separated by currency." />
