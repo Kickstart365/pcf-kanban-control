@@ -141,7 +141,8 @@ function jsonArray(value: unknown): unknown[] {
   try { const parsed = JSON.parse(value); return Array.isArray(parsed) ? parsed : []; } catch { return []; }
 }
 function override(parameters: Parameters, name: string, value: unknown) {
-  const parameter = Object.create(isObject(parameters[name]) ? parameters[name] : Object.prototype);
+  const original = parameters[name];
+  const parameter = Object.create(isObject(original) ? original : Object.prototype);
   Object.defineProperty(parameter, "raw", { value, enumerable: true });
   parameters[name] = parameter;
 }
