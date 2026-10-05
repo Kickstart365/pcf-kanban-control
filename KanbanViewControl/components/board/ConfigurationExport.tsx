@@ -28,7 +28,13 @@ export const ConfigurationExport = () => {
         <ul>{configurationExport.issues.map((issue, i) => <li key={i}>{issue.property}: {issue.message}</li>)}</ul>
       </div>}
       <TextField label="Config (JSON)" multiline rows={16} readOnly value={configurationExport.json}
-        onFocus={event => event.target.select()} />
+        onFocus={event => event.target.select()}
+        onMouseUp={event => {
+          if (event.target instanceof HTMLTextAreaElement) {
+            event.preventDefault();
+            event.target.select();
+          }
+        }} />
       <div role="status">{copied ? strings.configurationCopied : copyFailed ? strings.configurationCopyFallback : ""}</div>
       <DialogFooter>
         <DefaultButton text={strings.configurationCopyLabel} onClick={() => { void copy(); }} disabled={configurationExport.issues.length > 0} />
