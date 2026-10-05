@@ -1,6 +1,6 @@
 # Kickstart365 Kanban 1.9 interaction settings
 
-For the complete reference covering **all 46 configuration options**,
+For the complete reference covering **all 47 configuration options**,
 defaults, solution downloads and Opportunity examples, see
 [English](CONFIGURATION.en.md) or [Nederlands](CONFIGURATION.md).
 This page focuses on the 1.9 interaction details and runtime pilot checks.

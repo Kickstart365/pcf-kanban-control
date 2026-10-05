@@ -3,7 +3,7 @@
 **Language: English | [Nederlands](OPPORTUNITY-CONFIGURATION.md)**
 
 The complete English guide is in [CONFIGURATION.en.md](CONFIGURATION.en.md),
-covering all **46 settings**, defaults, examples and troubleshooting.
+covering all **47 settings**, defaults, examples and troubleshooting.
 
 ## Setup
 

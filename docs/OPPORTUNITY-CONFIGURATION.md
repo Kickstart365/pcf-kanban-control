@@ -3,7 +3,7 @@
 **Taal: Nederlands | [English](OPPORTUNITY-CONFIGURATION.en.md)**
 
 De volledige Nederlandstalige handleiding staat in
-[CONFIGURATION.md](CONFIGURATION.md), met alle **46 instellingen**, hun
+[CONFIGURATION.md](CONFIGURATION.md), met alle **47 instellingen**, hun
 standaardwaarden, voorbeelden en oplossingen voor veelvoorkomende problemen.
 
 ## Inrichten
