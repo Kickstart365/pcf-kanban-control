@@ -46,7 +46,7 @@ does not automatically replace an invalid value already configured on a view.
 | `closeDateWarningDays` / Close date warning days | 7 |
 | `recordOpenMode` / Open records in | Side pane |
 | `allowInlineEdit` / Editing fields on cards | Enabled |
-| `notificationPosition` / Notification position | top-right |
+| `notificationPosition` / Notification Position | top-right |
 
 If a label differs in the maker, identify the setting by its property name.
 Config (JSON) values still override individual settings when the board runs.
@@ -59,8 +59,24 @@ Capture the failed `savedqueries` **request payload**, including
 not show the actual submitted settings. Keep the existing configuration; do
 not replace values just because the error details contain `PlaceholderString`.
 
+## Live validation on 5 October 2026
+
+In a clean Dataverse DEV environment with sample data, the managed installation
+was updated from 1.11.0.0 to 1.11.1.0. With the old version, the view still
+warned about unsaved changes after Save & Publish. With 1.11.1.0, all ten boolean
+defaults were selected automatically. Adding the control, Save & Publish and
+navigating away without a warning succeeded. The settings persisted after
+reopening; this was also checked with Config (JSON).
+
+The Opportunity view then ran in Sales Hub with BPF columns, colors, compact
+cards, date badges and estimated revenue per column. The five sample
+opportunities totaled €116,000. Moving a card from Qualify to Develop also
+changed the active BPF stage on the record; its side pane showed Develop.
+The sample opportunity was returned to Qualify and checked after refreshing.
+
 Automated checks cover manifest defaults, Config (JSON) overrides and packaged
-manifests. The final Save & Publish check must run in the affected Dataverse
-environment; a successful compile/build does not prove that server operation.
+manifests. This live validation covers the DEV test described above; validate
+Save & Publish in your own environment as well. A successful compile/build
+alone does not prove that server operation.
 
 [Microsoft: input property defaults](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/manifest-schema-reference/property)

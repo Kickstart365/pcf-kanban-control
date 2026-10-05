@@ -48,7 +48,7 @@ overschreven door een nieuwe manifestdefault.
 | `closeDateWarningDays` / Close date warning days | 7 |
 | `recordOpenMode` / Open records in | Side pane |
 | `allowInlineEdit` / Editing fields on cards | Enabled |
-| `notificationPosition` / Notification position | top-right |
+| `notificationPosition` / Notification Position | top-right |
 
 Als een property een andere naam heeft in de maker, gebruik de propertynaam om
 hem te herkennen. Een ingevulde Config (JSON)-waarde wint bij het uitvoeren van
@@ -63,9 +63,25 @@ alleen toont niet noodzakelijk de werkelijk ingestuurde instellingen. Behoud
 de bestaande config; vervang niet op basis van de tekst `PlaceholderString`
 alle waarden in de foutmelding.
 
+## Live getest op 5 oktober 2026
+
+In een schone Dataverse DEV-omgeving met sampledata is de managed installatie
+bijgewerkt van 1.11.0.0 naar 1.11.1.0. Met de oude versie bleef de view na
+Save & Publish waarschuwen voor niet-opgeslagen wijzigingen. Met 1.11.1.0
+werden alle tien Ja/Nee-defaults automatisch geselecteerd. Het toevoegen van
+de control, Save & Publish en navigeren zonder waarschuwing slaagden. Na
+heropenen bleven de instellingen staan; dit is ook getest met Config (JSON).
+
+De Opportunity-view draaide daarna in Sales Hub met BPF-kolommen, kleuren,
+compacte kaarten, datumlabels en geschatte omzet per kolom. De vijf sample
+opportunities telden op tot €116.000. Een kaart verplaatsen van Qualify naar
+Develop wijzigde ook de actieve BPF-fase op het record; het zijpaneel toonde
+Develop. De sample opportunity is teruggeplaatst naar Qualify en de toestand
+is na verversen gecontroleerd.
+
 Automatische tests bewaken manifestdefaults, Config (JSON)-overrides en de
-verpakte manifesten. De definitieve Save & Publish-proef moet in de betreffende
-Dataverse-omgeving worden gedaan; een succesvolle compile/build bewijst die
-serveractie niet.
+verpakte manifesten. Deze live proef geldt voor de genoemde DEV-test; valideer
+Save & Publish ook in je eigen omgeving. Een succesvolle compile/build alleen
+bewijst die serveractie niet.
 
 [Microsoft: input property defaults](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/manifest-schema-reference/property)

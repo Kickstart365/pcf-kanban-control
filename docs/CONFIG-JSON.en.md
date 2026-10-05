@@ -13,10 +13,12 @@ include the required columns in the view itself.
    as your current installation.
 2. Open **Kickstart365 Kanban** under **Components** in the view editor.
 3. Paste one JSON object into **Config (JSON)** and save the component configuration.
-4. Keep the individual numeric settings **Side pane width** and
-   **Close date warning days** filled with valid integers, such as `600` and `7`.
-   Power Apps validates these before running the control, even if JSON supplies
-   a different runtime value.
+4. Keep the typed individual settings populated: valid True/False choices,
+   integers for **Side pane width** (`600`) and **Close date warning days** (`7`),
+   and valid choices for the three enum settings. From 1.11.1.0, new component
+   configurations receive these defaults automatically. Power Apps validates
+   them before running the control, even if JSON supplies a different runtime
+   value. See [repairing Save & Publish](VIEW-PUBLISH.en.md) for existing views.
 5. Save and publish the view. Reload the app and check the configuration.
 
 The property uses the PCF `Multiple` type, so the combined configuration is

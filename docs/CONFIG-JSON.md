@@ -13,10 +13,12 @@ voeg de benodigde kolommen nog steeds toe aan de view.
    als je huidige installatie.
 2. Open **Kickstart365 Kanban** bij **Components** in de view-editor.
 3. Plak één JSON-object in **Config (JSON)** en sla de componentconfiguratie op.
-4. Houd de losse numerieke instellingen **Side pane width** en
-   **Close date warning days** gevuld met geldige getallen, bijvoorbeeld `600`
-   en `7`. Power Apps valideert deze vóór de control draait, ook wanneer de
-   JSON een andere runtimewaarde opgeeft.
+4. Laat de getypeerde losse instellingen gevuld: geldige Ja/Nee-keuzes,
+   getallen voor **Side pane width** (`600`) en **Close date warning days** (`7`),
+   en geldige keuzes voor de drie enumopties. Vanaf 1.11.1.0 vult een nieuwe
+   componentconfiguratie deze defaults automatisch in. Power Apps valideert
+   ze vóór de control draait, ook als JSON een andere runtimewaarde opgeeft.
+   Zie [Save & Publish herstellen](VIEW-PUBLISH.md) voor bestaande views.
 5. Sla de view op en publiceer. Herlaad de app en controleer de inrichting.
 
 De property gebruikt het PCF-type `Multiple`, zodat de gecombineerde
@@ -70,6 +72,7 @@ persoonlijke filterkeuzes en de tijdelijk gekozen kaartdichtheid staan er niet i
 Controleer na opslaan/publiceren dat het board hetzelfde werkt. Je hoeft de
 losse instellingen niet te wissen: ze blijven als terugval beschikbaar. Wis je
 ze later, houd dan de twee numerieke instellingen gevuld zoals hierboven.
+Houd ook de Ja/Nee- en enumkeuzes geldig; zie [de hersteltabel](VIEW-PUBLISH.md).
 Voor een nieuw board kan een export meteen als startpunt dienen.
 
 De export bundelt de normale veldopmaak onder `card.fields`. Lege lijsten

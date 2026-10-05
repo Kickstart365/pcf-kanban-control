@@ -2,26 +2,26 @@
 
 **Taal: Nederlands | [English](CONFIGURATION.en.md)**
 
-Voor **control 1.11.0 / solution 1.11.0.0**. Deze handleiding beschrijft alle
+Voor **control 1.11.1 / solution 1.11.1.0**. Deze handleiding beschrijft alle
 **47 inputinstellingen** uit `ControlManifest.Input.xml`, gecontroleerd tegen
 de implementatie. `dataset` is de gekoppelde Dataverse-weergave en staat los
 van die 47 opties. Alle inputinstellingen zijn optioneel.
 
 ## Solutions downloaden
 
-Dit zijn de gecontroleerde pakketten van **1.11.0.0** uit
-[de geslaagde PR-build op `bc34b3c`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37296163783).
+Dit zijn de gecontroleerde pakketten van **1.11.1.0** uit
+[de geslaagde PR-build op `efd8097`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37316211784).
 Elke link downloadt rechtstreeks een importeerbare solution-ZIP.
 
 | Pakket | Download | Gebruik |
 | --- | --- | --- |
-| Managed | [Kickstart365Kanban_1_11_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.0.0/Kickstart365Kanban_1_11_0_0_managed.zip) | Installeren of bijwerken van een bestaande managed installatie. |
-| Unmanaged | [Kickstart365Kanban_1_11_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.0.0/Kickstart365Kanban_1_11_0_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een bestaande unmanaged installatie. |
+| Managed | [Kickstart365Kanban_1_11_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.1.0/Kickstart365Kanban_1_11_1_0_managed.zip) | Installeren of bijwerken van een bestaande managed installatie. |
+| Unmanaged | [Kickstart365Kanban_1_11_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.1.0/Kickstart365Kanban_1_11_1_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een bestaande unmanaged installatie. |
 
 Importeer de gedownloade ZIP via **Solutions → Import** in Power Apps. Houd
 bij een bestaande installatie hetzelfde managed/unmanaged-pakkettype aan.
 Deze directe downloads hoef je niet uit te pakken.
-[Checksums en buildherkomst](../downloads/1.11.0.0/README.md) staan bij de downloads.
+[Checksums en buildherkomst](../downloads/1.11.1.0/README.md) staan bij de downloads.
 
 ## Inhoud
 
@@ -749,7 +749,7 @@ geleverd; eigen labels/presetnamen uit de configuratie worden niet vertaald.
 | --- | --- |
 | Normale lijst of Microsoft Kanban | Controleer controltoewijzing, publicatie en **Show as → Kickstart365 Kanban**. Het managed pakket maakt geen view/appconfiguratie aan. |
 | Instelling lijkt geen effect te hebben | Open de opgeslagen configuratie opnieuw, controleer vaste waarde en gekoppelde view, publiceer en herlaad. Controleer ook een eventuele opgeslagen filter-/sorteervoorkeur. |
-| Save and publish geeft `400` / `0x80160028` en daarna Unsaved changes | Lees de Response van het mislukte `savedqueries`-verzoek. Bij `sidePaneWidth` of `closeDateWarningDays` en type `Whole.None`: vul **Side pane width** met `600` en **Close date warning days** met `7` (of geldige gehele getallen), sla de componentconfiguratie op en publiceer de view opnieuw. Heropen de view om de opgeslagen waarden te controleren. De runtime-default kan een door Dataverse afgekeurde configuratie niet herstellen. |
+| Save and publish geeft `400` / `0x80160028` en daarna Unsaved changes | Dataverse kan een losse componentwaarde niet naar het opgegeven type omzetten. Vanaf 1.11.1.0 hebben alle getal-, Ja/Nee- en enuminputs expliciete defaults. Bevestig bij bestaande views de getypeerde waarden opnieuw; zie [Save & Publish herstellen](VIEW-PUBLISH.md). |
 | Verkeerd BPF als beginweergave | `defaultView` moet exact de zichtbare naam in **View By** zijn, niet "Kanban view" of de BPF-tabelnaam. |
 | Records bij Niet toegewezen | Controleer of ze een instantie/fase in het gekozen BPF hebben, of een aangeboden Choice-waarde. Zie de beperking voor `statuscode`. |
 | Een veld ontbreekt op de kaart | Voeg het aan de view toe; controleer `hiddenFieldsOnCard`, de actieve groepering en `compactCardFields`. Open eventueel Details. |
