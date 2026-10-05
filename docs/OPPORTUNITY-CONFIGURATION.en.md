@@ -46,8 +46,9 @@ Opportunity table, BPF, custom fields or model-driven app.
   Use Refresh after a BPF or cloudflow change.
 - Edit an allowed field, cancel a draft and check a rejected save. Also test
   a closed record and a user without write permissions.
-- Drag between BPF columns: change the stage in the native form that opens.
-  The control does not write BPF stages directly.
+- Drag between BPF columns: from 1.11.0 the stage is saved on the process
+  instance and the card moves after success. Missing required steps open the
+  form; fill them in and drag again. See [BPF dragging](BPF-DRAG.en.md).
 - Test search, presets, date/number filters, sorting and keyboard operation.
 
 See [the full 1.9 pilot checks](INTERACTION-SETTINGS.md#pilot-checks-after-importing-1900),

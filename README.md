@@ -51,7 +51,8 @@ Vanaf 1.10.0: [één Config (JSON), export en autocomplete-schema](docs/CONFIG-J
 - Laat geselecteerde, schrijfbare Opportunity-velden direct op de kaart bewerken.
 - Biedt zoeken, veldfilters, filterpresets en sortering.
 - Verplaatst Choice-kaarten met opslaan en optionele JavaScript-validatie.
-  Slepen in een BPF opent het native formulier om daar de procesfase te wijzigen.
+  Slepen in een BPF slaat de procesfase op en verplaatst de kaart na succes.
+  Zie [BPF-slepen (NL)](docs/BPF-DRAG.md) / [BPF dragging (EN)](docs/BPF-DRAG.en.md).
 
 ## Installeren en gebruiken
 

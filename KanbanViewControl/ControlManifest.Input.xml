@@ -3,7 +3,7 @@
   <control 
     namespace="kickstart365"
     constructor="KanbanViewControl" 
-    version="1.10.0"
+    version="1.11.0"
     display-name-key="Kickstart365 Kanban"
     description-key="PowerApps Component Framework control (PCF) that allows users to see records in a kanban view format." 
     control-type="virtual"

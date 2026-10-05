@@ -124,7 +124,7 @@ to migrate the current configuration. See
 | `filteredBusinessProcessFlows` | Filter out Business Process Flows | JSON array of BPF names; `[]` | Excludes the named processes. Only active BPFs are offered. |
 | `businessProcessFlowStepOrder` | Business Process Flow Step Order | JSON array of `{id,order}`; native process order | `id` is the exact stage name. Lower `order` comes first; unlisted stages keep their native order value. |
 | `hideViewBy` | Hide View By if default View By set? | Yes/No; off | Hides **View By** when enabled, even without `defaultView`. Configure the intended grouping first. |
-| `allowCardMove` | Allow moving cards | Yes/No; on when not supplied | Enables dragging. Choice: saves the field value. BPF: opens the native record form to change the stage there. |
+| `allowCardMove` | Allow moving cards | Yes/No; on when not supplied | Enables dragging. Choice: saves the field value. BPF: saves the active process stage; see [BPF dragging](BPF-DRAG.en.md). |
 | `cardMoveValidationFunction` | Card move validation function | Text; none | Global JavaScript function name, such as `K365.Kanban.beforeMove`. Applies to moves between Choice columns. |
 | `cardMoveValidationScript` | Card move validation script (web resource) | Text; none | JavaScript web resource name that makes the function above available, including publisher prefix and path. |
 | `showOpenInNewTabButton` | Show open in new tab button on card | Yes/No; off | Extra button on every card to open the record in a new browser tab. |
@@ -281,9 +281,11 @@ appear under Unallocated.
 Dragging by the handle to another **Choice column** writes the Choice value.
 A failed save or rejected validator moves the card back. Reordering within
 one column is temporary and is not saved as record order. Dragging between
-**BPF columns** opens the native form in the configured opening mode. Change
-and save the stage there; the destination stage is not filled automatically.
-BPF requirements and branch rules remain in the form.
+**BPF columns** saves the destination stage on the process instance from 1.11.0.
+The card moves after a successful save and the board refreshes. Missing required
+process fields show a message and open the record form. Fill them in and drag
+again. See [BPF dragging](BPF-DRAG.en.md) for active paths, permissions, concurrent
+changes and form logic.
 
 The plus button opens a new record in a dialog. With Choice grouping, the
 column value is passed as a starting value; BPF grouping does not prefill a stage.
@@ -666,9 +668,10 @@ Reloading uses the preferences saved at that time. A maker change to
 
 ## Move validation
 
-This applies only to **Choice moves into a different column**. Reordering in
-the same column and BPF moves do not call this function. A move validator is
-separate from the inline editor.
+This applies to **Choice and BPF moves into a different column**. Reordering
+in the same column does not call this function. A move validator is separate
+from the inline editor. BPF destinations are resolved to the actual stage ID
+in the active path before calling the validator.
 
 1. Create a JavaScript web resource, for example `k365_/scripts/kanban_validate.js`.
 2. Enter the exact web resource name in `cardMoveValidationScript`, without a URL.
@@ -701,8 +704,9 @@ The function receives one object:
 | `recordId` | Moved record ID |
 | `entityName` | Logical table name, such as `opportunity` |
 | `logicalName` | Plural table name derived by the control; use the correct metadata/entity set name for Web API calls |
-| `fieldName` | Choice field being changed |
-| `newValue` | Destination value, or `null` for Unallocated |
+| `fieldName` | Choice field, or `activestageid` for BPF |
+| `newValue` | Choice destination value or `null`; for BPF the actual destination stage GUID |
+| `processInstanceId`, `processName` | BPF only: process instance GUID and logical BPF table name |
 | `sourceColumnId`, `destinationColumnId` | Source and destination column IDs |
 | `sourceColumnTitle`, `destinationColumnTitle` | Displayed column names |
 | `card` | Original card before moving; `<field>Raw` contains the raw value if the field is loaded |
@@ -748,7 +752,7 @@ custom labels/preset names in the configuration are not translated.
 | Missing width | `columnWidths` uses stage names/Choice IDs, not GUIDs. Check numbers, global bounds and fixed overrides. |
 | Preset does not work | Include the field in `quickFilterFields`. Use dropdown labels or the correct number/date format for the displayed filter. Use `{start,end}` or `custom:` for date ranges. |
 | Side pane opens as a dialog | The host does not expose the native pane API or cannot create a pane. Check the web app integration; record opening has a dialog fallback. |
-| Dragging does not change the BPF stage | It opens the form; change and save the stage there. |
+| Dragging does not change the BPF stage | From 1.11.0 the stage is saved. Read the message; check BPF permissions, required steps and the active path. See [BPF dragging](BPF-DRAG.en.md). |
 | Moving is blocked | Check save errors, permissions, validator name, published web resource and function availability on the list page. |
 
 Invalid JSON displays a configuration banner with the property name for many

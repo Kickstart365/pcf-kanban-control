@@ -11,7 +11,9 @@ function hook(retrieveMultipleRecords, columns = []) {
   const load = sourceLoader({
     react: { useMemo: fn => fn(), useRef: value => ({ current: value }) },
     "./service": { XrmService: { getInstance: () => ({ setContext: () => {} }) } },
-  });
+  }, { fetch: async path => ({ ok: true, status: 200, json: async () => ({ IsBPFEntity: true, EntitySetName: "processes", PrimaryIdAttribute: "businessprocessflowinstanceid",
+    ManyToOneRelationships: [{ ReferencedEntity: "opportunity", ReferencingAttribute: path.includes("opportunitysalesprocess") ? "opportunityid" : "bpf_opportunityid" },
+      { ReferencedEntity: "processstage", ReferencingAttribute: "activestageid", ReferencingEntityNavigationPropertyName: "activestageid" }] }) }) });
   return load("hooks/useDataverse").useDataverse(context);
 }
 

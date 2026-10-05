@@ -6,6 +6,7 @@ import { useContext } from "react";
 import toast from "react-hot-toast";
 import { moveCard } from "../lib/card-drag";
 import { getStrings } from "../lib/strings";
+import { BpfMoveError } from "../lib/bpf-stage-move";
 
 export type ColumnId = ColumnItem[][number]["id"];
 
@@ -20,6 +21,8 @@ export interface CardMoveValidationArgs {
   destinationColumnId: ColumnId | null;
   destinationColumnTitle: string | null;
   card: CardItem | undefined;
+  processInstanceId?: string;
+  processName?: string;
 }
 
 export const useDnD = (columns: ColumnItem[]) => {
@@ -34,7 +37,7 @@ export const useDnD = (columns: ColumnItem[]) => {
     setIsMovePending,
   } = useContext(BoardContext);
   const strings = getStrings(locale);
-  const { updateRecord } = useDataverse(context);
+  const { updateRecord, moveBpfStage } = useDataverse(context);
 
   const resolveValidationFunction = (): { fn: (args: CardMoveValidationArgs) => unknown; owner: unknown } | undefined => {
     if (!cardMoveValidationFunctionName) return undefined;
@@ -127,8 +130,24 @@ export const useDnD = (columns: ColumnItem[]) => {
     };
     try {
       if (activeView?.type === "BPF") {
-        // Native form owns BPF validation and transitions; no direct stage update.
-        await openFormWithLoading(record.entityName, record.id);
+        await toast.promise(moveBpfStage({
+          processName: activeView.uniqueName ?? "", processId: String(activeView.key),
+          entityName: record.entityName, recordId: record.id,
+          sourceName: sourceColumn.title, destinationName: destinationColumn.id === "unallocated" ? "unallocated" : destinationColumn.title,
+          validate: target => runCardMoveValidator({
+            recordId: record.id, entityName: record.entityName, logicalName: record.logicalName,
+            fieldName: "activestageid", newValue: target.destinationStageId,
+            sourceColumnId: sourceColumn.id, sourceColumnTitle: sourceColumn.title,
+            destinationColumnId: destinationColumn.id, destinationColumnTitle: destinationColumn.title,
+            processInstanceId: target.instanceId, processName: activeView.uniqueName, card: sourceCard,
+          }),
+        }), {
+          loading: strings.toastSaving,
+          success: strings.toastSuccessMoved(destinationColumn.title),
+          error: reason => strings.bpfMoveError(reason instanceof BpfMoveError ? reason.code : "server", reason instanceof BpfMoveError ? reason.detail : String(reason), reason instanceof BpfMoveError ? reason.savedSteps : 0),
+        });
+        const moved = moveCard(columns, { ...sourceCard, column: destinationColumn.id }, result);
+        if (moved) setColumns(current => current === columns ? moved : current);
         return { shouldRefresh: true };
       }
 
@@ -173,7 +192,10 @@ export const useDnD = (columns: ColumnItem[]) => {
       return { shouldRefresh: true };
     } catch (e) {
       rollback();
-      if (activeView?.type === "BPF") toast.error(e instanceof Error ? e.message : String(e));
+      if (activeView?.type === "BPF") {
+        if (e instanceof BpfMoveError && e.code === "required") await openFormWithLoading(record.entityName, record.id);
+        return { shouldRefresh: e instanceof BpfMoveError && (e.savedSteps > 0 || e.code === "conflict") };
+      }
       return unchanged;
     } finally {
       movePendingRef.current = false;
