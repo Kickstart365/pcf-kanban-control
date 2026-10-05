@@ -66,3 +66,9 @@ every active branch, missing required fields, BPF permissions and concurrent
 changes. Also check custom plugins and form rules. Automated regressions and
 the browser preview use simulated Dataverse responses; they do not replace
 validation in your own environment.
+
+## Microsoft references
+
+- [BPF instances, active paths and stage updates](https://learn.microsoft.com/en-us/power-automate/developer/business-process-flows-code)
+- [Required Two Options steps](https://learn.microsoft.com/en-us/power-automate/business-process-flows-overview)
+- [Conditional Web API updates](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/perform-conditional-operations-using-web-api)

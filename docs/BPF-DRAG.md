@@ -67,3 +67,9 @@ elke actieve tak, ontbrekende verplichte velden, BPF-rechten en gelijktijdige
 wijzigingen. Test ook eigen plugins en formulierregels. Automatische regressies
 en de browserproef gebruiken gesimuleerde Dataverse-antwoorden; ze vervangen
 deze controle in de eigen omgeving niet.
+
+## Microsoft references
+
+- [BPF instances, active paths and stage updates](https://learn.microsoft.com/en-us/power-automate/developer/business-process-flows-code)
+- [Required Two Options steps](https://learn.microsoft.com/en-us/power-automate/business-process-flows-overview)
+- [Conditional Web API updates](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/perform-conditional-operations-using-web-api)

@@ -88,7 +88,7 @@ those form handlers. Values maintained by a cloudflow, such as
 Weighted revenue is never calculated locally; use **Refresh** after its flow
 has run.
 
-## Pilot checks after importing 1.10.0.0
+## Pilot checks after importing 1.11.0.0
 
 1. Open an Opportunity from its title; verify the form opens next to the board.
 2. Switch records with an unsaved form value; verify the native save prompt.
@@ -100,6 +100,8 @@ has run.
    and editable list; verify it edits. Verify computed fields stay read-only.
 6. Change the same field elsewhere during an edit; verify a conflict is shown.
 7. Configure stage colors and test drag-handle/keyboard navigation.
+8. Drag BPF stages forward/backward: confirm actual saved stages and refreshed
+   totals. Check required-step and permission failures. See [BPF dragging](BPF-DRAG.en.md).
 
 References:
 - https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/create-app-side-panes

@@ -72,3 +72,19 @@ test("built-in Opportunity Sales Process uses the correct lookup query and recor
   assert.equal(records[0].id, "one");
   assert.equal(records[0].stageName, "Develop");
 });
+
+
+test("BPF grouping and dragging select the same latest modified instance of the selected process", async () => {
+  const processId = "00000000-0000-0000-0000-000000000090";
+  const h = hook(async (name, query) => {
+    assert.match(query, /_processid_value eq 00000000-0000-0000-0000-000000000090/);
+    assert.match(query, /\$orderby=modifiedon desc/);
+    return { entities: [
+      { _opportunityid_value: "one", activestageid: { stagename: "Develop" } },
+      { _opportunityid_value: "one", activestageid: { stagename: "Qualify" } },
+      { _opportunityid_value: "two", activestageid: { stagename: "Propose" } },
+    ] };
+  });
+  const rows = await h.getRecordCurrentStage("opportunity", "opportunitysalesprocess", ["one", "two"], processId);
+  assert.equal(rows.length, 2); assert.equal(rows[0].stageName, "Develop");
+});
