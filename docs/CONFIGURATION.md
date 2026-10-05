@@ -1,12 +1,31 @@
 # Kickstart365 Kanban: complete configuratiehandleiding
 
+**Taal: Nederlands | [English](CONFIGURATION.en.md)**
+
 Voor **control 1.9.0 / solution 1.9.0.0**. Deze handleiding beschrijft alle
 **46 inputinstellingen** uit `ControlManifest.Input.xml`, gecontroleerd tegen
 de implementatie. `dataset` is de gekoppelde Dataverse-weergave en staat los
 van die 46 opties. Alle inputinstellingen zijn optioneel.
 
+## Solutions downloaden
+
+Dit zijn de gecontroleerde pakketten van **1.9.0.0** uit de geslaagde build
+van [`main` op `40c6a77`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37147823385).
+Elke link downloadt rechtstreeks een importeerbare solution-ZIP.
+
+| Pakket | Download | Gebruik |
+| --- | --- | --- |
+| Managed | [Kickstart365Kanban_1_9_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.0.0/Kickstart365Kanban_1_9_0_0_managed.zip) | Installeren of bijwerken van een bestaande managed installatie. |
+| Unmanaged | [Kickstart365Kanban_1_9_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.0.0/Kickstart365Kanban_1_9_0_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een bestaande unmanaged installatie. |
+
+Importeer de gedownloade ZIP via **Solutions → Import** in Power Apps. Houd
+bij een bestaande installatie hetzelfde managed/unmanaged-pakkettype aan.
+Deze directe downloads hoef je niet uit te pakken.
+[Checksums en buildherkomst](../downloads/1.9.0.0/README.md) staan bij de downloads.
+
 ## Inhoud
 
+- [Solutions downloaden](#solutions-downloaden)
 - [Instellen in Power Apps](#instellen-in-power-apps)
 - [Veldnamen, JSON en standaardwaarden](#veldnamen-json-en-standaardwaarden)
 - [Alle configuratieopties](#alle-configuratieopties)

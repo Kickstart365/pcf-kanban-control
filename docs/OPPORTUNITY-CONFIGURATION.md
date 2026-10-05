@@ -1,12 +1,15 @@
 # Kickstart365 Opportunity Kanban: snel starten met 1.9
 
+**Taal: Nederlands | [English](OPPORTUNITY-CONFIGURATION.en.md)**
+
 De volledige Nederlandstalige handleiding staat in
 [CONFIGURATION.md](CONFIGURATION.md), met alle **46 instellingen**, hun
 standaardwaarden, voorbeelden en oplossingen voor veelvoorkomende problemen.
 
 ## Inrichten
 
-1. Importeer **Kickstart365Kanban 1.9.0.0** in de gewenste omgeving.
+1. [Download de managed of unmanaged solution](CONFIGURATION.md#solutions-downloaden)
+   en importeer **Kickstart365Kanban 1.9.0.0** in de gewenste omgeving.
    Zie [installatie en upgrades](DEV-INSTALLATION.md); houd bij een bestaande
    installatie hetzelfde managed/unmanaged-pakkettype aan.
 2. Maak/open een Opportunity-weergave met `name` als eerste kolom. Voeg

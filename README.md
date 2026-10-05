@@ -1,5 +1,7 @@
 # Kickstart365 Kanban
 
+**Taal: Nederlands | [English](README.en.md)**
+
 Kanban-component voor Dataverse-weergaven in model-driven Power Apps. Deze fork
 van [novalogica/pcf-kanban-control](https://github.com/novalogica/pcf-kanban-control)
 voegt onder meer compacte kaarten, kolomtotalen, kolomkleuren, een recordzijpaneel
@@ -7,12 +9,27 @@ en bewerkbare velden op Opportunity-kaarten toe.
 
 Huidige versie: **control 1.9.0 / solution 1.9.0.0**.
 
+## Solutions downloaden
+
+| Pakket 1.9.0.0 | Download |
+| --- | --- |
+| Managed | [Kickstart365Kanban_1_9_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.0.0/Kickstart365Kanban_1_9_0_0_managed.zip) |
+| Unmanaged | [Kickstart365Kanban_1_9_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.0.0/Kickstart365Kanban_1_9_0_0_unmanaged.zip) |
+
+Deze ZIPs kun je direct importeren via **Solutions → Import**. Gebruik voor
+een bestaande installatie hetzelfde managed/unmanaged-pakkettype.
+Zie [installatie en upgrades](docs/DEV-INSTALLATION.md) en
+[checksums/buildherkomst](downloads/1.9.0.0/README.md).
+
 ## Configuratiehandleiding
 
 **[Alle 46 instellingen, standaardwaarden en voorbeelden](docs/CONFIGURATION.md)**
 staan in de complete Nederlandstalige configuratiehandleiding. De Engelse
 instellingsnamen uit Power Apps en de technische propertynamen staan erbij,
 zodat je de juiste optie direct kunt terugvinden.
+
+Dezelfde complete handleiding is beschikbaar in
+[English](docs/CONFIGURATION.en.md).
 
 - [Snel starten met Opportunity](docs/OPPORTUNITY-CONFIGURATION.md)
 - [Alle configuratieopties](docs/CONFIGURATION.md#alle-configuratieopties)
