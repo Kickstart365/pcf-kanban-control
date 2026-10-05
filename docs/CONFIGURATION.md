@@ -126,7 +126,7 @@ Zie [JSON-configuratie, voorrang, migratie en schema](CONFIG-JSON.md).
 | `businessProcessFlowStepOrder` | Business Process Flow Step Order | JSON-array met `{id,order}`; native procesvolgorde | `id` is de exacte fasenaam. Lager `order` komt eerder; niet genoemde fases houden hun native volgordewaarde. |
 | `hideViewBy` | Hide View By if default View By set? | Ja/Nee; uit | Verbergt **View By** wanneer aan, ook als geen `defaultView` is ingevuld. Stel de gewenste groepering eerst in. |
 | `allowCardMove` | Allow moving cards | Ja/Nee; aan als niet opgegeven | Staat slepen toe. Choice: veldwaarde opslaan. BPF: de actieve procesfase opslaan; zie [BPF-slepen](BPF-DRAG.md). |
-| `cardMoveValidationFunction` | Card move validation function | Tekst; geen | Globale JavaScript-functienaam, bijvoorbeeld `K365.Kanban.beforeMove`. Geldt voor verplaatsingen tussen Choice-kolommen. |
+| `cardMoveValidationFunction` | Card move validation function | Tekst; geen | Globale JavaScript-functienaam, bijvoorbeeld `K365.Kanban.beforeMove`. Geldt voor verplaatsingen tussen Choice- en BPF-kolommen. |
 | `cardMoveValidationScript` | Card move validation script (web resource) | Tekst; geen | Naam van de JavaScript-webresource die de bovenstaande functie beschikbaar maakt, inclusief publisherprefix en pad. |
 | `showOpenInNewTabButton` | Show open in new tab button on card | Ja/Nee; uit | Extra knop op elke kaart om het record in een nieuw browsertabblad te openen. |
 | `hideEmptyColumns` | Hide empty columns | Ja/Nee; uit | Verbergt kolommen zonder kaarten na toepassing van de actieve filters en zoekterm. |
@@ -776,3 +776,7 @@ metadata opnieuw te laden. Controleer voor ingebruikname compacte/uitgebreide
 kaarten, valuta, presets, rechten, saves en BPF-fasewijzigingen in de echte app.
 Zie ook [de 1.9-pilotchecks](INTERACTION-SETTINGS.md#pilot-checks-after-importing-1900)
 en [technische verificatie](OPPORTUNITY-FOUNDATION.md).
+
+## Save & Publish: ongeldige componentwaarde
+
+Zie [Save & Publish: ongeldige componentwaarde](VIEW-PUBLISH.md) voor expliciete Ja/Nee-waarden en herstel van een bestaande view.

@@ -125,7 +125,7 @@ to migrate the current configuration. See
 | `businessProcessFlowStepOrder` | Business Process Flow Step Order | JSON array of `{id,order}`; native process order | `id` is the exact stage name. Lower `order` comes first; unlisted stages keep their native order value. |
 | `hideViewBy` | Hide View By if default View By set? | Yes/No; off | Hides **View By** when enabled, even without `defaultView`. Configure the intended grouping first. |
 | `allowCardMove` | Allow moving cards | Yes/No; on when not supplied | Enables dragging. Choice: saves the field value. BPF: saves the active process stage; see [BPF dragging](BPF-DRAG.en.md). |
-| `cardMoveValidationFunction` | Card move validation function | Text; none | Global JavaScript function name, such as `K365.Kanban.beforeMove`. Applies to moves between Choice columns. |
+| `cardMoveValidationFunction` | Card move validation function | Text; none | Global JavaScript function name, such as `K365.Kanban.beforeMove`. Applies to moves between Choice and BPF columns. |
 | `cardMoveValidationScript` | Card move validation script (web resource) | Text; none | JavaScript web resource name that makes the function above available, including publisher prefix and path. |
 | `showOpenInNewTabButton` | Show open in new tab button on card | Yes/No; off | Extra button on every card to open the record in a new browser tab. |
 | `hideEmptyColumns` | Hide empty columns | Yes/No; off | Hides columns without cards after applying the active filters and search term. |
@@ -767,3 +767,7 @@ Before use, check compact/expanded cards, currencies, presets, permissions,
 saves and BPF stage changes in the actual app. Also see the
 [1.9 pilot checks](INTERACTION-SETTINGS.md#pilot-checks-after-importing-1900)
 and [technical verification](OPPORTUNITY-FOUNDATION.md).
+
+## Save & Publish: invalid component value
+
+See [Save & Publish: invalid component value](VIEW-PUBLISH.en.md) for explicit Yes/No values and repairing an existing view.

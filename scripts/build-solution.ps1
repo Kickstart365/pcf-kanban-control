@@ -1,4 +1,4 @@
-param([string]$Version = "1.11.0.0")
+param([string]$Version = "1.11.1.0")
 $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path $PSScriptRoot -Parent
 $solutionFolder = Join-Path $projectRoot "solutions/Kickstart365Kanban"
@@ -41,13 +41,26 @@ try {
             if (!$controlEntry) { throw "Missing packaged PCF manifest" }
             $reader = [IO.StreamReader]::new($controlEntry.Open())
             try { [xml]$control = $reader.ReadToEnd() } finally { $reader.Dispose() }
-            if ($control.manifest.control.namespace -ne "kickstart365" -or $control.manifest.control.version -ne "1.11.0") {
+            if ($control.manifest.control.namespace -ne "kickstart365" -or $control.manifest.control.version -ne "1.11.1") {
                 throw "Unexpected packaged control identity/version"
             }
             foreach ($numericDefault in @{ sidePaneWidth = "600"; closeDateWarningDays = "7" }.GetEnumerator()) {
                 $property = $control.manifest.control.SelectSingleNode("property[@name='$($numericDefault.Key)']")
                 if (!$property -or $property.'of-type' -ne "Whole.None" -or $property.'default-value' -ne $numericDefault.Value) {
                     throw "Missing or invalid packaged numeric default: $($numericDefault.Key)"
+                }
+            }
+            # A runtime fallback cannot repair invalid static values during Save & Publish.
+            foreach ($property in $control.manifest.control.SelectNodes("property[@of-type='TwoOptions']")) {
+                $expected = if ($property.name -in @("allowCardMove", "allowCreateNew")) { "true" } else { "false" }
+                if ($property.usage -ne "input" -or $property.'default-value' -cne $expected) {
+                    throw "Missing or invalid packaged boolean default: $($property.name)"
+                }
+            }
+            foreach ($property in $control.manifest.control.SelectNodes("property[@of-type='Enum']")) {
+                $validValues = @($property.value | ForEach-Object { $_.'#text' })
+                if ($property.'default-value' -notin $validValues) {
+                    throw "Missing or invalid packaged enum default: $($property.name)"
                 }
             }
             $configProperty = $control.manifest.control.SelectSingleNode("property[@name='config']")
