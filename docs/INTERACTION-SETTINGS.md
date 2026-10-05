@@ -88,7 +88,7 @@ those form handlers. Values maintained by a cloudflow, such as
 Weighted revenue is never calculated locally; use **Refresh** after its flow
 has run.
 
-## Pilot checks after importing 1.9.0.0
+## Pilot checks after importing 1.9.1.0
 
 1. Open an Opportunity from its title; verify the form opens next to the board.
 2. Switch records with an unsaved form value; verify the native save prompt.
