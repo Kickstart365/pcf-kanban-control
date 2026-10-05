@@ -2,25 +2,25 @@
 
 **Language: English | [Nederlands](CONFIGURATION.md)**
 
-For **control 1.11.0 / solution 1.11.0.0**. This guide covers all **47 input
+For **control 1.11.1 / solution 1.11.1.0**. This guide covers all **47 input
 settings** in `ControlManifest.Input.xml`, checked against the implementation.
 `dataset` is the connected Dataverse view and is separate from those 47 options.
 All input settings are optional.
 
 ## Download the solutions
 
-These are the verified **1.11.0.0** packages from
-[the successful PR integration build at `bc34b3c`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37296163783).
+These are the verified **1.11.1.0** packages from
+[the successful PR integration build at `efd8097`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37316211784).
 Each link downloads an importable solution ZIP directly.
 
 | Package | Download | Use |
 | --- | --- | --- |
-| Managed | [Kickstart365Kanban_1_11_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.0.0/Kickstart365Kanban_1_11_0_0_managed.zip) | Installing or updating an existing managed installation. |
-| Unmanaged | [Kickstart365Kanban_1_11_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.0.0/Kickstart365Kanban_1_11_0_0_unmanaged.zip) | Development/customization or updating an existing unmanaged installation. |
+| Managed | [Kickstart365Kanban_1_11_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.1.0/Kickstart365Kanban_1_11_1_0_managed.zip) | Installing or updating an existing managed installation. |
+| Unmanaged | [Kickstart365Kanban_1_11_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.1.0/Kickstart365Kanban_1_11_1_0_unmanaged.zip) | Development/customization or updating an existing unmanaged installation. |
 
 Import the downloaded ZIP using **Solutions → Import** in Power Apps. For an
 existing installation, keep its managed/unmanaged package type. These direct
-downloads do not need to be extracted. [Checksums and build source](../downloads/1.11.0.0/README.md)
+downloads do not need to be extracted. [Checksums and build source](../downloads/1.11.1.0/README.md)
 are included with the downloads.
 
 ## Contents
@@ -125,7 +125,7 @@ to migrate the current configuration. See
 | `businessProcessFlowStepOrder` | Business Process Flow Step Order | JSON array of `{id,order}`; native process order | `id` is the exact stage name. Lower `order` comes first; unlisted stages keep their native order value. |
 | `hideViewBy` | Hide View By if default View By set? | Yes/No; off | Hides **View By** when enabled, even without `defaultView`. Configure the intended grouping first. |
 | `allowCardMove` | Allow moving cards | Yes/No; on when not supplied | Enables dragging. Choice: saves the field value. BPF: saves the active process stage; see [BPF dragging](BPF-DRAG.en.md). |
-| `cardMoveValidationFunction` | Card move validation function | Text; none | Global JavaScript function name, such as `K365.Kanban.beforeMove`. Applies to moves between Choice columns. |
+| `cardMoveValidationFunction` | Card move validation function | Text; none | Global JavaScript function name, such as `K365.Kanban.beforeMove`. Applies to moves between Choice and BPF columns. |
 | `cardMoveValidationScript` | Card move validation script (web resource) | Text; none | JavaScript web resource name that makes the function above available, including publisher prefix and path. |
 | `showOpenInNewTabButton` | Show open in new tab button on card | Yes/No; off | Extra button on every card to open the record in a new browser tab. |
 | `hideEmptyColumns` | Hide empty columns | Yes/No; off | Hides columns without cards after applying the active filters and search term. |
@@ -740,7 +740,7 @@ custom labels/preset names in the configuration are not translated.
 | --- | --- |
 | Regular list or Microsoft Kanban | Check control assignment, publishing and **Show as → Kickstart365 Kanban**. The managed package does not create view/app configuration. |
 | A setting appears to do nothing | Reopen the saved configuration, check the static value and connected view, publish and reload. Also check saved filter/sort preferences. |
-| Save and publish returns `400` / `0x80160028`, followed by Unsaved changes | Read the Response of the failed `savedqueries` request. For `sidePaneWidth` or `closeDateWarningDays` with type `Whole.None`, enter `600` for **Side pane width** and `7` for **Close date warning days** (or valid integers), save the component configuration and publish the view again. Reopen the view to check the saved values. Runtime defaults cannot repair configuration rejected by Dataverse. |
+| Save and publish returns `400` / `0x80160028`, followed by Unsaved changes | Dataverse cannot parse an individual component setting to the declared type. From 1.11.1.0 all integer, boolean and enum inputs have explicit defaults. Reconfirm typed values on existing views; see [Repair Save & Publish](VIEW-PUBLISH.en.md). |
 | Wrong BPF selected initially | `defaultView` must exactly match the display name in **View By**, not "Kanban view" or the BPF table name. |
 | Records under Unallocated | Check their instance/stage in the selected BPF or whether their Choice value is offered. See the `statuscode` limitation. |
 | Field missing from a card | Add it to the view; check `hiddenFieldsOnCard`, the active grouping and `compactCardFields`. Open Details if needed. |
@@ -767,3 +767,7 @@ Before use, check compact/expanded cards, currencies, presets, permissions,
 saves and BPF stage changes in the actual app. Also see the
 [1.9 pilot checks](INTERACTION-SETTINGS.md#pilot-checks-after-importing-1900)
 and [technical verification](OPPORTUNITY-FOUNDATION.md).
+
+## Save & Publish: invalid component value
+
+See [Save & Publish: invalid component value](VIEW-PUBLISH.en.md) for explicit Yes/No values and repairing an existing view.

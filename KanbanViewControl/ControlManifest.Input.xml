@@ -3,7 +3,7 @@
   <control 
     namespace="kickstart365"
     constructor="KanbanViewControl" 
-    version="1.11.0"
+    version="1.11.1"
     display-name-key="Kickstart365 Kanban"
     description-key="PowerApps Component Framework control (PCF) that allows users to see records in a kanban view format." 
     control-type="virtual"
@@ -29,11 +29,11 @@
     <property name="inlineEditFields" display-name-key="Editable card fields" of-type="SingleLine.TextArea" usage="input" required="false"
       description-key="JSON array or comma-separated logical names. Default: estimatedvalue,closeprobability,estimatedclosedate. Supports writable text, numbers, money and DateOnly fields. Fields must be included in the view and shown on cards." />
 
-    <property name="compactCards" display-name-key="Start with compact cards" of-type="TwoOptions" usage="input" required="false"
+    <property name="compactCards" display-name-key="Start with compact cards" of-type="TwoOptions" usage="input" required="false" default-value="false"
       description-key="Start in compact mode. Users can switch to expanded cards with the toolbar." />
     <property name="compactCardFields" display-name-key="Compact card fields" of-type="SingleLine.TextArea" usage="input" required="false"
       description-key="JSON array or comma-separated field names in display order. Default: parentaccountid,estimatedvalue,closeprobability,estimatedclosedate,ownerid. Hidden fields remain hidden." />
-    <property name="showCloseDateBadges" display-name-key="Show close date badges" of-type="TwoOptions" usage="input" required="false"
+    <property name="showCloseDateBadges" display-name-key="Show close date badges" of-type="TwoOptions" usage="input" required="false" default-value="false"
       description-key="Show overdue, today and upcoming close dates. Include statecode to suppress badges for inactive records." />
     <property name="closeDateField" display-name-key="Close date field" of-type="SingleLine.Text" usage="input" required="false"
       description-key="Date field used by close date badges. Default: estimatedclosedate." />
@@ -75,7 +75,7 @@
       display-name-key="Hide View By if default View By set?" 
       of-type="TwoOptions" 
       usage="input" 
-      required="false"
+      required="false" default-value="false"
     />
 
     <property 
@@ -84,7 +84,7 @@
       description-key="When disabled, cards cannot be moved by drag and drop."
       of-type="TwoOptions" 
       usage="input" 
-      required="false"
+      required="false" default-value="true"
     />
 
     <property 
@@ -111,7 +111,7 @@
       description-key="When enabled, each card shows a button (top right) that opens the record in a new browser tab."
       of-type="TwoOptions" 
       usage="input" 
-      required="false"
+      required="false" default-value="false"
     />
 
     <property 
@@ -120,7 +120,7 @@
       description-key="When enabled, columns that contain no cards are not shown."
       of-type="TwoOptions" 
       usage="input" 
-      required="false"
+      required="false" default-value="false"
     />
 
     <property 
@@ -129,7 +129,7 @@
       description-key="When enabled, the field used for column grouping (View By) is not displayed on the card to save space."
       of-type="TwoOptions" 
       usage="input" 
-      required="false"
+      required="false" default-value="false"
     />
 
     <property 
@@ -228,7 +228,7 @@
       description-key="When enabled, fields with type SingleLine.Email or SingleLine.Phone are shown as clickable mailto/tel links. The data type is read from the dataset; no per-field list needed."
       of-type="TwoOptions" 
       usage="input" 
-      required="false"
+      required="false" default-value="false"
     />
 
     <property 
@@ -291,7 +291,7 @@
       description-key="When enabled, the board uses the full view width and columns scale proportionally."
       of-type="TwoOptions" 
       usage="input" 
-      required="false"
+      required="false" default-value="false"
     />
 
     <property 
@@ -336,7 +336,7 @@
       description-key="When disabled, the add button on each column is hidden and new records cannot be created from the board."
       of-type="TwoOptions" 
       usage="input" 
-      required="false"
+      required="false" default-value="true"
     />
 
     <property 

@@ -1,0 +1,25 @@
+{
+  "solution": "Kickstart365Kanban",
+  "solutionVersion": "1.11.1.0",
+  "controlVersion": "1.11.1",
+  "repository": "Kickstart365/pcf-kanban-control",
+  "sourceCommit": "efd809756a08f21642ed8c85bec21a3b0c097c29",
+  "workflowRun": "https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37316211784",
+  "artifactId": 11347714096,
+  "artifactName": "Kickstart365Kanban-1.11.1-dev-efd809756a08f21642ed8c85bec21a3b0c097c29",
+  "artifactArchiveSha256": "916d8bf4daa818f8eb823ada713e858f7afb748169810ca77cbee2224b6d522a",
+  "packages": [
+    {
+      "filename": "Kickstart365Kanban_1_11_1_0_managed.zip",
+      "managed": true,
+      "sha256": "4998d03f006598ce87c442ca22b41f94c19b6e148a62b1ec90699419ac5ffac1",
+      "bytes": 131919
+    },
+    {
+      "filename": "Kickstart365Kanban_1_11_1_0_unmanaged.zip",
+      "managed": false,
+      "sha256": "ecfe4dd00b840853c0fe479ab883851ee5c5ef41e43ae6d74911dd808ff2c0ae",
+      "bytes": 131919
+    }
+  ]
+}
