@@ -2,9 +2,9 @@
 
 **Language: English | [Nederlands](CONFIGURATION.md)**
 
-For **control 1.9.1 / solution 1.9.1.0**. This guide covers all **46 input
+For **control 1.9.1 / solution 1.9.1.0**. This guide covers all **47 input
 settings** in `ControlManifest.Input.xml`, checked against the implementation.
-`dataset` is the connected Dataverse view and is separate from those 46 options.
+`dataset` is the connected Dataverse view and is separate from those 47 options.
 All input settings are optional.
 
 ## Download the solutions
@@ -28,6 +28,7 @@ are included with the downloads.
 - [Download the solutions](#download-the-solutions)
 - [Set up in Power Apps](#set-up-in-power-apps)
 - [Field names, JSON and defaults](#field-names-json-and-defaults)
+- [Config (JSON)](#config-json)
 - [All configuration options](#all-configuration-options)
 - [Opportunity: recommended setup](#opportunity-recommended-setup)
 - [Grouping and BPF stages](#grouping-and-bpf-stages)
@@ -102,7 +103,18 @@ fields or no inline editable fields. The maker may pass empty text as "not
 supplied"; prefer the relevant enable/disable option or `[]` when turning a
 feature off.
 
+## Config (JSON)
+
+From 1.10.0, combine all existing settings in one **Config (JSON)** value.
+Individual settings remain supported. Use **Export configuration** on the board
+to migrate the current configuration. See
+[JSON configuration, precedence, migration and schema](CONFIG-JSON.en.md).
+
 ## All configuration options
+
+| Property | Maker label | Type/default | Explanation |
+| --- | --- | --- | --- |
+| `config` | Config (JSON) | Multiple (JSON object); empty | Combines the other 46 options. Supplied valid values win per setting/field; omitted values use individual settings. See the [JSON guide](CONFIG-JSON.en.md). |
 
 ### Grouping and record actions — 10 options
 

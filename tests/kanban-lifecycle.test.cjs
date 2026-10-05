@@ -25,6 +25,7 @@ vm.runInNewContext(compiled.outputText, {
             return { createElement: (type, props) => ({ type, props }) };
         }
         if (name === "./App") return { default: app };
+        if (name === "./lib/board-config") return require("./source-loader.cjs")()("lib/board-config");
         throw new Error(`Unexpected entry-point dependency: ${name}`);
     }
 }, { filename: fileName });
@@ -72,4 +73,28 @@ test("host dataset updates invalidate cards even when record IDs stay unchanged"
     assert.equal(control.updateView(ctx).props.datasetRevision, 1);
     ctx.updatedProperties = ["dataset"];
     assert.equal(control.updateView(ctx).props.datasetRevision, 2);
+});
+
+test("the real PCF entry point applies JSON to every descendant without mutating frozen host inputs", () => {
+    const dataset = Object.freeze({ loading: false });
+    const service = {};
+    const ctx = Object.freeze({ ...context(), webAPI: service, parameters: Object.freeze({ dataset,
+        ...context().parameters, config: Object.freeze({ raw: '{"card":{"open":{"mode":"dialog","width":800}},"notifications":{"position":"bottom-left"}}' }) }) });
+    const props = new KanbanViewControl().updateView(ctx).props;
+    assert.equal(props.context.parameters.sidePaneWidth.raw, 800);
+    assert.equal(props.context.parameters.recordOpenMode.raw, "dialog");
+    assert.equal(props.context.parameters.dataset, dataset); assert.equal(props.context.webAPI, service);
+    assert.equal(ctx.parameters.sidePaneWidth, undefined); assert.equal(props.notificationPosition, "bottom-left");
+    assert.equal(JSON.parse(props.configurationExport.json).card.open.width, 800);
+});
+
+test("clearing or correcting JSON replaces previous effective values and errors immediately", () => {
+    const control = new KanbanViewControl();
+    const ctx = context(); ctx.parameters.config = { raw: '{"card":{"open":{"width":"bad"}}}' };
+    assert.equal(control.updateView(ctx).props.configurationIssues.length, 1);
+    ctx.parameters.config.raw = '{"card":{"open":{"width":750}}}';
+    assert.equal(control.updateView(ctx).props.configurationIssues.length, 0);
+    assert.equal(control.updateView(ctx).props.context.parameters.sidePaneWidth.raw, 750);
+    ctx.parameters.config.raw = "";
+    assert.equal(control.updateView(ctx).props.context.parameters.sidePaneWidth, undefined);
 });

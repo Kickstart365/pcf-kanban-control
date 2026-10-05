@@ -24,7 +24,7 @@ installation, keep its managed/unmanaged package type. See
 ## Configuration guide
 
 The **[complete English configuration guide](docs/CONFIGURATION.en.md)** covers
-all 46 settings, defaults and examples. It includes the English Power Apps
+all 47 settings, defaults and examples. It includes the English Power Apps
 maker labels and technical property names so you can find each option.
 
 The same complete guide is available in [Nederlands](docs/CONFIGURATION.md).
@@ -90,3 +90,5 @@ Sales app.
 The original MIT license and attribution are retained; see [LICENSE](LICENSE).
 [KICKSTART365.md](docs/KICKSTART365.md) describes the initial fork changes.
 Contributions through issues and pull requests are welcome.
+
+From 1.10.0: [one Config (JSON), export and autocomplete schema](docs/CONFIG-JSON.en.md).

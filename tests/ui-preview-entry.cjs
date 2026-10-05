@@ -3,6 +3,8 @@ const ReactDOM = require("react-dom");
 const { DragDropContext } = require("@hello-pangea/dnd");
 const { BoardContext } = require("../out/preview/source/context/board-context");
 const Column = require("../out/preview/source/components/column/Column").default;
+const { ConfigurationExport } = require("../out/preview/source/components/board/ConfigurationExport");
+const { exportConfiguration } = require("../out/preview/source/lib/board-config");
 const { useNavigation } = require("../out/preview/source/hooks/useNavigation");
 const { inlineDefinition } = require("../out/preview/source/lib/inline-edit");
 const { useState, useRef } = React;
@@ -52,7 +54,7 @@ function Preview() {
     estimatedclosedate: info("Sluitdatum", state.row.estimatedclosedate?.slice(0, 10) || ""), estimatedclosedateRaw: state.row.estimatedclosedate,
     description: info("Toelichting", state.row.description), descriptionRaw: state.row.description,
     transactioncurrencyid: info("Valuta", { id: { guid: "eur" }, etn: "transactioncurrency", name: "Euro" }), statecodeRaw: state.row.statecode };
-  const board = { context, locale: "nl", activeView: { type: "BPF" }, compactMode: false,
+  const board = { context, configurationExport: exportConfiguration(context.parameters), locale: "nl", activeView: { type: "BPF" }, compactMode: false,
     compactCardFields: ["estimatedvalue", "closeprobability", "estimatedclosedate"],
     inlineEditableFields: ["estimatedvalue", "closeprobability", "estimatedclosedate", "description", "name"], inlineEditKey,
     beginInlineEdit, finishInlineEdit, draggingRef, isMovePending: false,
@@ -61,6 +63,7 @@ function Preview() {
       { LogicalName: field, SourceType: 0, IsValidForUpdate: true, RequiredLevel: { Value: "None" }, MaxLength: 500,
         MinValue: field === "closeprobability" ? 0 : -1e12, MaxValue: field === "closeprobability" ? 100 : 1e12, DateTimeBehavior: { Value: "DateOnly" } }) };
   return React.createElement(BoardContext.Provider, { value: board },
+    React.createElement(ConfigurationExport),
     React.createElement(DragDropContext, { onDragStart: () => { draggingRef.current = true; }, onDragEnd: () => { draggingRef.current = false; } },
       React.createElement("div", { className: "columns-wrapper", "data-revision": revision },
         React.createElement(Column, { column: { id: "Qualify", title: "Qualify", cards: [item] }, widthPx: 340, color: "#0078D4" }),

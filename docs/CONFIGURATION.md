@@ -3,9 +3,9 @@
 **Taal: Nederlands | [English](CONFIGURATION.en.md)**
 
 Voor **control 1.9.1 / solution 1.9.1.0**. Deze handleiding beschrijft alle
-**46 inputinstellingen** uit `ControlManifest.Input.xml`, gecontroleerd tegen
+**47 inputinstellingen** uit `ControlManifest.Input.xml`, gecontroleerd tegen
 de implementatie. `dataset` is de gekoppelde Dataverse-weergave en staat los
-van die 46 opties. Alle inputinstellingen zijn optioneel.
+van die 47 opties. Alle inputinstellingen zijn optioneel.
 
 ## Solutions downloaden
 
@@ -28,6 +28,7 @@ Deze directe downloads hoef je niet uit te pakken.
 - [Solutions downloaden](#solutions-downloaden)
 - [Instellen in Power Apps](#instellen-in-power-apps)
 - [Veldnamen, JSON en standaardwaarden](#veldnamen-json-en-standaardwaarden)
+- [Config (JSON)](#config-json)
 - [Alle configuratieopties](#alle-configuratieopties)
 - [Opportunity: aanbevolen inrichting](#opportunity-aanbevolen-inrichting)
 - [Groeperen en BPF-fases](#groeperen-en-bpf-fases)
@@ -103,7 +104,18 @@ compacte detailvelden of geen inline bewerkbare velden te selecteren. Een lege
 tekst kan door de maker als "niet opgegeven" worden aangeleverd; gebruik voor
 uitschakelen liever de beschikbare aan/uit-optie of `[]`.
 
+## Config (JSON)
+
+Vanaf 1.10.0 kun je alle bestaande opties bundelen in één **Config (JSON)**-waarde.
+Bestaande losse instellingen blijven ondersteund. Gebruik de knop
+**Configuratie exporteren** op het board om je huidige inrichting over te nemen.
+Zie [JSON-configuratie, voorrang, migratie en schema](CONFIG-JSON.md).
+
 ## Alle configuratieopties
+
+| Property | Makerlabel | Type/default | Toelichting |
+| --- | --- | --- | --- |
+| `config` | Config (JSON) | Multiple (JSON-object); leeg | Bundelt de 46 overige opties. Geldige opgegeven waarden winnen per instelling/veld; ontbrekende waarden gebruiken de losse instellingen. Zie [JSON-guide](CONFIG-JSON.md). |
 
 ### Groepering en recordacties — 10 opties
 

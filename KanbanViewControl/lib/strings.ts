@@ -4,6 +4,14 @@
  */
 
 export interface Strings {
+  configurationErrorsLabel: string;
+  configurationExportLabel: string;
+  configurationExportHelp: string;
+  configurationExportBlocked: string;
+  configurationCopyLabel: string;
+  configurationCopied: string;
+  configurationCopyFallback: string;
+  configurationCloseLabel: string;
   // Date filter
   dateFilterAll: string;
   dateFilterToday: string;
@@ -87,6 +95,11 @@ export interface Strings {
 }
 
 const en: Strings = {
+  configurationErrorsLabel: "Configuration errors", configurationExportLabel: "Export configuration",
+  configurationExportHelp: "Copy these settings into Config (JSON) in the view editor, then save and publish. This contains board configuration, without record data or your current search/filter choices.",
+  configurationExportBlocked: "Correct these settings before migrating. This preview is incomplete.",
+  configurationCopyLabel: "Copy JSON", configurationCopied: "Configuration copied.",
+  configurationCopyFallback: "Select the JSON and press Ctrl+C (Cmd+C on Mac).", configurationCloseLabel: "Close",
   recordDetailsLabel: "Record details", sidePaneFallbackLabel: "Side pane unavailable here; opened in a dialog.",
   openRecordErrorLabel: "Could not open the record.", saveLabel: "Save", cancelLabel: "Cancel", editLabel: "Edit",
   dragCardLabel: "Move card", refreshLabel: "Refresh", finishEditingLabel: "Save or cancel your edit first.",
@@ -163,6 +176,11 @@ const en: Strings = {
 };
 
 const de: Strings = {
+  configurationErrorsLabel: "Konfigurationsfehler", configurationExportLabel: "Konfiguration exportieren",
+  configurationExportHelp: "Diese Einstellungen in Config (JSON) im Ansichtseditor einfügen, speichern und veröffentlichen. Enthält keine Datensatzdaten oder aktuellen Such-/Filterauswahlen.",
+  configurationExportBlocked: "Diese Einstellungen vor der Migration korrigieren. Die Vorschau ist unvollständig.",
+  configurationCopyLabel: "JSON kopieren", configurationCopied: "Konfiguration kopiert.",
+  configurationCopyFallback: "JSON markieren und Strg+C (Cmd+C am Mac) drücken.", configurationCloseLabel: "Schließen",
   recordDetailsLabel: "Datensatzdetails", sidePaneFallbackLabel: "Seitenbereich nicht verfügbar; als Dialog geöffnet.",
   openRecordErrorLabel: "Der Datensatz konnte nicht geöffnet werden.", saveLabel: "Speichern", cancelLabel: "Abbrechen", editLabel: "Bearbeiten",
   dragCardLabel: "Karte verschieben", refreshLabel: "Aktualisieren", finishEditingLabel: "Zuerst speichern oder abbrechen.",
@@ -238,6 +256,11 @@ const de: Strings = {
 };
 
 const nl: Strings = {
+  configurationErrorsLabel: "Configuratiefouten", configurationExportLabel: "Configuratie exporteren",
+  configurationExportHelp: "Plak deze instellingen in Config (JSON) in de view-editor, sla op en publiceer. De export bevat de boardinrichting, zonder recordgegevens of je huidige zoek-/filterkeuzes.",
+  configurationExportBlocked: "Herstel deze instellingen voordat je migreert. Dit voorbeeld is onvolledig.",
+  configurationCopyLabel: "JSON kopiëren", configurationCopied: "Configuratie gekopieerd.",
+  configurationCopyFallback: "Selecteer de JSON en druk op Ctrl+C (Cmd+C op Mac).", configurationCloseLabel: "Sluiten",
   recordDetailsLabel: "Recorddetails", sidePaneFallbackLabel: "Zijpaneel hier niet beschikbaar; geopend in een dialoog.",
   openRecordErrorLabel: "Het record kon niet worden geopend.", saveLabel: "Opslaan", cancelLabel: "Annuleren", editLabel: "Aanpassen",
   dragCardLabel: "Kaart verplaatsen", refreshLabel: "Verversen", finishEditingLabel: "Sla je wijziging eerst op of annuleer deze.",

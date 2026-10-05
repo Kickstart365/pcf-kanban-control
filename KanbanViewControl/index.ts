@@ -1,6 +1,7 @@
 import * as React from "react";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import App from "./App";
+import { resolveConfiguration, exportConfiguration } from "./lib/board-config";
 
 export class KanbanViewControl implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private datasetRevision = 0;
@@ -16,10 +17,17 @@ export class KanbanViewControl implements ComponentFramework.ReactControl<IInput
         if (this.datasetRevision === 0 || context.updatedProperties?.includes("dataset")) {
             this.datasetRevision++;
         }
-        return React.createElement(App, { 
-            context,  
+        const configuration = resolveConfiguration(context.parameters);
+        // Preserve host services/prototype and dataset identity; never mutate host inputs.
+        const effectiveContext = configuration.parameters === context.parameters ? context
+            : Object.create(context) as ComponentFramework.Context<IInputs>;
+        if (effectiveContext !== context) Object.defineProperty(effectiveContext, "parameters", { value: configuration.parameters });
+        return React.createElement(App, {
+            context: effectiveContext,
+            configurationIssues: configuration.issues,
+            configurationExport: exportConfiguration(configuration.parameters),
             datasetRevision: this.datasetRevision,
-            notificationPosition: context.parameters.notificationPosition?.raw
+            notificationPosition: effectiveContext.parameters.notificationPosition?.raw
         });
 
     }

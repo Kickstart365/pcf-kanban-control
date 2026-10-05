@@ -1,4 +1,4 @@
-param([string]$Version = "1.9.1.0")
+param([string]$Version = "1.10.0.0")
 $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path $PSScriptRoot -Parent
 $solutionFolder = Join-Path $projectRoot "solutions/Kickstart365Kanban"
@@ -41,7 +41,7 @@ try {
             if (!$controlEntry) { throw "Missing packaged PCF manifest" }
             $reader = [IO.StreamReader]::new($controlEntry.Open())
             try { [xml]$control = $reader.ReadToEnd() } finally { $reader.Dispose() }
-            if ($control.manifest.control.namespace -ne "kickstart365" -or $control.manifest.control.version -ne "1.9.1") {
+            if ($control.manifest.control.namespace -ne "kickstart365" -or $control.manifest.control.version -ne "1.10.0") {
                 throw "Unexpected packaged control identity/version"
             }
             foreach ($numericDefault in @{ sidePaneWidth = "600"; closeDateWarningDays = "7" }.GetEnumerator()) {
@@ -49,6 +49,10 @@ try {
                 if (!$property -or $property.'of-type' -ne "Whole.None" -or $property.'default-value' -ne $numericDefault.Value) {
                     throw "Missing or invalid packaged numeric default: $($numericDefault.Key)"
                 }
+            }
+            $configProperty = $control.manifest.control.SelectSingleNode("property[@name='config']")
+            if (!$configProperty -or $configProperty.'of-type' -ne "Multiple" -or $configProperty.usage -ne "input") {
+                throw "Missing packaged consolidated JSON configuration input"
             }
             if (!($archive.Entries | Where-Object { $_.FullName -match "Controls/.*/bundle.js$" })) { throw "Missing PCF bundle" }
             $types += $type

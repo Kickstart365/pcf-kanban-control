@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ConfigurationExport } from "./ConfigurationExport";
 import { useContext, useMemo, useEffect } from "react";
 import { CommandBar, Column, QuickFilters } from "..";
 import {
@@ -140,6 +141,7 @@ const Board = () => {
         </div>
         <button type="button" className="board-refresh-button" disabled={!!inlineEditKey || context.parameters.dataset.loading}
           onClick={() => context.parameters.dataset.refresh()}>{strings.refreshLabel}</button>
+        <ConfigurationExport />
       </div>
       <div className="kanban-container">
         <div

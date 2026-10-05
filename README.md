@@ -23,7 +23,7 @@ Zie [installatie en upgrades](docs/DEV-INSTALLATION.md) en
 
 ## Configuratiehandleiding
 
-**[Alle 46 instellingen, standaardwaarden en voorbeelden](docs/CONFIGURATION.md)**
+**[Alle 47 instellingen, standaardwaarden en voorbeelden](docs/CONFIGURATION.md)**
 staan in de complete Nederlandstalige configuratiehandleiding. De Engelse
 instellingsnamen uit Power Apps en de technische propertynamen staan erbij,
 zodat je de juiste optie direct kunt terugvinden.
@@ -92,3 +92,5 @@ de beoogde Sales-app.
 De oorspronkelijke MIT-licentie en auteursvermelding blijven behouden; zie
 [LICENSE](LICENSE). [KICKSTART365.md](docs/KICKSTART365.md) beschrijft de eerste
 forkwijzigingen. Bijdragen via issues en pull requests zijn welkom.
+
+Vanaf 1.10.0: [één Config (JSON), export en autocomplete-schema](docs/CONFIG-JSON.md).
