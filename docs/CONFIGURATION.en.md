@@ -2,25 +2,25 @@
 
 **Language: English | [Nederlands](CONFIGURATION.md)**
 
-For **control 1.9.1 / solution 1.9.1.0**. This guide covers all **47 input
+For **control 1.10.0 / solution 1.10.0.0**. This guide covers all **47 input
 settings** in `ControlManifest.Input.xml`, checked against the implementation.
 `dataset` is the connected Dataverse view and is separate from those 47 options.
 All input settings are optional.
 
 ## Download the solutions
 
-These are the verified **1.9.1.0** packages from the successful build of
-[`main` at `759bdd6`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37283524363).
+These are the verified **1.10.0.0** packages from
+[the successful PR integration build at `3417806`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37289034913).
 Each link downloads an importable solution ZIP directly.
 
 | Package | Download | Use |
 | --- | --- | --- |
-| Managed | [Kickstart365Kanban_1_9_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.1.0/Kickstart365Kanban_1_9_1_0_managed.zip) | Installing or updating an existing managed installation. |
-| Unmanaged | [Kickstart365Kanban_1_9_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.1.0/Kickstart365Kanban_1_9_1_0_unmanaged.zip) | Development/customization or updating an existing unmanaged installation. |
+| Managed | [Kickstart365Kanban_1_10_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_managed.zip) | Installing or updating an existing managed installation. |
+| Unmanaged | [Kickstart365Kanban_1_10_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_unmanaged.zip) | Development/customization or updating an existing unmanaged installation. |
 
 Import the downloaded ZIP using **Solutions → Import** in Power Apps. For an
 existing installation, keep its managed/unmanaged package type. These direct
-downloads do not need to be extracted. [Checksums and build source](../downloads/1.9.1.0/README.md)
+downloads do not need to be extracted. [Checksums and build source](../downloads/1.10.0.0/README.md)
 are included with the downloads.
 
 ## Contents

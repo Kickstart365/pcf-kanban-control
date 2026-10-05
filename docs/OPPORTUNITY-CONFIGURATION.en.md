@@ -8,7 +8,7 @@ covering all **46 settings**, defaults, examples and troubleshooting.
 ## Setup
 
 1. [Download the managed or unmanaged solution](CONFIGURATION.en.md#download-the-solutions)
-   and import **Kickstart365Kanban 1.9.1.0** into the intended environment.
+   and import **Kickstart365Kanban 1.10.0.0** into the intended environment.
    See [installation and upgrades](DEV-INSTALLATION.en.md); keep the same
    managed/unmanaged package type for an existing installation.
 2. Create/open an Opportunity view with `name` first. Add `parentaccountid`,

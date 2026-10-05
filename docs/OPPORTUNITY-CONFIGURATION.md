@@ -9,7 +9,7 @@ standaardwaarden, voorbeelden en oplossingen voor veelvoorkomende problemen.
 ## Inrichten
 
 1. [Download de managed of unmanaged solution](CONFIGURATION.md#solutions-downloaden)
-   en importeer **Kickstart365Kanban 1.9.1.0** in de gewenste omgeving.
+   en importeer **Kickstart365Kanban 1.10.0.0** in de gewenste omgeving.
    Zie [installatie en upgrades](DEV-INSTALLATION.md); houd bij een bestaande
    installatie hetzelfde managed/unmanaged-pakkettype aan.
 2. Maak/open een Opportunity-weergave met `name` als eerste kolom. Voeg

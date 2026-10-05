@@ -7,19 +7,19 @@ van [novalogica/pcf-kanban-control](https://github.com/novalogica/pcf-kanban-con
 voegt onder meer compacte kaarten, kolomtotalen, kolomkleuren, een recordzijpaneel
 en bewerkbare velden op Opportunity-kaarten toe.
 
-Huidige versie: **control 1.9.1 / solution 1.9.1.0**.
+Huidige versie: **control 1.10.0 / solution 1.10.0.0**.
 
 ## Solutions downloaden
 
-| Pakket 1.9.1.0 | Download |
+| Pakket 1.10.0.0 | Download |
 | --- | --- |
-| Managed | [Kickstart365Kanban_1_9_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.1.0/Kickstart365Kanban_1_9_1_0_managed.zip) |
-| Unmanaged | [Kickstart365Kanban_1_9_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.1.0/Kickstart365Kanban_1_9_1_0_unmanaged.zip) |
+| Managed | [Kickstart365Kanban_1_10_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_managed.zip) |
+| Unmanaged | [Kickstart365Kanban_1_10_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_unmanaged.zip) |
 
 Deze ZIPs kun je direct importeren via **Solutions → Import**. Gebruik voor
 een bestaande installatie hetzelfde managed/unmanaged-pakkettype.
 Zie [installatie en upgrades](docs/DEV-INSTALLATION.md) en
-[checksums/buildherkomst](downloads/1.9.1.0/README.md).
+[checksums/buildherkomst](downloads/1.10.0.0/README.md).
 
 ## Configuratiehandleiding
 
@@ -30,6 +30,8 @@ zodat je de juiste optie direct kunt terugvinden.
 
 Dezelfde complete handleiding is beschikbaar in
 [English](docs/CONFIGURATION.en.md).
+
+Vanaf 1.10.0: [één Config (JSON), export en autocomplete-schema](docs/CONFIG-JSON.md).
 
 - [Snel starten met Opportunity](docs/OPPORTUNITY-CONFIGURATION.md)
 - [Alle configuratieopties](docs/CONFIGURATION.md#alle-configuratieopties)
@@ -92,5 +94,3 @@ de beoogde Sales-app.
 De oorspronkelijke MIT-licentie en auteursvermelding blijven behouden; zie
 [LICENSE](LICENSE). [KICKSTART365.md](docs/KICKSTART365.md) beschrijft de eerste
 forkwijzigingen. Bijdragen via issues en pull requests zijn welkom.
-
-Vanaf 1.10.0: [één Config (JSON), export en autocomplete-schema](docs/CONFIG-JSON.md).

@@ -1,4 +1,4 @@
-# Kickstart365 Kanban 1.9.1: download, install and build
+# Kickstart365 Kanban 1.10.0: download, install and build
 
 **Language: English | [Nederlands](DEV-INSTALLATION.md)**
 
@@ -9,18 +9,18 @@ pilot checks for side panes, colors and editing are in
 
 ## Download the solutions
 
-Download the verified **1.9.1.0** version directly:
+Download the verified **1.10.0.0** version directly:
 
 | Package | Download | Use |
 | --- | --- | --- |
-| Managed | [Kickstart365Kanban_1_9_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.1.0/Kickstart365Kanban_1_9_1_0_managed.zip) | Installing or updating a managed installation. |
-| Unmanaged | [Kickstart365Kanban_1_9_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.1.0/Kickstart365Kanban_1_9_1_0_unmanaged.zip) | Development/customization or updating an unmanaged installation. |
+| Managed | [Kickstart365Kanban_1_10_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_managed.zip) | Installing or updating a managed installation. |
+| Unmanaged | [Kickstart365Kanban_1_10_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_unmanaged.zip) | Development/customization or updating an unmanaged installation. |
 
 Each link downloads a **directly importable solution ZIP**. Do not extract
-these ZIPs. See [checksums and build source](../downloads/1.9.1.0/README.md).
+these ZIPs. See [checksums and build source](../downloads/1.10.0.0/README.md).
 
-The packages come from [the successful main build](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37283524363)
-for commit `759bdd6904c4ae98d0f552565663772766f39655`. The source and version
+The packages come from [the successful PR build](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37289034913)
+for commit `341780630a99bcc51770825b5205522da5a952b6`. The source and version
 are recorded in the download directory. For future builds, also use
 [Dataverse solution build](https://github.com/Kickstart365/pcf-kanban-control/actions/workflows/solution-build.yml):
 open a successful run on `main` and download the `Kickstart365Kanban-…`
@@ -50,8 +50,8 @@ an import/runtime test in the intended InSpark Dataverse environment.
 ## Identity
 
 - Control namespace: `kickstart365`; constructor: `KanbanViewControl`.
-- Control version: `1.9.1`; display name: **Kickstart365 Kanban**.
-- Solution: `Kickstart365Kanban`, version `1.9.1.0`.
+- Control version: `1.10.0`; display name: **Kickstart365 Kanban**.
+- Solution: `Kickstart365Kanban`, version `1.10.0.0`.
 - Publisher: `kickstart365`; customization prefix: `k365`.
 
 This identity is separate from the original `novalogica` control, so both
