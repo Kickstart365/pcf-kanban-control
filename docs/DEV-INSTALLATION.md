@@ -1,36 +1,78 @@
-# Kickstart365 Kanban 1.9.0 DEV pilot
+# Kickstart365 Kanban 1.9.0: downloaden, installeren en bouwen
 
-For all settings and examples, see the complete
-[configuration manual](CONFIGURATION.md). For side panes, column colors,
-editable fields and pilot checks, see [Interaction settings](INTERACTION-SETTINGS.md).
-Upgrade the existing
-`Kickstart365Kanban` installation using the matching managed/unmanaged package;
-the control identity is unchanged from 1.8.
+**Taal: Nederlands | [English](DEV-INSTALLATION.en.md)**
 
-## Identity
+Alle instellingen en voorbeelden staan in de
+[complete configuratiehandleiding](CONFIGURATION.md). De technische details
+en pilotchecks voor zijpanelen, kleuren en bewerken staan in
+[Interaction settings](INTERACTION-SETTINGS.md).
 
-- Control namespace: `kickstart365`; constructor: `KanbanViewControl`.
-- Control version: `1.9.0`; display name: **Kickstart365 Kanban**.
-- Solution: `Kickstart365Kanban`, version `1.9.0.0`.
-- Publisher: `kickstart365`; customization prefix: `k365`.
+## Solutions downloaden
 
-This is a separate control identity, so it can be tested alongside the original
-`novalogica` component. Existing views using the original control must be
-explicitly configured to use the new one. Keep the upstream MIT license and
-attribution when redistributing this fork.
+Download de gecontroleerde versie **1.9.0.0** rechtstreeks:
 
-## Build
+| Pakket | Download | Gebruik |
+| --- | --- | --- |
+| Managed | [Kickstart365Kanban_1_9_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.0.0/Kickstart365Kanban_1_9_0_0_managed.zip) | Installeren of bijwerken van een managed installatie. |
+| Unmanaged | [Kickstart365Kanban_1_9_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.9.0.0/Kickstart365Kanban_1_9_0_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een unmanaged installatie. |
 
-The **Dataverse solution build** workflow uses Windows MSBuild, Node 22,
-locked npm dependencies, .NET 10 and PAC CLI 2.12.2. It builds production PCF
-resources and both managed/unmanaged solution ZIPs, then checks the packaged
-solution/control identities, version and bundle presence. The artifact also
-contains SHA-256 checksums and the solution project's source metadata.
-The solution project and publisher metadata are committed under
-`solutions/Kickstart365Kanban`, so subsequent builds use the same source.
-It does not authenticate to or deploy into any Dataverse environment.
+Deze twee links leveren ieder een **direct importeerbare solution-ZIP** op.
+Je hoeft deze ZIPs niet uit te pakken. Zie
+[checksums en buildherkomst](../downloads/1.9.0.0/README.md).
 
-On a Windows machine with Visual Studio Build Tools/MSBuild:
+De pakketten komen uit [de geslaagde main-build](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37147823385)
+voor commit `40c6a77754b592edfa26e3a4f1f8afc68217f802`. De bron en versie
+staan vast in de downloadmap. Voor toekomstige builds kun je ook naar
+[Dataverse solution build](https://github.com/Kickstart365/pcf-kanban-control/actions/workflows/solution-build.yml):
+open een geslaagde run op `main` en download onder **Artifacts** het
+`Kickstart365Kanban-…`-pakket. Pak **dat buitenste Actions-archief** wel uit
+en importeer alleen de gewenste binnenste managed/unmanaged solution-ZIP.
+
+## Installeren, upgraden en configureren
+
+1. Selecteer de bedoelde omgeving op https://make.powerapps.com en importeer
+   de gekozen ZIP via **Solutions → Import**.
+2. Is `Kickstart365Kanban` al geïnstalleerd? Houd hetzelfde pakkettype aan:
+   managed bij managed, unmanaged bij unmanaged. Behoud dezelfde solution-
+   identiteit en importeer de nieuwere versie. Verwijder de control niet om
+   te upgraden. De identiteit is ongewijzigd ten opzichte van 1.8.
+3. Voeg in de Opportunity-weergave **Kickstart365 Kanban** toe en volg
+   [de snelstart](OPPORTUNITY-CONFIGURATION.md) of
+   [de volledige inrichting](CONFIGURATION.md#instellen-in-power-apps).
+4. Sla de weergave/app op en publiceer. Selecteer in de app de weergave en
+   kies waar nodig **Show as → Kickstart365 Kanban**; Microsoft Kanban is een
+   andere control. Voer de checks uit in de snelstart, plus
+   [de technische checks](OPPORTUNITY-FOUNDATION.md).
+
+Het pakket bevat uitsluitend de control. Het maakt geen Opportunity-weergave,
+BPF, klantvelden of model-driven app aan. Een geslaagde build bewijst nog
+geen uitgevoerde import-/runtimetest in de beoogde InSpark Dataverse-omgeving.
+
+## Identiteit
+
+- Controlnamespace: `kickstart365`; constructor: `KanbanViewControl`.
+- Controlversie: `1.9.0`; zichtbare naam: **Kickstart365 Kanban**.
+- Solution: `Kickstart365Kanban`, versie `1.9.0.0`.
+- Publisher: `kickstart365`; customizationprefix: `k365`.
+
+Deze identiteit staat los van de oorspronkelijke `novalogica`-control; je
+kunt beide naast elkaar testen. Weergaven met de originele control moeten
+expliciet op de nieuwe worden ingesteld. Behoud bij verspreiding de
+oorspronkelijke MIT-licentie en auteursvermelding.
+
+## Zelf bouwen
+
+De workflow **Dataverse solution build** gebruikt Windows MSBuild, Node 22,
+vastgelegde npm-dependencies, .NET 10 en PAC CLI 2.12.2. Hij bouwt productie-
+PCF-resources en beide solution-ZIPs. Daarna controleert hij solution-/control-
+identiteit, versie en aanwezigheid van de bundle. Het artifact bevat ook
+SHA-256-checksums en de bronmetadata van het solutionproject.
+
+Het solutionproject en de publishermetadata staan onder
+`solutions/Kickstart365Kanban`. Volgende builds gebruiken daarmee dezelfde
+bron. De workflow logt niet in op Dataverse en deployt geen omgeving.
+
+Op Windows met Visual Studio Build Tools/MSBuild:
 
 ```powershell
 dotnet tool install --global Microsoft.PowerApps.CLI.Tool --version 2.12.2
@@ -38,27 +80,5 @@ npm ci --no-audit --no-fund
 ./scripts/build-solution.ps1
 ```
 
-Microsoft packaging reference:
-https://learn.microsoft.com/en-us/power-apps/developer/component-framework/import-custom-controls
-
-## Install, upgrade and configure
-
-1. Download the artifact from a green workflow run for the reviewed commit.
-   Extract the artifact archive: import an inner solution ZIP, not the outer
-   Actions artifact ZIP. Use `_unmanaged.zip` for development/customization, or
-   `_managed.zip` to test the managed installation path.
-2. Select the intended environment at https://make.powerapps.com, then import
-   the chosen solution through **Solutions → Import**. If `Kickstart365Kanban`
-   is already installed, use the matching package type: managed for managed,
-   unmanaged for unmanaged. Keep the same solution identity and import the
-   newer version; do not uninstall the control to perform this upgrade.
-3. In the Opportunity view's control configuration, add **Kickstart365 Kanban**
-   and follow [the configuration guide](OPPORTUNITY-CONFIGURATION.md).
-4. Save/publish the view/app. In the app, select the view and, where needed,
-   **Show as → Kickstart365 Kanban**; Microsoft Kanban is a separate control.
-   Verify the runtime checks in that guide plus
-   [the technical checks](OPPORTUNITY-FOUNDATION.md).
-
-The package only contains the control. It creates no Opportunity view, BPF,
-customer fields or model-driven app. This DEV build is not a claim that the
-control has passed testing in an InSpark Dataverse environment.
+Microsoft-referentie:
+[Custom controls importeren](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/import-custom-controls).
