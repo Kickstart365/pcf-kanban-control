@@ -1,4 +1,4 @@
-param([string]$Version = "1.10.0.0")
+param([string]$Version = "1.11.0.0")
 $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path $PSScriptRoot -Parent
 $solutionFolder = Join-Path $projectRoot "solutions/Kickstart365Kanban"
@@ -41,7 +41,7 @@ try {
             if (!$controlEntry) { throw "Missing packaged PCF manifest" }
             $reader = [IO.StreamReader]::new($controlEntry.Open())
             try { [xml]$control = $reader.ReadToEnd() } finally { $reader.Dispose() }
-            if ($control.manifest.control.namespace -ne "kickstart365" -or $control.manifest.control.version -ne "1.10.0") {
+            if ($control.manifest.control.namespace -ne "kickstart365" -or $control.manifest.control.version -ne "1.11.0") {
                 throw "Unexpected packaged control identity/version"
             }
             foreach ($numericDefault in @{ sidePaneWidth = "600"; closeDateWarningDays = "7" }.GetEnumerator()) {

@@ -3,6 +3,17 @@
  * The control uses the app language (context.userSettings.languageId) to pick the locale.
  */
 
+function bpfErrorMessage(locale: "en" | "nl" | "de", code: string, detail: string, savedSteps: number): string {
+  const messages: Record<string, Record<string, string>> = {
+    en: { required: "Fill in the required process steps first", missingInstance: "This record has no instance of the selected process", inactive: "This process is finished or aborted", conflict: "The process changed. Refresh the board and try again", route: "The destination is not a unique stage in the active process path", unsupported: "Use the native process form for this transition", validation: "The card move was rejected", server: "Dynamics could not save the process stage" },
+    nl: { required: "Vul eerst de verplichte processtappen in", missingInstance: "Dit record heeft geen instance van het gekozen proces", inactive: "Dit proces is voltooid of afgebroken", conflict: "Het proces is gewijzigd. Vernieuw het board en probeer opnieuw", route: "De bestemming is geen unieke fase in de actieve procesroute", unsupported: "Gebruik voor deze overgang het procesformulier", validation: "Het verplaatsen is afgewezen", server: "Dynamics kon de procesfase niet opslaan" },
+    de: { required: "Zuerst die erforderlichen Prozessschritte ausfüllen", missingInstance: "Dieser Datensatz hat keine Instanz des ausgewählten Prozesses", inactive: "Dieser Prozess ist abgeschlossen oder abgebrochen", conflict: "Der Prozess wurde geändert. Board aktualisieren und erneut versuchen", route: "Das Ziel ist keine eindeutige Phase im aktiven Prozesspfad", unsupported: "Für diesen Übergang das Prozessformular verwenden", validation: "Die Kartenverschiebung wurde abgelehnt", server: "Dynamics konnte die Prozessphase nicht speichern" }
+  };
+  const message = messages[locale][code] ?? messages[locale].server;
+  const partial = savedSteps > 0 ? ({ en: ` ${savedSteps} stage transition(s) were already saved. The board will refresh.`, nl: ` Er zijn al ${savedSteps} faseovergang(en) opgeslagen. Het board wordt ververst.`, de: ` ${savedSteps} Phasenübergänge wurden bereits gespeichert. Das Board wird aktualisiert.` })[locale] : "";
+  return `${message}${detail ? `: ${detail}` : "."}${partial}`;
+}
+
 export interface Strings {
   configurationErrorsLabel: string;
   configurationExportLabel: string;
@@ -57,6 +68,7 @@ export interface Strings {
   filterPresetNone: string;
 
   // Drag & drop toasts
+  bpfMoveError: (code: string, detail: string, savedSteps: number) => string;
   toastSaving: string;
   toastSuccessMoved: (columnName: string) => string;
   toastUnallocated: string;
@@ -154,6 +166,7 @@ const en: Strings = {
   toastSuccessMoved: (columnName) => `Successfully moved to ${columnName} 🎉`,
   toastUnallocated: "Unallocated",
   toastValidationFunctionNotFound: "Card move validation function is not available. Check that the web resource is loaded and the function path is correct.",
+  bpfMoveError: (code, detail, savedSteps) => bpfErrorMessage("en", code, detail, savedSteps),
 
   loadingLabel: "Loading...",
   openingRecordLabel: "Opening record...",
@@ -234,6 +247,7 @@ const de: Strings = {
   toastSuccessMoved: (columnName) => `Erfolgreich verschoben nach ${columnName} 🎉`,
   toastUnallocated: "Nicht zugeordnet",
   toastValidationFunctionNotFound: "Die Validierungsfunktion für Kartenverschiebungen ist nicht verfügbar. Prüfen Sie, ob die Webressource geladen ist und der Funktionspfad stimmt.",
+  bpfMoveError: (code, detail, savedSteps) => bpfErrorMessage("de", code, detail, savedSteps),
 
   loadingLabel: "Laden...",
   openingRecordLabel: "Datensatz wird geöffnet...",
@@ -286,6 +300,7 @@ const nl: Strings = {
   filterPresetLabel: "Filterpreset", filterPresetNone: "(Geen preset)", toastSaving: "Opslaan…",
   toastSuccessMoved: column => `Verplaatst naar ${column}`, toastUnallocated: "Niet toegewezen",
   toastValidationFunctionNotFound: "De validatiefunctie voor verplaatsen is niet beschikbaar. Controleer de webresource en functienaam.",
+  bpfMoveError: (code, detail, savedSteps) => bpfErrorMessage("nl", code, detail, savedSteps),
   loadingLabel: "Laden…", openingRecordLabel: "Record openen…", cardDensityLabel: "Kaartweergave",
   compactCardsLabel: "Compact", expandedCardsLabel: "Uitgebreid", showDetailsLabel: "Details tonen",
   collapseDetailsLabel: "Details verbergen", openNewTabLabel: "Openen in nieuw tabblad", noRecordsLabel: "Geen records gevonden",

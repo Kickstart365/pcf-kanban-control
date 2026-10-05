@@ -7,19 +7,19 @@ van [novalogica/pcf-kanban-control](https://github.com/novalogica/pcf-kanban-con
 voegt onder meer compacte kaarten, kolomtotalen, kolomkleuren, een recordzijpaneel
 en bewerkbare velden op Opportunity-kaarten toe.
 
-Huidige versie: **control 1.10.0 / solution 1.10.0.0**.
+Huidige versie: **control 1.11.0 / solution 1.11.0.0**.
 
 ## Solutions downloaden
 
-| Pakket 1.10.0.0 | Download |
+| Pakket 1.11.0.0 | Download |
 | --- | --- |
-| Managed | [Kickstart365Kanban_1_10_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_managed.zip) |
-| Unmanaged | [Kickstart365Kanban_1_10_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_unmanaged.zip) |
+| Managed | [Kickstart365Kanban_1_11_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.0.0/Kickstart365Kanban_1_11_0_0_managed.zip) |
+| Unmanaged | [Kickstart365Kanban_1_11_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.0.0/Kickstart365Kanban_1_11_0_0_unmanaged.zip) |
 
 Deze ZIPs kun je direct importeren via **Solutions → Import**. Gebruik voor
 een bestaande installatie hetzelfde managed/unmanaged-pakkettype.
 Zie [installatie en upgrades](docs/DEV-INSTALLATION.md) en
-[checksums/buildherkomst](downloads/1.10.0.0/README.md).
+[checksums/buildherkomst](downloads/1.11.0.0/README.md).
 
 ## Configuratiehandleiding
 
@@ -51,7 +51,8 @@ Vanaf 1.10.0: [één Config (JSON), export en autocomplete-schema](docs/CONFIG-J
 - Laat geselecteerde, schrijfbare Opportunity-velden direct op de kaart bewerken.
 - Biedt zoeken, veldfilters, filterpresets en sortering.
 - Verplaatst Choice-kaarten met opslaan en optionele JavaScript-validatie.
-  Slepen in een BPF opent het native formulier om daar de procesfase te wijzigen.
+  Slepen in een BPF slaat de procesfase op en verplaatst de kaart na succes.
+  Zie [BPF-slepen (NL)](docs/BPF-DRAG.md) / [BPF dragging (EN)](docs/BPF-DRAG.en.md).
 
 ## Installeren en gebruiken
 

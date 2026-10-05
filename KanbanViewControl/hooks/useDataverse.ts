@@ -3,6 +3,7 @@ import { IInputs } from '../generated/ManifestTypes';
 import { isNullOrEmpty, orderStages, chunkArray } from '../lib/utils';
 import { ViewEntity } from '../interfaces';
 import { XrmService } from './service';
+import { BpfDefinition, BpfMoveRequest, createBpfApi, getBpfDefinition, moveBpfStage as saveBpfStage } from '../lib/bpf-stage-move';
 
 export type ConfigErrorReporter = (property: string, message: string) => void;
 export type ClearConfigError = (property: string) => void;
@@ -19,6 +20,17 @@ export const useDataverse = (context: ComponentFramework.Context<IInputs>, onCon
 
     // Cache choice metadata per entity/language/column set. Record stages stay fresh.
     const optionSetsCacheRef = useRef<{ key: string; value: any } | null>(null);
+    const bpfApi = useMemo(() => createBpfApi(webAPI), [webAPI]);
+    const bpfDefinitions = useRef(new Map<string, Promise<BpfDefinition>>());
+    const definitionFor = (process: string, entity: string) => {
+        const key = `${process}|${entity}`;
+        let definition = bpfDefinitions.current.get(key);
+        if (!definition) {
+            definition = getBpfDefinition(bpfApi, process, entity).catch(reason => { bpfDefinitions.current.delete(key); throw reason; });
+            bpfDefinitions.current.set(key, definition);
+        }
+        return definition;
+    };
 
     const xrmService = useMemo(() => {
         const service = XrmService.getInstance();
@@ -122,7 +134,7 @@ export const useDataverse = (context: ComponentFramework.Context<IInputs>, onCon
             await Promise.all(stagesReduced.map(async (process: any) => {
                 if (process != undefined) {
                     process.columns = process.columns.sort((a: any, b: any) => a.order - b.order)
-                    process.records = await getRecordCurrentStage(logicalName, process.uniqueName, records)
+                    process.records = await getRecordCurrentStage(logicalName, process.uniqueName, records, String(process.key))
                 }
             }))
 
@@ -133,28 +145,33 @@ export const useDataverse = (context: ComponentFramework.Context<IInputs>, onCon
         }
     }
 
-    const getRecordCurrentStage = async (entityName: string, logicalName: string | undefined, records: string[]): Promise<ComponentFramework.WebApi.Entity[]> => {
+    const getRecordCurrentStage = async (entityName: string, logicalName: string | undefined, records: string[], processId?: string): Promise<ComponentFramework.WebApi.Entity[]> => {
         if (!logicalName || records.length === 0)
             return [];
 
-        // Built-in BPFs use opportunityid; custom BPFs use bpf_opportunityid.
-        // In() takes the attribute name, while $select uses the _name_value lookup.
-        const property = logicalName.includes("_") ? `bpf_${entityName}id` : `${entityName}id`;
+        const definition = await definitionFor(logicalName, entityName);
+        const property = definition.recordLookup;
         const process = `_${property}_value`;
+        if (processId && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(processId)) throw new Error("Invalid business process identity");
 
         const chunks = chunkArray(records, BPF_STAGE_QUERY_CHUNK_SIZE);
         const results: ComponentFramework.WebApi.Entity[] = [];
         // Limit simultaneous requests on large views as well as query length.
         for (const batch of chunkArray(chunks, 4)) {
             const perChunk = await Promise.all(batch.map(async (chunk) => {
-                const filter = `(Microsoft.Dynamics.CRM.In(PropertyName='${property}',PropertyValues=[${chunk.map(id => `'${id}'`).join(',')}]))`
+                const filter = `(Microsoft.Dynamics.CRM.In(PropertyName='${property}',PropertyValues=[${chunk.map(id => `'${id}'`).join(',')}]))${processId ? ` and _processid_value eq ${processId}` : ""}`
                 const stages = await webAPI.retrieveMultipleRecords(
                     logicalName,
-                    `?$select=_activestageid_value,_processid_value,${process}&$filter=${filter}&$expand=activestageid($select=stagename)`
+                    `?$select=_activestageid_value,_processid_value,${process}&$filter=${filter}&$expand=${definition.stageNavigation}($select=stagename)&$orderby=modifiedon desc`
                 );
-                return stages.entities.map((item: any) => ({
+                const seen = new Set<string>();
+                return stages.entities.filter((item: any) => {
+                    const id = item[process];
+                    if (!id || seen.has(id)) return false;
+                    seen.add(id); return true;
+                }).map((item: any) => ({
                     id: item[process],
-                    stageName: item.activestageid?.stagename ?? "unallocated"
+                    stageName: item[definition.stageNavigation]?.stagename ?? "unallocated"
                 }));
             }));
             results.push(...perChunk.flat());
@@ -253,6 +270,7 @@ export const useDataverse = (context: ComponentFramework.Context<IInputs>, onCon
 
     return {
         updateRecord,
+        moveBpfStage: (request: BpfMoveRequest) => saveBpfStage(bpfApi, request),
         getBusinessProcessFlows,
         getOptionSets,
         getRecordCurrentStage

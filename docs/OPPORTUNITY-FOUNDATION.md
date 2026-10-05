@@ -12,8 +12,9 @@ merged: activity/SharePoint actions, preset defaults and additional UI are defer
   and rolls back rejected validation or a failed Dataverse save. A successful
   save triggers one dataset refresh. Another drag is disabled while saving.
 - Reordering in one column and cancelled drops do not save or refresh.
-- BPF dragging opens the native Opportunity form. It does **not** directly
-  update the BPF stage or infer valid branch transitions.
+- From 1.11.0 BPF dragging saves adjacent transitions on the selected process
+  instance, following RetrieveActivePath and checking required steps. Cards
+  move after server confirmation. See [BPF dragging](BPF-DRAG.en.md).
 - Empty datasets still load column metadata. Paging completes before metadata
   loading; the old 2,500-record cutoff no longer silently limits totals.
 - Choice metadata is cached per entity, language and column set. BPF record
@@ -23,8 +24,9 @@ merged: activity/SharePoint actions, preset defaults and additional UI are defer
   unchanged. Searching/filtering reuses the transformed data, excludes raw
   metadata from full-text search, and sorts date/number fields on raw values.
 - Lookup titles display names. Raw metadata is excluded from card details.
-- Built-in Opportunity BPF queries use `opportunityid` in In() and
-  `_opportunityid_value` in $select; custom BPFs retain `bpf_opportunityid`.
+- BPF parent lookups, stage navigation and entity-set names are discovered
+  from relationship metadata for built-in and custom processes. Multiple
+  instances of the selected process are resolved by latest modified time.
 - BPF ordering preserves disconnected paths and avoids loops. Stages missing
   from workflow UI data are appended rather than sorting at index -1.
   `businessProcessFlowStepOrder` remains the explicit override for branches.

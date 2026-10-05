@@ -2,26 +2,26 @@
 
 **Taal: Nederlands | [English](CONFIGURATION.en.md)**
 
-Voor **control 1.10.0 / solution 1.10.0.0**. Deze handleiding beschrijft alle
+Voor **control 1.11.0 / solution 1.11.0.0**. Deze handleiding beschrijft alle
 **47 inputinstellingen** uit `ControlManifest.Input.xml`, gecontroleerd tegen
 de implementatie. `dataset` is de gekoppelde Dataverse-weergave en staat los
 van die 47 opties. Alle inputinstellingen zijn optioneel.
 
 ## Solutions downloaden
 
-Dit zijn de gecontroleerde pakketten van **1.10.0.0** uit
-[de geslaagde PR-build op `3417806`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37289034913).
+Dit zijn de gecontroleerde pakketten van **1.11.0.0** uit
+[de geslaagde PR-build op `bc34b3c`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37296163783).
 Elke link downloadt rechtstreeks een importeerbare solution-ZIP.
 
 | Pakket | Download | Gebruik |
 | --- | --- | --- |
-| Managed | [Kickstart365Kanban_1_10_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_managed.zip) | Installeren of bijwerken van een bestaande managed installatie. |
-| Unmanaged | [Kickstart365Kanban_1_10_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een bestaande unmanaged installatie. |
+| Managed | [Kickstart365Kanban_1_11_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.0.0/Kickstart365Kanban_1_11_0_0_managed.zip) | Installeren of bijwerken van een bestaande managed installatie. |
+| Unmanaged | [Kickstart365Kanban_1_11_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.0.0/Kickstart365Kanban_1_11_0_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een bestaande unmanaged installatie. |
 
 Importeer de gedownloade ZIP via **Solutions → Import** in Power Apps. Houd
 bij een bestaande installatie hetzelfde managed/unmanaged-pakkettype aan.
 Deze directe downloads hoef je niet uit te pakken.
-[Checksums en buildherkomst](../downloads/1.10.0.0/README.md) staan bij de downloads.
+[Checksums en buildherkomst](../downloads/1.11.0.0/README.md) staan bij de downloads.
 
 ## Inhoud
 
@@ -125,7 +125,7 @@ Zie [JSON-configuratie, voorrang, migratie en schema](CONFIG-JSON.md).
 | `filteredBusinessProcessFlows` | Filter out Business Process Flows | JSON-array met BPF-namen; `[]` | Sluit de genoemde processen uit. Alleen actieve BPF's worden aangeboden. |
 | `businessProcessFlowStepOrder` | Business Process Flow Step Order | JSON-array met `{id,order}`; native procesvolgorde | `id` is de exacte fasenaam. Lager `order` komt eerder; niet genoemde fases houden hun native volgordewaarde. |
 | `hideViewBy` | Hide View By if default View By set? | Ja/Nee; uit | Verbergt **View By** wanneer aan, ook als geen `defaultView` is ingevuld. Stel de gewenste groepering eerst in. |
-| `allowCardMove` | Allow moving cards | Ja/Nee; aan als niet opgegeven | Staat slepen toe. Choice: veldwaarde opslaan. BPF: native recordformulier openen om de fase daar te wijzigen. |
+| `allowCardMove` | Allow moving cards | Ja/Nee; aan als niet opgegeven | Staat slepen toe. Choice: veldwaarde opslaan. BPF: de actieve procesfase opslaan; zie [BPF-slepen](BPF-DRAG.md). |
 | `cardMoveValidationFunction` | Card move validation function | Tekst; geen | Globale JavaScript-functienaam, bijvoorbeeld `K365.Kanban.beforeMove`. Geldt voor verplaatsingen tussen Choice-kolommen. |
 | `cardMoveValidationScript` | Card move validation script (web resource) | Tekst; geen | Naam van de JavaScript-webresource die de bovenstaande functie beschikbaar maakt, inclusief publisherprefix en pad. |
 | `showOpenInNewTabButton` | Show open in new tab button on card | Ja/Nee; uit | Extra knop op elke kaart om het record in een nieuw browsertabblad te openen. |
@@ -283,9 +283,11 @@ kunnen daardoor bij Niet toegewezen terechtkomen.
 Slepen met de greep naar een andere **Choice-kolom** schrijft de Choice-waarde;
 een mislukte save of afgewezen validator zet de kaart terug. Binnen dezelfde
 kolom herschikken is tijdelijk en wordt niet als recordvolgorde opgeslagen.
-Slepen tussen **BPF-kolommen** opent het native formulier in de ingestelde
-openmodus. Wijzig en bewaar de fase daar; de bestemmingsfase wordt niet
-automatisch ingevuld. BPF-verplichtingen en branchregels blijven in het formulier.
+Vanaf 1.11.0 schrijft slepen tussen **BPF-kolommen** de bestemmingsfase op de
+procesinstantie. De kaart verhuist na succesvol opslaan en het board ververst.
+Bij ontbrekende verplichte procesvelden verschijnt een melding en opent het
+recordformulier. Vul de velden in en sleep opnieuw. Zie [BPF-slepen](BPF-DRAG.md)
+voor actieve routes, rechten, gelijktijdige wijzigingen en formulierlogica.
 
 De plusknop opent een nieuw record in een dialoog. Bij Choice-groepering wordt
 de kolomwaarde meegegeven als beginwaarde; bij BPF wordt geen fase vooringevuld.
@@ -675,9 +677,10 @@ automatisch de plaats in van een eerder opgeslagen gebruikerssortering.
 
 ## Validatie bij verplaatsen
 
-Dit geldt alleen voor **Choice-verplaatsingen naar een andere kolom**.
-Verplaatsen binnen dezelfde kolom en BPF-verplaatsingen roepen deze functie
-niet aan. Een validator staat los van de inline editor.
+Dit geldt voor **Choice- en BPF-verplaatsingen naar een andere kolom**.
+Herschikken binnen dezelfde kolom roept deze functie niet aan.
+Een validator staat los van de inline editor. Bij BPF wordt de bestemming
+eerst naar de echte fase-id in de actieve route vertaald.
 
 1. Maak een JavaScript-webresource, bijvoorbeeld `k365_/scripts/kanban_validate.js`.
 2. Vul die exacte webresourcenaam in bij `cardMoveValidationScript`, zonder URL.
@@ -710,8 +713,9 @@ De functie ontvangt één object:
 | `recordId` | ID van het verplaatste record |
 | `entityName` | Logische tabelnaam, bijvoorbeeld `opportunity` |
 | `logicalName` | Door de control afgeleide meervoudige tabelnaam; gebruik bij Web API-calls de juiste metadata/entity-setnaam |
-| `fieldName` | Choice-veld dat wordt gewijzigd |
-| `newValue` | Bestemmingswaarde, of `null` voor Niet toegewezen |
+| `fieldName` | Choice-veld, of `activestageid` bij BPF |
+| `newValue` | Choice-bestemmingswaarde of `null`; bij BPF de echte bestemmingsfase-GUID |
+| `processInstanceId`, `processName` | Alleen BPF: procesinstantie-GUID en logische BPF-tabelnaam |
 | `sourceColumnId`, `destinationColumnId` | Bron- en bestemmingskolom-id |
 | `sourceColumnTitle`, `destinationColumnTitle` | Zichtbare kolomnamen |
 | `card` | Oorspronkelijke kaart vóór verplaatsen; `<field>Raw` bevat de raw value als het veld geladen is |
@@ -757,7 +761,7 @@ geleverd; eigen labels/presetnamen uit de configuratie worden niet vertaald.
 | Breedte ontbreekt | `columnWidths` gebruikt fasenaam/Choice-id, geen GUID. Controleer getallen, algemene grenzen en vaste overrides. |
 | Preset werkt niet | Zet het veld in `quickFilterFields`. Gebruik dropdownlabels of het correcte getal-/datumformaat voor de getoonde filter. Voor een datumbereik gebruik je `{start,end}` of `custom:`. |
 | Zijpaneel opent als dialoog | De host biedt de native zijpaneel-API niet aan of kan het paneel niet maken. Controleer de web-appintegratie; de recordopening heeft een dialoogfallback. |
-| Slepen wijzigt geen BPF-fase | Dit opent het formulier; voer en bewaar de fasewijziging daar uit. |
+| Slepen wijzigt geen BPF-fase | Vanaf 1.11.0 wordt de fase opgeslagen. Lees de melding; controleer BPF-rechten, verplichte stappen en de actieve route. Zie [BPF-slepen](BPF-DRAG.md). |
 | Verplaatsen wordt geblokkeerd | Controleer savefout, rechten, validatornaam, gepubliceerde webresource en beschikbaarheid van de functie op de lijstpagina. |
 
 Ongeldige JSON geeft bij veel instellingen een configuratiebanner met de

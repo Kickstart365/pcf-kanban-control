@@ -9,7 +9,7 @@ standaardwaarden, voorbeelden en oplossingen voor veelvoorkomende problemen.
 ## Inrichten
 
 1. [Download de managed of unmanaged solution](CONFIGURATION.md#solutions-downloaden)
-   en importeer **Kickstart365Kanban 1.10.0.0** in de gewenste omgeving.
+   en importeer **Kickstart365Kanban 1.11.0.0** in de gewenste omgeving.
    Zie [installatie en upgrades](DEV-INSTALLATION.md); houd bij een bestaande
    installatie hetzelfde managed/unmanaged-pakkettype aan.
 2. Maak/open een Opportunity-weergave met `name` als eerste kolom. Voeg
@@ -49,8 +49,9 @@ BPF, custom velden en model-driven app worden niet meegeleverd.
   vernieuwde kaart. Gebruik Verversen na een BPF- of cloudflowwijziging.
 - Bewerk een toegestaan veld, annuleer een concept en controleer een afgewezen
   save. Test ook een gesloten record en een gebruiker zonder schrijfrechten.
-- Sleep tussen BPF-kolommen: wijzig de fase in het geopende native formulier.
-  De control schrijft geen BPF-fase rechtstreeks.
+- Sleep tussen BPF-kolommen: de fase wordt vanaf 1.11.0 opgeslagen op de
+  procesinstantie. De kaart verhuist na succes. Ontbrekende verplichte stappen
+  openen het formulier; vul ze in en sleep opnieuw. Zie [BPF-slepen](BPF-DRAG.md).
 - Test zoeken, presets, datum-/getalfilters, sortering en toetsenbordbediening.
 
 Zie [de volledige 1.9-pilotchecks](INTERACTION-SETTINGS.md#pilot-checks-after-importing-1900),
