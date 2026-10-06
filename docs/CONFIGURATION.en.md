@@ -27,6 +27,7 @@ are included with the downloads.
 
 - [Download the solutions](#download-the-solutions)
 - [Set up in Power Apps](#set-up-in-power-apps)
+- [Set up at table level](#set-up-at-table-level)
 - [Field names, JSON and defaults](#field-names-json-and-defaults)
 - [Config (JSON)](#config-json)
 - [All configuration options](#all-configuration-options)
@@ -47,6 +48,9 @@ are included with the downloads.
 - [Troubleshooting](#troubleshooting)
 
 ## Set up in Power Apps
+
+The steps below configure the control on one view. For registration on the
+Opportunity main grid, see [Set up at table level](#set-up-at-table-level).
 
 1. Import the solution into the intended environment. For an existing
    installation, use the same package type: managed for managed, unmanaged for
@@ -73,6 +77,57 @@ are included with the downloads.
 
 The solution package contains only the component. It does not include an
 Opportunity view, Business Process Flow, custom fields or model-driven app.
+
+## Set up at table level
+
+This section applies to the original **Kickstart365 Kanban PCF** for one table.
+You can register the same dataset control on the **Opportunity** main grid,
+instead of adding it separately to every view. The selected view still
+determines the records and dataset columns. The separate combined **Sales
+Pipeline** app is a different product.
+
+Microsoft describes this route in [Add a code component to a
+table](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/add-custom-controls-to-a-field-or-entity#add-code-component-to-a-table).
+The steps below configure the existing control; no new component build is
+needed.
+
+1. Import the Kanban solution and open the **Opportunity** table in solution
+   explorer. Use an unmanaged configuration solution for your table/app
+   customizations. Where needed, open the classic solution explorer:
+   **Entities / Tables → Opportunity → Controls**. The route and available
+   designer can vary between environments.
+2. Select **Add Control**, select **Kickstart365 Kanban**, and add it.
+3. Configure the properties or **Config (JSON)** as you would for a view. Keep
+   the maker's required configuration values valid, including whole numbers
+   for **Side pane width** and **Close date warning days**. See [Field names,
+   JSON and defaults](#field-names-json-and-defaults).
+4. Check the **Web / Phone / Tablet** settings. Keep the existing grid as the
+   default if users should choose through **Show As**. To make Kanban the
+   default, select the intended client next to the Kanban control, for example
+   **Web**. Availability on a client does not constitute live validation of
+   our mobile behaviour.
+5. Save the table configuration and publish the changes. Publish the
+   model-driven app too if its configuration was changed.
+6. Reload the app, open **Opportunities**, select a view and check
+   **Show As → Kickstart365 Kanban**. Microsoft **Pipeline view**, **Focused
+   view** and Microsoft Kanban are separate displays; registering our control
+   does not add it as a mode within those Microsoft controls. The available
+   menu items depend on the app and control configuration.
+7. Switch to a second view and repeat the check. Review any separate control
+   settings on the view or in the app; registering at table level does not
+   automatically replace those settings.
+
+**Required fields per view.** Table registration does not add dataset fields.
+Put `name` first for the card title. Include the fields used for card content,
+filters and editing. Revenue totals require `estimatedvalue` and
+`transactioncurrencyid`; Choice grouping requires the selected Choice field
+in the dataset. Entering a field name in JSON is insufficient. Different views
+can therefore provide different card fields and grouping choices.
+
+**DEV check.** The table route follows Microsoft documentation but has not yet
+been validated live in our DEV acceptance. Check **Show As** availability,
+switching views, empty results, grouping and totals before assuming all the
+Opportunity views you use have the same setup.
 
 ## Field names, JSON and defaults
 
@@ -248,6 +303,24 @@ as `OptionSet` in the dataset, plus available active BPFs for the table.
 Without a valid `defaultView`, the first available grouping is selected;
 Choice groupings come before BPFs. Use the exact BPF display name, such as
 `Opportunity Sales Process`, only if that is the name of your process.
+
+### Group by a Choice field
+
+This already works with an ordinary **Choice / Option Set** field containing
+one choice per record; multiselect Choice fields are not offered as column
+groupings.
+
+1. Add the Choice field to the Dataverse view, for example a custom field with
+   the display label **Commercial stage**.
+2. Open Kanban and select that field under **View By**. Dataverse options,
+   labels and ordering define the columns.
+3. To use this grouping initially, set **Default View By** to the exact visible
+   field name, for example `Commercial stage`.
+
+Dragging to another Choice column updates the stored numeric Choice value.
+It does not automatically change the BPF stage. BPF grouping instead saves the
+active process stage. Both groupings use the same column colour and total
+settings. The `statuscode` restriction described below still applies.
 
 `filteredBusinessProcessFlows` is an **exclusion list**, for example:
 

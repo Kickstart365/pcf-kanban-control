@@ -27,6 +27,7 @@ Deze directe downloads hoef je niet uit te pakken.
 
 - [Solutions downloaden](#solutions-downloaden)
 - [Instellen in Power Apps](#instellen-in-power-apps)
+- [Instellen op tabelniveau](#instellen-op-tabelniveau)
 - [Veldnamen, JSON en standaardwaarden](#veldnamen-json-en-standaardwaarden)
 - [Config (JSON)](#config-json)
 - [Alle configuratieopties](#alle-configuratieopties)
@@ -47,6 +48,10 @@ Deze directe downloads hoef je niet uit te pakken.
 - [Problemen oplossen](#problemen-oplossen)
 
 ## Instellen in Power Apps
+
+Onderstaande stappen richten de control in op één weergave. Voor eenmalige
+registratie op de Opportunity-hoofdgrid, zie [Instellen op
+tabelniveau](#instellen-op-tabelniveau).
 
 1. Importeer de solution in de gewenste omgeving. Gebruik bij een bestaande
    installatie hetzelfde pakkettype: managed bij managed, unmanaged bij unmanaged.
@@ -74,6 +79,62 @@ Deze directe downloads hoef je niet uit te pakken.
 
 Het solution-pakket bevat uitsluitend het component. De Opportunity-weergave,
 Business Process Flow, custom velden en model-driven app worden niet meegeleverd.
+
+## Instellen op tabelniveau
+
+Dit hoofdstuk betreft de oorspronkelijke **Kickstart365 Kanban-PCF** voor één
+tabel. Je kunt dezelfde datasetcontrol op de hoofdgrid van **Opportunity**
+registreren, zodat je deze niet afzonderlijk aan elke weergave hoeft toe te
+voegen. De geselecteerde weergave blijft de records en datasetkolommen bepalen.
+De aparte gecombineerde **Sales Pipeline**-app is een ander product.
+
+Microsoft beschrijft deze route in [Een codecomponent toevoegen aan een
+tabel](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/add-custom-controls-to-a-field-or-entity#add-code-component-to-a-table).
+Onderstaande stappen zijn configuratie van de bestaande control; er is geen
+nieuwe componentbuild nodig.
+
+1. Importeer de Kanban-solution en open de **Opportunity**-tabel in de
+   solutionverkenner. Gebruik een unmanaged configuratiesolution voor je
+   tabel-/appaanpassingen. Open waar nodig de klassieke solutionverkenner:
+   **Entities / Tabellen → Opportunity → Controls**. De route en beschikbare
+   designer kunnen per omgeving verschillen.
+2. Kies **Add Control / Control toevoegen**, selecteer **Kickstart365 Kanban**
+   en voeg deze toe.
+3. Configureer de properties of **Config (JSON)** op dezelfde manier als bij
+   een weergave. Houd verplichte configuratiewaarden van de maker geldig,
+   waaronder gehele getallen voor **Side pane width** en
+   **Close date warning days**. Zie [Veldnamen, JSON en
+   standaardwaarden](#veldnamen-json-en-standaardwaarden).
+4. Controleer de instellingen voor **Web / Phone / Tablet**. Laat de bestaande
+   grid als standaard staan als gebruikers zelf via **Show As** moeten kiezen.
+   Wil je Kanban als standaard, selecteer dan bij de Kanban-control de gewenste
+   client, bijvoorbeeld **Web**. Beschikbaarheid op een client betekent niet
+   dat onze mobiele werking daarmee live is gevalideerd.
+5. Sla de tabelconfiguratie op en publiceer de wijzigingen. Publiceer ook de
+   model-driven app als de appconfiguratie is aangepast.
+6. Herlaad de app, open **Opportunities**, kies een weergave en controleer
+   **Show As / Weergeven als → Kickstart365 Kanban**. Microsoft **Pipeline
+   view**, **Focused view** en Microsoft Kanban zijn afzonderlijke weergaven;
+   registratie van onze control maakt deze niet tot een onderdeel van die
+   Microsoft-controls. De aangeboden menu-items hangen af van de app- en
+   controlconfiguratie.
+7. Wissel naar een tweede weergave en herhaal de controle. Controleer eventuele
+   afzonderlijke controlinstellingen op de weergave of in de app; toevoegen op
+   tabelniveau vervangt die instellingen niet automatisch.
+
+**Benodigde velden per weergave.** Tabelregistratie voegt geen datasetvelden toe.
+Zet `name` als eerste kolom voor de kaarttitel. Voeg de velden toe voor
+kaartinhoud, filters en bewerken. Voor omzettotalen zijn `estimatedvalue` en
+`transactioncurrencyid` nodig; voor Choice-groepering moet het gekozen
+Choice-veld in de dataset staan. Alleen een veldnaam in JSON invullen is
+onvoldoende. Verschillende views kunnen daarom verschillende kaartvelden en
+groeperingskeuzes opleveren.
+
+**Controle in DEV.** De tabelroute volgt de Microsoft-documentatie, maar is nog
+niet live gevalideerd in onze DEV-acceptatie. Controleer beschikbaarheid in
+**Show As**, wisselen van views, lege resultaten, groepering en totalen voordat
+je ervan uitgaat dat alle gebruikte Opportunity-views dezelfde inrichting
+hebben.
 
 ## Veldnamen, JSON en standaardwaarden
 
@@ -250,6 +311,24 @@ de tabel. Zonder geldige `defaultView`
 wordt de eerste beschikbare groepering gekozen; Choice-groeperingen komen vóór
 de BPF's. Gebruik dus de exacte zichtbare BPF-naam, bijvoorbeeld
 `Opportunity Sales Process`, uitsluitend als jouw proces zo heet.
+
+### Groeperen op een optieset
+
+Dit werkt al met een gewoon **Choice / Optieset**-veld met één keuze per
+record; een multiselect-Choice wordt niet als kolomgroepering aangeboden.
+
+1. Voeg het Choice-veld toe aan de Dataverse-weergave, bijvoorbeeld een
+   aangepast veld met het zichtbare label **Commerciële fase**.
+2. Open Kanban en kies dat veld bij **View By / Groeperen op**. De opties,
+   labels en volgorde uit Dataverse vormen de kolommen.
+3. Wil je deze groepering als startkeuze, stel **Default View By** in op de
+   exacte zichtbare veldnaam, bijvoorbeeld `Commerciële fase`.
+
+Bij slepen naar een andere Choice-kolom wordt de opgeslagen numerieke
+keuzeveldwaarde aangepast. Dit verandert niet automatisch de BPF-fase.
+Bij BPF-groepering wordt juist de actieve procesfase opgeslagen. Beide
+groeperingen gebruiken dezelfde instellingen voor kolomkleuren en totalen.
+De hieronder beschreven beperking voor `statuscode` blijft van toepassing.
 
 `filteredBusinessProcessFlows` is een **uitsluitlijst**, bijvoorbeeld:
 
