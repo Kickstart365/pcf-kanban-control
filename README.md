@@ -7,19 +7,19 @@ van [novalogica/pcf-kanban-control](https://github.com/novalogica/pcf-kanban-con
 voegt onder meer compacte kaarten, kolomtotalen, kolomkleuren, een recordzijpaneel
 en bewerkbare velden op Opportunity-kaarten toe.
 
-Huidige versie: **control 1.11.1 / solution 1.11.1.0**.
+Huidige versie: **control 1.12.0 / solution 1.12.0.0**.
 
 ## Solutions downloaden
 
-| Pakket 1.11.1.0 | Download |
+| Pakket 1.12.0.0 | Download |
 | --- | --- |
-| Managed | [Kickstart365Kanban_1_11_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.1.0/Kickstart365Kanban_1_11_1_0_managed.zip) |
-| Unmanaged | [Kickstart365Kanban_1_11_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.1.0/Kickstart365Kanban_1_11_1_0_unmanaged.zip) |
+| Managed | [Kickstart365Kanban_1_12_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_managed.zip) |
+| Unmanaged | [Kickstart365Kanban_1_12_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_unmanaged.zip) |
 
 Deze ZIPs kun je direct importeren via **Solutions → Import**. Gebruik voor
 een bestaande installatie hetzelfde managed/unmanaged-pakkettype.
 Zie [installatie en upgrades](docs/DEV-INSTALLATION.md) en
-[checksums/buildherkomst](downloads/1.11.1.0/README.md).
+[checksums/buildherkomst](downloads/1.12.0.0/README.md).
 
 ## Configuratiehandleiding
 
@@ -50,7 +50,8 @@ Vanaf 1.10.0: [één Config (JSON), export en autocomplete-schema](docs/CONFIG-J
   uitgesplitst per valuta.
 - Biedt compacte/uitgebreide kaarten, datumlabels, kaartaccenten en kolomkleuren.
 - Opent bestaande records en lookups in een zijpaneel of dialoog.
-- Laat geselecteerde, schrijfbare Opportunity-velden direct op de kaart bewerken.
+- Laat geselecteerde, schrijfbare Opportunity-velden direct op de kaart bewerken
+  en automatisch opslaan bij het verlaten van de editor.
 - Biedt zoeken, veldfilters, filterpresets en sortering.
 - Verplaatst Choice-kaarten met opslaan en optionele JavaScript-validatie.
   Slepen in een BPF slaat de procesfase op en verplaatst de kaart na succes.

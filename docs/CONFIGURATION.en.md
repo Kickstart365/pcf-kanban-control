@@ -2,25 +2,25 @@
 
 **Language: English | [Nederlands](CONFIGURATION.md)**
 
-For **control 1.11.1 / solution 1.11.1.0**. This guide covers all **47 input
+For **control 1.12.0 / solution 1.12.0.0**. This guide covers all **47 input
 settings** in `ControlManifest.Input.xml`, checked against the implementation.
 `dataset` is the connected Dataverse view and is separate from those 47 options.
 All input settings are optional.
 
 ## Download the solutions
 
-These are the verified **1.11.1.0** packages from
-[the successful PR integration build at `efd8097`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37316211784).
+These are the verified **1.12.0.0** packages from
+[the verified solution build](../downloads/1.12.0.0/README.md).
 Each link downloads an importable solution ZIP directly.
 
 | Package | Download | Use |
 | --- | --- | --- |
-| Managed | [Kickstart365Kanban_1_11_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.1.0/Kickstart365Kanban_1_11_1_0_managed.zip) | Installing or updating an existing managed installation. |
-| Unmanaged | [Kickstart365Kanban_1_11_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.1.0/Kickstart365Kanban_1_11_1_0_unmanaged.zip) | Development/customization or updating an existing unmanaged installation. |
+| Managed | [Kickstart365Kanban_1_12_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_managed.zip) | Installing or updating an existing managed installation. |
+| Unmanaged | [Kickstart365Kanban_1_12_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_unmanaged.zip) | Development/customization or updating an existing unmanaged installation. |
 
 Import the downloaded ZIP using **Solutions → Import** in Power Apps. For an
 existing installation, keep its managed/unmanaged package type. These direct
-downloads do not need to be extracted. [Checksums and build source](../downloads/1.11.1.0/README.md)
+downloads do not need to be extracted. [Checksums and build source](../downloads/1.12.0.0/README.md)
 are included with the downloads.
 
 ## Contents
@@ -507,14 +507,21 @@ numeric bounds. Only open Opportunities are editable. Product-calculated
 revenue cannot be changed on the card. For some restrictions, clicking the
 pencil may be the point at which the editor reports an unsupported field.
 
-Click the pencil, change the value and choose **Save** or **Cancel**.
-Enter saves a single-line input; Escape cancels. Enter in multiline text
-inserts a new line. Enter numbers without grouping separators; the inline
+From **1.12.0.0**, click the field value or pencil and edit directly on the
+card. Changes save automatically when you leave the editor: click outside it
+or use Tab to move to another part of the board. Enter saves a single-line
+input. There is no separate **Save** button. Escape or **Cancel** discards the
+draft; moving focus to Cancel does not save. In multiline text, Enter inserts
+a new line; Ctrl+Enter (or Cmd+Enter) saves. Email and phone links keep their
+link behaviour; use the pencil to edit those fields.
+Enter numbers without grouping separators; the inline
 editor accepts a comma or dot as the decimal separator. While editing,
 other record actions, dragging, board filters and density controls are blocked.
 
 Saving checks the current server value again and uses an ETag for the update.
 A conflict or rejected save retains the draft and displays the error.
+Correct the input and leave the editor, or select **Retry save**. Unchanged
+values are not written again. Duplicate submissions are blocked while saving.
 Cancel makes no write; a successful save refreshes cards, filters and totals.
 
 Dataverse permissions, plugins and server validation still apply. Form

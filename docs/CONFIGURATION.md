@@ -2,26 +2,26 @@
 
 **Taal: Nederlands | [English](CONFIGURATION.en.md)**
 
-Voor **control 1.11.1 / solution 1.11.1.0**. Deze handleiding beschrijft alle
+Voor **control 1.12.0 / solution 1.12.0.0**. Deze handleiding beschrijft alle
 **47 inputinstellingen** uit `ControlManifest.Input.xml`, gecontroleerd tegen
 de implementatie. `dataset` is de gekoppelde Dataverse-weergave en staat los
 van die 47 opties. Alle inputinstellingen zijn optioneel.
 
 ## Solutions downloaden
 
-Dit zijn de gecontroleerde pakketten van **1.11.1.0** uit
-[de geslaagde PR-build op `efd8097`](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37316211784).
+Dit zijn de gecontroleerde pakketten van **1.12.0.0** uit
+[de gecontroleerde solution-build](../downloads/1.12.0.0/README.md).
 Elke link downloadt rechtstreeks een importeerbare solution-ZIP.
 
 | Pakket | Download | Gebruik |
 | --- | --- | --- |
-| Managed | [Kickstart365Kanban_1_11_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.1.0/Kickstart365Kanban_1_11_1_0_managed.zip) | Installeren of bijwerken van een bestaande managed installatie. |
-| Unmanaged | [Kickstart365Kanban_1_11_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.1.0/Kickstart365Kanban_1_11_1_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een bestaande unmanaged installatie. |
+| Managed | [Kickstart365Kanban_1_12_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_managed.zip) | Installeren of bijwerken van een bestaande managed installatie. |
+| Unmanaged | [Kickstart365Kanban_1_12_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een bestaande unmanaged installatie. |
 
 Importeer de gedownloade ZIP via **Solutions → Import** in Power Apps. Houd
 bij een bestaande installatie hetzelfde managed/unmanaged-pakkettype aan.
 Deze directe downloads hoef je niet uit te pakken.
-[Checksums en buildherkomst](../downloads/1.11.1.0/README.md) staan bij de downloads.
+[Checksums en buildherkomst](../downloads/1.12.0.0/README.md) staan bij de downloads.
 
 ## Inhoud
 
@@ -518,15 +518,23 @@ numerieke grenzen. Bewerken geldt alleen voor open Opportunities. Product-
 berekende omzet kan niet via de kaart worden gewijzigd. Het potlood kan bij
 sommige beperkingen pas na openen melden dat een veld niet ondersteund is.
 
-Klik het potlood, wijzig de waarde en kies **Opslaan** of **Annuleren**.
-Enter slaat een enkelregelige invoer op; Escape annuleert. In multiline tekst
-maakt Enter een nieuwe regel. Getallen voer je zonder duizendtalscheiding in;
+Vanaf **1.12.0.0** klik je op de veldwaarde of het potlood en bewerk je de
+waarde rechtstreeks in de kaart. De wijziging wordt automatisch opgeslagen
+wanneer je de editor verlaat: klik buiten de editor of gebruik Tab om naar
+een ander onderdeel te gaan. Enter slaat een enkelregelige invoer op.
+Er is geen aparte **Opslaan**-knop. Escape of **Annuleren** verwerpt je concept;
+focus verplaatsen naar Annuleren slaat niet op. In multiline tekst maakt
+Enter een nieuwe regel; Ctrl+Enter (of Cmd+Enter) slaat op. E-mail- en
+telefoonlinks behouden hun linkfunctie; gebruik daar het potlood.
+Getallen voer je zonder duizendtalscheiding in;
 de inline editor accepteert een komma of punt als decimaalteken. Tijdens een
 edit zijn andere recordacties, slepen, bordfilters en de dichtheidskeuze geblokkeerd.
 
 Bij opslaan wordt de actuele serverwaarde opnieuw gecontroleerd en voor de
 update een ETag gebruikt. Een conflict of afgewezen save houdt het concept
-beschikbaar en toont de fout. Annuleren schrijft niets; een geslaagde save
+beschikbaar en toont de fout. Corrigeer de invoer en verlaat de editor, of
+kies **Opnieuw opslaan**. Ongewijzigde waarden worden niet opnieuw geschreven.
+Tijdens opslaan worden dubbele updates geblokkeerd. Annuleren schrijft niets; een geslaagde save
 vernieuwt de kaarten, filters en totalen.
 
 Dataverse-rechten, plugins en servervalidatie blijven gelden. Formulier-

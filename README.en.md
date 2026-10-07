@@ -7,19 +7,19 @@ of [novalogica/pcf-kanban-control](https://github.com/novalogica/pcf-kanban-cont
 adds compact cards, column totals, column colors, a record side pane and
 editable fields on Opportunity cards.
 
-Current version: **control 1.10.0 / solution 1.10.0.0**.
+Current version: **control 1.12.0 / solution 1.12.0.0**.
 
 ## Download the solutions
 
-| Package 1.10.0.0 | Download |
+| Package 1.12.0.0 | Download |
 | --- | --- |
-| Managed | [Kickstart365Kanban_1_10_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_managed.zip) |
-| Unmanaged | [Kickstart365Kanban_1_10_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.10.0.0/Kickstart365Kanban_1_10_0_0_unmanaged.zip) |
+| Managed | [Kickstart365Kanban_1_12_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_managed.zip) |
+| Unmanaged | [Kickstart365Kanban_1_12_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_unmanaged.zip) |
 
 Import these ZIPs directly using **Solutions → Import**. For an existing
 installation, keep its managed/unmanaged package type. See
 [installation and upgrades](docs/DEV-INSTALLATION.en.md) and
-[checksums/build source](downloads/1.10.0.0/README.md).
+[checksums/build source](downloads/1.12.0.0/README.md).
 
 ## Configuration guide
 
@@ -46,10 +46,12 @@ From 1.10.0: [one Config (JSON), export and autocomplete schema](docs/CONFIG-JSO
   amounts by currency.
 - Provides compact/expanded cards, date badges, card highlights and column colors.
 - Opens existing records and lookups in a side pane or dialog.
-- Lets users edit selected writable Opportunity fields directly on cards.
+- Lets users edit selected writable Opportunity fields directly on cards
+  and save automatically when leaving the editor.
 - Provides search, field filters, filter presets and sorting.
 - Moves Choice cards with saving and optional JavaScript validation.
-  BPF dragging opens the native form to change the process stage there.
+  BPF dragging saves the process stage and moves the card after success.
+  See [BPF dragging (EN)](docs/BPF-DRAG.en.md) / [BPF-slepen (NL)](docs/BPF-DRAG.md).
 
 ## Installation and use
 

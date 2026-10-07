@@ -1,4 +1,4 @@
-# Kickstart365 Kanban 1.11.1: downloaden, installeren en bouwen
+# Kickstart365 Kanban 1.12.0: downloaden, installeren en bouwen
 
 **Taal: Nederlands | [English](DEV-INSTALLATION.en.md)**
 
@@ -9,19 +9,19 @@ en pilotchecks voor zijpanelen, kleuren en bewerken staan in
 
 ## Solutions downloaden
 
-Download de gecontroleerde versie **1.11.1.0** rechtstreeks:
+Download de gecontroleerde versie **1.12.0.0** rechtstreeks:
 
 | Pakket | Download | Gebruik |
 | --- | --- | --- |
-| Managed | [Kickstart365Kanban_1_11_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.1.0/Kickstart365Kanban_1_11_1_0_managed.zip) | Installeren of bijwerken van een managed installatie. |
-| Unmanaged | [Kickstart365Kanban_1_11_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.11.1.0/Kickstart365Kanban_1_11_1_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een unmanaged installatie. |
+| Managed | [Kickstart365Kanban_1_12_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_managed.zip) | Installeren of bijwerken van een managed installatie. |
+| Unmanaged | [Kickstart365Kanban_1_12_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een unmanaged installatie. |
 
 Deze twee links leveren ieder een **direct importeerbare solution-ZIP** op.
 Je hoeft deze ZIPs niet uit te pakken. Zie
-[checksums en buildherkomst](../downloads/1.11.1.0/README.md).
+[checksums en buildherkomst](../downloads/1.12.0.0/README.md).
 
-De pakketten komen uit [de geslaagde PR-build](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37316211784)
-voor commit `efd809756a08f21642ed8c85bec21a3b0c097c29`. De bron en versie
+De pakketten komen uit [de geslaagde solution-build](https://github.com/Kickstart365/pcf-kanban-control/actions/runs/37587275705)
+voor commit `c1b0d8d8aeab515e9370daba362198e9671dc78d`. De bron en versie
 staan vast in de downloadmap. Voor toekomstige builds kun je ook naar
 [Dataverse solution build](https://github.com/Kickstart365/pcf-kanban-control/actions/workflows/solution-build.yml):
 open een geslaagde run op `main` en download onder **Artifacts** het
@@ -51,8 +51,8 @@ geen uitgevoerde import-/runtimetest in de beoogde InSpark Dataverse-omgeving.
 ## Identiteit
 
 - Controlnamespace: `kickstart365`; constructor: `KanbanViewControl`.
-- Controlversie: `1.11.1`; zichtbare naam: **Kickstart365 Kanban**.
-- Solution: `Kickstart365Kanban`, versie `1.11.1.0`.
+- Controlversie: `1.12.0`; zichtbare naam: **Kickstart365 Kanban**.
+- Solution: `Kickstart365Kanban`, versie `1.12.0.0`.
 - Publisher: `kickstart365`; customizationprefix: `k365`.
 
 Deze identiteit staat los van de oorspronkelijke `novalogica`-control; je
