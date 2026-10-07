@@ -59,7 +59,7 @@ export function parseInlineValue(definition: InlineDefinition, text: string): In
     if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new InlineEditError("invalidDate");
     const date = new Date(`${value}T00:00:00Z`);
     if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== value) throw new InlineEditError("invalidDate");
-    return `${value}T00:00:00Z`;
+    return value;
   }
   // A single decimal comma is accepted. Grouping separators and exponent notation are deliberately rejected.
   if (!/^-?\d+(?:[.,]\d+)?$/.test(value)) throw new InlineEditError("invalidNumber");

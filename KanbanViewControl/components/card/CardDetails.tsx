@@ -168,7 +168,8 @@ const CardDetails = ({ id, fieldName, info, displayLabelOverride, renderAsHtml =
       {!hideLabel && (
         <Text className="card-info-label" variant="small">{label}</Text>
       )}
-      {editable && fieldName ? <InlineFieldEditor recordId={String(id)} field={fieldName} label={label}>{content}</InlineFieldEditor> : content}
+      {editable && fieldName ? <InlineFieldEditor recordId={String(id)} field={fieldName} label={label}
+        valueClickable={!linkHref && !renderAsHtml && !isEntityReference(info.value)}>{content}</InlineFieldEditor> : content}
     </div>
   );
 }

@@ -61,7 +61,7 @@ test("generic text edits preserve whitespace and enforce required fields and max
 test("DateOnly round trips use the ISO calendar date, including leap days", () => {
   assert.equal(inlineInputValue(date, "2026-10-03T00:00:00Z"), "2026-10-03");
   assert.equal(inlineInputValue(date, new Date("2026-10-03T00:00:00Z")), "2026-10-03");
-  assert.equal(parseInlineValue(date, "2028-02-29"), "2028-02-29T00:00:00Z");
+  assert.equal(parseInlineValue(date, "2028-02-29"), "2028-02-29");
   assert.throws(() => parseInlineValue(date, "2026-02-29"), error => error.code === "invalidDate");
   assert.throws(() => parseInlineValue(date, "03-10-2026"));
 });

@@ -103,6 +103,9 @@ export interface Strings {
   refreshLabel: string;
   finishEditingLabel: string;
   inlineSaveErrorLabel: string;
+  inlineAutoSaveHint: string;
+  inlineMultilineSaveHint: string;
+  inlineRetrySaveLabel: string;
   inlineErrors: Record<string, string>;
 }
 
@@ -116,6 +119,9 @@ const en: Strings = {
   openRecordErrorLabel: "Could not open the record.", saveLabel: "Save", cancelLabel: "Cancel", editLabel: "Edit",
   dragCardLabel: "Move card", refreshLabel: "Refresh", finishEditingLabel: "Save or cancel your edit first.",
   inlineSaveErrorLabel: "Could not save this change.",
+  inlineAutoSaveHint: "Click outside or press Tab/Enter to save. Esc: cancel.",
+  inlineMultilineSaveHint: "Click outside or press Tab/Ctrl+Enter to save. Esc: cancel.",
+  inlineRetrySaveLabel: "Retry save",
   inlineErrors: { invalidNumber: "Enter a number without grouping separators.", invalidProbability: "Enter a whole number from 0 to 100.",
     invalidDate: "Enter a valid date.", closed: "Only open Opportunities can be edited here.", calculated: "Revenue is calculated from products. Edit it in the record form.",
     conflict: "This value changed while you were editing. Cancel and reopen the editor to load the current value.",
@@ -198,6 +204,9 @@ const de: Strings = {
   openRecordErrorLabel: "Der Datensatz konnte nicht geöffnet werden.", saveLabel: "Speichern", cancelLabel: "Abbrechen", editLabel: "Bearbeiten",
   dragCardLabel: "Karte verschieben", refreshLabel: "Aktualisieren", finishEditingLabel: "Zuerst speichern oder abbrechen.",
   inlineSaveErrorLabel: "Die Änderung konnte nicht gespeichert werden.",
+  inlineAutoSaveHint: "Außerhalb klicken oder Tab/Enter drücken zum Speichern. Esc: abbrechen.",
+  inlineMultilineSaveHint: "Außerhalb klicken oder Tab/Strg+Enter drücken zum Speichern. Esc: abbrechen.",
+  inlineRetrySaveLabel: "Erneut speichern",
   inlineErrors: { invalidNumber: "Eine Zahl ohne Tausendertrennzeichen eingeben.", invalidProbability: "Eine ganze Zahl von 0 bis 100 eingeben.",
     invalidDate: "Ein gültiges Datum eingeben.", closed: "Hier können nur offene Verkaufschancen bearbeitet werden.", calculated: "Der Umsatz wird aus Produkten berechnet. Das Formular verwenden.",
     conflict: "Der Wert wurde inzwischen geändert. Abbrechen und erneut öffnen.", unsupported: "Dieses Feld im Formular bearbeiten.",
@@ -279,6 +288,9 @@ const nl: Strings = {
   openRecordErrorLabel: "Het record kon niet worden geopend.", saveLabel: "Opslaan", cancelLabel: "Annuleren", editLabel: "Aanpassen",
   dragCardLabel: "Kaart verplaatsen", refreshLabel: "Verversen", finishEditingLabel: "Sla je wijziging eerst op of annuleer deze.",
   inlineSaveErrorLabel: "De wijziging kon niet worden opgeslagen.",
+  inlineAutoSaveHint: "Klik buiten het veld of druk Tab/Enter om op te slaan. Esc: annuleren.",
+  inlineMultilineSaveHint: "Klik buiten het veld of druk Tab/Ctrl+Enter om op te slaan. Esc: annuleren.",
+  inlineRetrySaveLabel: "Opnieuw opslaan",
   inlineErrors: { invalidNumber: "Voer een getal in zonder duizendtalscheiding.", invalidProbability: "Voer een geheel getal van 0 tot 100 in.",
     invalidDate: "Voer een geldige datum in.", closed: "Je kunt hier alleen open Opportunities aanpassen.", calculated: "Omzet wordt uit producten berekend. Pas deze aan in het formulier.",
     conflict: "Deze waarde is ondertussen gewijzigd. Annuleer en open de bewerking opnieuw om de actuele waarde te laden.",
