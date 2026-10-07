@@ -2,26 +2,26 @@
 
 **Taal: Nederlands | [English](CONFIGURATION.en.md)**
 
-Voor **control 1.12.0 / solution 1.12.0.0**. Deze handleiding beschrijft alle
+Voor **control 1.12.1 / solution 1.12.1.0**. Deze handleiding beschrijft alle
 **47 inputinstellingen** uit `ControlManifest.Input.xml`, gecontroleerd tegen
 de implementatie. `dataset` is de gekoppelde Dataverse-weergave en staat los
 van die 47 opties. Alle inputinstellingen zijn optioneel.
 
 ## Solutions downloaden
 
-Dit zijn de gecontroleerde pakketten van **1.12.0.0** uit
-[de gecontroleerde solution-build](../downloads/1.12.0.0/README.md).
+Dit zijn de gecontroleerde pakketten van **1.12.1.0** uit
+[de gecontroleerde solution-build](../downloads/1.12.1.0/README.md).
 Elke link downloadt rechtstreeks een importeerbare solution-ZIP.
 
 | Pakket | Download | Gebruik |
 | --- | --- | --- |
-| Managed | [Kickstart365Kanban_1_12_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_managed.zip) | Installeren of bijwerken van een bestaande managed installatie. |
-| Unmanaged | [Kickstart365Kanban_1_12_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een bestaande unmanaged installatie. |
+| Managed | [Kickstart365Kanban_1_12_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.1.0/Kickstart365Kanban_1_12_1_0_managed.zip) | Installeren of bijwerken van een bestaande managed installatie. |
+| Unmanaged | [Kickstart365Kanban_1_12_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.1.0/Kickstart365Kanban_1_12_1_0_unmanaged.zip) | Ontwikkeling/customization of bijwerken van een bestaande unmanaged installatie. |
 
 Importeer de gedownloade ZIP via **Solutions → Import** in Power Apps. Houd
 bij een bestaande installatie hetzelfde managed/unmanaged-pakkettype aan.
 Deze directe downloads hoef je niet uit te pakken.
-[Checksums en buildherkomst](../downloads/1.12.0.0/README.md) staan bij de downloads.
+[Checksums en buildherkomst](../downloads/1.12.1.0/README.md) staan bij de downloads.
 
 ## Inhoud
 
@@ -518,7 +518,7 @@ numerieke grenzen. Bewerken geldt alleen voor open Opportunities. Product-
 berekende omzet kan niet via de kaart worden gewijzigd. Het potlood kan bij
 sommige beperkingen pas na openen melden dat een veld niet ondersteund is.
 
-Vanaf **1.12.0.0** klik je op de veldwaarde of het potlood en bewerk je de
+Vanaf **1.12.1.0** klik je op de veldwaarde of het potlood en bewerk je de
 waarde rechtstreeks in de kaart. De wijziging wordt automatisch opgeslagen
 wanneer je de editor verlaat: klik buiten de editor of gebruik Tab om naar
 een ander onderdeel te gaan. Enter slaat een enkelregelige invoer op.
@@ -840,6 +840,7 @@ geleverd; eigen labels/presetnamen uit de configuratie worden niet vertaald.
 | Verkeerd BPF als beginweergave | `defaultView` moet exact de zichtbare naam in **View By** zijn, niet "Kanban view" of de BPF-tabelnaam. |
 | Records bij Niet toegewezen | Controleer of ze een instantie/fase in het gekozen BPF hebben, of een aangeboden Choice-waarde. Zie de beperking voor `statuscode`. |
 | Een veld ontbreekt op de kaart | Voeg het aan de view toe; controleer `hiddenFieldsOnCard`, de actieve groepering en `compactCardFields`. Open eventueel Details. |
+| Veldwaarden zien eruit als standaard browserknoppen na een upgrade | Gebruik 1.12.1.0 of hoger, publiceer de wijzigingen en herlaad de app. Deze versie laadt de kaarteditoropmaak afzonderlijk. |
 | Geen potlood of veld kan niet worden bewerkt | Controleer Opportunity, `allowInlineEdit`, `inlineEditFields`, zichtbaarheid, ondersteund type/metadata, open record en schrijfrechten. HTML-detailvelden en aliasvelden worden niet inline bewerkt. |
 | Omzet kan niet worden opgeslagen | Controleer product-berekende omzet, recordstatus, veldgrenzen en de serverfout. Gebruik zo nodig het native formulier. |
 | Geen totaal of melding over valuta | Voeg totaalveld én bij Money `transactioncurrencyid` toe aan de view. Controleer actieve filters en gebruik echte numerieke waarden. |

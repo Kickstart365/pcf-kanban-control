@@ -2,25 +2,25 @@
 
 **Language: English | [Nederlands](CONFIGURATION.md)**
 
-For **control 1.12.0 / solution 1.12.0.0**. This guide covers all **47 input
+For **control 1.12.1 / solution 1.12.1.0**. This guide covers all **47 input
 settings** in `ControlManifest.Input.xml`, checked against the implementation.
 `dataset` is the connected Dataverse view and is separate from those 47 options.
 All input settings are optional.
 
 ## Download the solutions
 
-These are the verified **1.12.0.0** packages from
-[the verified solution build](../downloads/1.12.0.0/README.md).
+These are the verified **1.12.1.0** packages from
+[the verified solution build](../downloads/1.12.1.0/README.md).
 Each link downloads an importable solution ZIP directly.
 
 | Package | Download | Use |
 | --- | --- | --- |
-| Managed | [Kickstart365Kanban_1_12_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_managed.zip) | Installing or updating an existing managed installation. |
-| Unmanaged | [Kickstart365Kanban_1_12_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_unmanaged.zip) | Development/customization or updating an existing unmanaged installation. |
+| Managed | [Kickstart365Kanban_1_12_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.1.0/Kickstart365Kanban_1_12_1_0_managed.zip) | Installing or updating an existing managed installation. |
+| Unmanaged | [Kickstart365Kanban_1_12_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.1.0/Kickstart365Kanban_1_12_1_0_unmanaged.zip) | Development/customization or updating an existing unmanaged installation. |
 
 Import the downloaded ZIP using **Solutions → Import** in Power Apps. For an
 existing installation, keep its managed/unmanaged package type. These direct
-downloads do not need to be extracted. [Checksums and build source](../downloads/1.12.0.0/README.md)
+downloads do not need to be extracted. [Checksums and build source](../downloads/1.12.1.0/README.md)
 are included with the downloads.
 
 ## Contents
@@ -507,7 +507,7 @@ numeric bounds. Only open Opportunities are editable. Product-calculated
 revenue cannot be changed on the card. For some restrictions, clicking the
 pencil may be the point at which the editor reports an unsupported field.
 
-From **1.12.0.0**, click the field value or pencil and edit directly on the
+From **1.12.1.0**, click the field value or pencil and edit directly on the
 card. Changes save automatically when you leave the editor: click outside it
 or use Tab to move to another part of the board. Enter saves a single-line
 input. There is no separate **Save** button. Escape or **Cancel** discards the
@@ -824,6 +824,7 @@ custom labels/preset names in the configuration are not translated.
 | Wrong BPF selected initially | `defaultView` must exactly match the display name in **View By**, not "Kanban view" or the BPF table name. |
 | Records under Unallocated | Check their instance/stage in the selected BPF or whether their Choice value is offered. See the `statuscode` limitation. |
 | Field missing from a card | Add it to the view; check `hiddenFieldsOnCard`, the active grouping and `compactCardFields`. Open Details if needed. |
+| Card values look like default browser buttons after an upgrade | Use 1.12.1.0 or later, publish the changes and reload the app. This version loads the card editor styles separately. |
 | No pencil or field cannot be edited | Check Opportunity, `allowInlineEdit`, `inlineEditFields`, visibility, supported type/metadata, open record and write permissions. HTML detail fields and aliased fields are not edited inline. |
 | Revenue cannot be saved | Check product-calculated revenue, record state, field bounds and the server error. Use the native form if needed. |
 | No total or currency message | Add the total field and, for Money, `transactioncurrencyid` to the view. Check active filters and use actual numeric values. |

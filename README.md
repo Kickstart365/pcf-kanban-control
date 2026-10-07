@@ -7,19 +7,19 @@ van [novalogica/pcf-kanban-control](https://github.com/novalogica/pcf-kanban-con
 voegt onder meer compacte kaarten, kolomtotalen, kolomkleuren, een recordzijpaneel
 en bewerkbare velden op Opportunity-kaarten toe.
 
-Huidige versie: **control 1.12.0 / solution 1.12.0.0**.
+Huidige versie: **control 1.12.1 / solution 1.12.1.0**.
 
 ## Solutions downloaden
 
-| Pakket 1.12.0.0 | Download |
+| Pakket 1.12.1.0 | Download |
 | --- | --- |
-| Managed | [Kickstart365Kanban_1_12_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_managed.zip) |
-| Unmanaged | [Kickstart365Kanban_1_12_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_unmanaged.zip) |
+| Managed | [Kickstart365Kanban_1_12_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.1.0/Kickstart365Kanban_1_12_1_0_managed.zip) |
+| Unmanaged | [Kickstart365Kanban_1_12_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.1.0/Kickstart365Kanban_1_12_1_0_unmanaged.zip) |
 
 Deze ZIPs kun je direct importeren via **Solutions → Import**. Gebruik voor
 een bestaande installatie hetzelfde managed/unmanaged-pakkettype.
 Zie [installatie en upgrades](docs/DEV-INSTALLATION.md) en
-[checksums/buildherkomst](downloads/1.12.0.0/README.md).
+[checksums/buildherkomst](downloads/1.12.1.0/README.md).
 
 ## Configuratiehandleiding
 

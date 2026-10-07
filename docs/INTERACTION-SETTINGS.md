@@ -69,7 +69,7 @@ date/time, calculated, formula, rollup, secured and base-currency fields use the
 record form in this version. Attribute metadata is checked before editing;
 required fields, maximum text lengths and numeric ranges are validated.
 
-From **1.12.0.0**, click the value or pencil. Leaving the editor saves
+From **1.12.1.0**, click the value or pencil. Leaving the editor saves
 automatically; Enter saves a single-line input, Ctrl/Cmd+Enter saves multiline
 text, and Escape or **Cancel** discards the draft. There is no normal Save
 button. A failed save retains the draft and offers **Retry save**. Dragging uses the separate handle and is disabled during an
@@ -90,7 +90,7 @@ those form handlers. Values maintained by a cloudflow, such as
 Weighted revenue is never calculated locally; use **Refresh** after its flow
 has run.
 
-## Pilot checks after importing 1.12.0.0
+## Pilot checks after importing 1.12.1.0
 
 1. Open an Opportunity from its title; verify the form opens next to the board.
 2. Switch records with an unsaved form value; verify the native save prompt.

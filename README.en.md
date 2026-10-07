@@ -7,19 +7,19 @@ of [novalogica/pcf-kanban-control](https://github.com/novalogica/pcf-kanban-cont
 adds compact cards, column totals, column colors, a record side pane and
 editable fields on Opportunity cards.
 
-Current version: **control 1.12.0 / solution 1.12.0.0**.
+Current version: **control 1.12.1 / solution 1.12.1.0**.
 
 ## Download the solutions
 
-| Package 1.12.0.0 | Download |
+| Package 1.12.1.0 | Download |
 | --- | --- |
-| Managed | [Kickstart365Kanban_1_12_0_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_managed.zip) |
-| Unmanaged | [Kickstart365Kanban_1_12_0_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.0.0/Kickstart365Kanban_1_12_0_0_unmanaged.zip) |
+| Managed | [Kickstart365Kanban_1_12_1_0_managed.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.1.0/Kickstart365Kanban_1_12_1_0_managed.zip) |
+| Unmanaged | [Kickstart365Kanban_1_12_1_0_unmanaged.zip](https://raw.githubusercontent.com/Kickstart365/pcf-kanban-control/main/downloads/1.12.1.0/Kickstart365Kanban_1_12_1_0_unmanaged.zip) |
 
 Import these ZIPs directly using **Solutions → Import**. For an existing
 installation, keep its managed/unmanaged package type. See
 [installation and upgrades](docs/DEV-INSTALLATION.en.md) and
-[checksums/build source](downloads/1.12.0.0/README.md).
+[checksums/build source](downloads/1.12.1.0/README.md).
 
 ## Configuration guide
 
