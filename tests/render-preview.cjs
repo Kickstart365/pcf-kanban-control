@@ -68,7 +68,7 @@ for (const compactMode of [true, false]) {
   assert.ok(markup.includes("0,00"));
   assert.ok(markup.includes("Datum verstreken"));
   assert.equal(markup.includes("Volgende stap:"), !compactMode);
-  const css = readFileSync(path.resolve(__dirname, "../KanbanViewControl/styles/index.css"), "utf8");
+  const css = ["index.css", "inline-edit.css"].map(file => readFileSync(path.resolve(__dirname, "../KanbanViewControl/styles", file), "utf8")).join("\n");
   writeFileSync(path.join(output, `${compactMode ? "compact" : "expanded"}.html`), `<!doctype html><html lang="nl"><meta charset="utf-8"><title>Opportunity Kanban preview</title><style>body{font-family:Segoe UI,Arial,sans-serif;margin:0;color:#25364a}h1{font-size:20px;margin:24px 16px 4px}p.preview-label{margin:0 16px 18px;color:#687789;font-size:13px}.kanban-container{max-height:none}.column-container{max-height:none}${css}</style><body><h1>Opportunity pipeline · ${compactMode ? "Compact" : "Uitgebreid"}</h1><p class="preview-label">Demo met de echte kaart- en kopcomponenten; Dataverse en slepen zijn niet aangesloten.</p>${markup}</body></html>`);
 }
 console.log("Rendered compact and expanded components; totals, zero and hidden details verified.");

@@ -3,7 +3,7 @@
   <control 
     namespace="kickstart365"
     constructor="KanbanViewControl" 
-    version="1.12.0"
+    version="1.12.1"
     display-name-key="Kickstart365 Kanban"
     description-key="PowerApps Component Framework control (PCF) that allows users to see records in a kanban view format." 
     control-type="virtual"
@@ -359,6 +359,7 @@
     <resources>
       <code path="index.ts" order="1"/>
       <css path="styles/index.css" order="1" />
+      <css path="styles/inline-edit.css" order="2" />
       <platform-library name="React" version="16.8.6" />
       <platform-library name="Fluent" version="8.29.0" />
     </resources>
