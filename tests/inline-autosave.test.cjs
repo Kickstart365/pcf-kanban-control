@@ -18,7 +18,7 @@ async function settle() {
   act(() => {});
 }
 
-async function fixture({ kind = "number", original = 25, definitionPromise, savePromise, rejectSave = false } = {}) {
+async function fixture({ kind = "number", original = 25, definitionPromise, savePromise, rejectSave = false, valueClickable = true, children } = {}) {
   const BoardContext = React.createContext(null);
   const state = { writes: [], requests: 0, refreshes: 0, rejectSave, original };
   const root = document.createElement("div"); document.body.append(root);
@@ -47,8 +47,8 @@ async function fixture({ kind = "number", original = 25, definitionPromise, save
       } },
     };
     return React.createElement(BoardContext.Provider, { value: board }, React.createElement(Editor, {
-      recordId: "00000000-0000-0000-0000-000000000001", field: "test_field", label: "Value",
-    }, React.createElement("span", null, "Current value")));
+      recordId: "00000000-0000-0000-0000-000000000001", field: "test_field", label: "Value", valueClickable,
+    }, children || React.createElement("span", null, "Current value")));
   }
   act(() => { ReactDOM.render(React.createElement(Shell), root); });
   await settle();
@@ -69,6 +69,19 @@ test("clicking a card value opens an editor without Save; leaving it saves a dec
     await f.start(); assert.ok(f.input()); assert.equal(f.button("Opslaan"), undefined);
     await f.change("40,50"); await f.blur();
     assert.deepEqual(f.state.writes, [{ test_field: 40.5 }]); assert.equal(f.state.refreshes, 1); assert.equal(f.input(), null);
+  } finally { f.close(); }
+});
+
+test("record titles and links retain their original action and never become nested edit buttons", async () => {
+  let opens = 0;
+  const f = await fixture({ valueClickable: false, children: React.createElement("button", { onClick: () => opens++ }, "Open record") });
+  try {
+    assert.equal(f.root.querySelector(".inline-edit-value"), null);
+    assert.equal(f.root.querySelector("button button"), null);
+    await f.action(() => Simulate.click(f.button("Open record")));
+    assert.equal(opens, 1); assert.equal(f.input(), null);
+    await f.action(() => Simulate.click(f.root.querySelector(".inline-edit-button")));
+    assert.ok(f.input());
   } finally { f.close(); }
 });
 

@@ -353,7 +353,7 @@ const Card = ({ item, draggable = true, dragHandleProps }: IProps) => {
       <CardHeader>
         <div className="card-title-slot">
           {titleField && inlineEditableFields?.includes(titleField) && (state == null || state === 0)
-            ? <InlineFieldEditor recordId={String(item.id)} field={titleField} label={item.title?.label || titleField}>{titleContent}</InlineFieldEditor>
+            ? <InlineFieldEditor recordId={String(item.id)} field={titleField} label={item.title?.label || titleField} valueClickable={false}>{titleContent}</InlineFieldEditor>
             : titleContent}
         </div>
         {draggable && <div className="card-drag-handle" {...dragHandleProps} aria-label={strings.dragCardLabel} title={strings.dragCardLabel}>
